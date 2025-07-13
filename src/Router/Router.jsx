@@ -1,7 +1,9 @@
 import MainLayout from "@/Layouts/MainLayout";
+import AllPolicies from "@/Pages/AllPolicies";
 import Home from "@/Pages/Home";
 import SignIn from "@/Pages/SignIn";
 import SignUp from "@/Pages/SignUp";
+import PrivateRoute from "@/Routes/PrivateRoute";
 import { createBrowserRouter } from "react-router";
 
 
@@ -22,6 +24,10 @@ const Router = createBrowserRouter([
             {
                 path: 'signin',
                 element: <SignIn></SignIn>
+            },
+            {
+                path: 'all-policies',
+                element: <PrivateRoute><AllPolicies></AllPolicies></PrivateRoute>
             }
         ]
     }

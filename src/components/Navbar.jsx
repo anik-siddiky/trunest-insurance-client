@@ -5,14 +5,23 @@ import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeChange from './ThemeChange';
 import logo from '@/assets/Tru-Logo.png'
+import useAuth from '@/Hooks/useAuth';
 
 const Navbar = () => {
+    const { user, logOut } = useAuth();
     const [showNavbar, setShowNavbar] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [hasBorder, setHasBorder] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
-    const location = useLocation();
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                console.log("Signed out successfully")
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,11 +33,6 @@ const Navbar = () => {
                 setShowNavbar(false);
             }
 
-            if (currentScrollY > 80 && lastScrollY > currentScrollY) {
-                setHasBorder(true);
-            } else if (currentScrollY < 10) {
-                setHasBorder(false);
-            }
 
             setLastScrollY(currentScrollY);
         };
@@ -36,6 +40,8 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
+
+    const location = useLocation();
 
     const navItems = [
         { path: '/', label: 'Home' },
@@ -46,12 +52,8 @@ const Navbar = () => {
 
     return (
         <>
-            <nav
-                className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 backdrop-blur-md bg-white/50 dark:bg-black/50 shadow-sm ${showNavbar ? 'translate-y-0' : '-translate-y-full'
-                    } ${hasBorder ? 'border-b' : ''}`}
-            >
+            <nav className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 backdrop-blur-md bg-white/50 dark:bg-black/50 shadow-sm ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
                 <div className="max-w-7xl mx-auto flex justify-between items-center px-4 lg:px-0 py-2">
-
                     <button
                         onClick={() => setDrawerOpen(true)}
                         className="lg:hidden p-2 rounded-md">
@@ -77,14 +79,14 @@ const Navbar = () => {
                                 key={path}
                                 to={path}
                                 className={({ isActive }) =>
-                                    `relative transition duration-300 ${isActive ? 'text-primary font-semibold' : 'hover:text-chart-2'
+                                    `relative transition duration-300 ${isActive ? 'text-primary font-semibold' : 'hover:text-primary'
                                     }`}>
                                 {label}
                                 {location.pathname === path && (
                                     <motion.div
                                         layoutId="underline"
-                                        className="absolute -bottom-1 left-0 h-[3px] w-full bg-primary rounded-full"
-                                        transition={{ type: 'spring', stiffness: 500, damping: 50 }} />
+                                        className="absolute -bottom-2 left-0 h-[5px] w-full bg-primary"
+                                        transition={{ type: 'spring', stiffness: 400, damping: 50 }} />
                                 )}
                             </NavLink>
                         ))}
@@ -92,11 +94,22 @@ const Navbar = () => {
 
                     <div className="hidden lg:flex gap-3 items-center">
                         <ThemeChange></ThemeChange>
-                        <Link to="/signin">
-                            <button className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
-                                Sign in
-                            </button>
-                        </Link>
+                        {
+                            user ?
+                                <>
+                                    <button onClick={handleLogOut} className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                        Sign Out
+                                    </button>
+                                </>
+                                :
+                                <>
+                                    <Link to="/signin">
+                                        <button className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                            Sign In
+                                        </button>
+                                    </Link>
+                                </>
+                        }
                         <button className="p-1 lg:hidden">
                             <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
                             </svg>
@@ -126,20 +139,36 @@ const Navbar = () => {
                         </button>
 
                         {/* Mobile Nav Items */}
-                        <ul className="flex flex-col gap-6 text-2xl">
+                        <ul className="flex flex-col gap-2 text-xl text-center">
                             {navItems.map(({ path, label }) => (
                                 <li key={path}>
                                     <NavLink
                                         to={path}
                                         onClick={() => setDrawerOpen(false)}
                                         className={({ isActive }) =>
-                                            `transition duration-300 ${isActive ? 'text-[#A87914] font-semibold' : 'hover:text-[#A87914]'}`
+                                            `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`
                                         }
                                     >
                                         {label}
                                     </NavLink>
                                 </li>
                             ))}
+                            {
+                                user ?
+                                    <>
+                                        <button onClick={handleLogOut} className="bg-primary text-white px-4 py-1.5 text-[18px] rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                            Sign Out
+                                        </button>
+                                    </>
+                                    :
+                                    <>
+                                        <Link to="/signin">
+                                            <button className="bg-primary text-white px-4 py-1.5 text-[18px] rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                                Sign In
+                                            </button>
+                                        </Link>
+                                    </>
+                            }
                         </ul>
                     </motion.div>
                 )}
