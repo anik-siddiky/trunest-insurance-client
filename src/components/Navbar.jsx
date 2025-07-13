@@ -92,7 +92,7 @@ const Navbar = () => {
 
                     <div className="hidden lg:flex gap-3 items-center">
                         <ThemeChange></ThemeChange>
-                        <Link to="/contact">
+                        <Link to="/signin">
                             <button className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
                                 Sign in
                             </button>
