@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,9 +10,10 @@ import { useForm } from "react-hook-form"
 import SocialLoginButtons from "@/components/SocialLoginButtons"
 import useAuth from "@/Hooks/useAuth"
 import { toast } from "sonner"
+import axios from "axios"
 
 const SignUp = () => {
-
+    const [profilePic, setProfilePic] = useState('');
     const { createUser } = useAuth();
     const navigate = useNavigate();
 
@@ -34,6 +35,22 @@ const SignUp = () => {
                 console.log(error);
             })
     };
+
+    const handleImageUpload = async (e) => {
+        const image = e.target.files[0];
+        console.log(image)
+
+        const formData = new FormData();
+        formData.append('image', image);
+
+
+        const imagUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_bb_key}`
+        const res = await axios.post(imagUploadUrl, formData)
+
+        setProfilePic(res.data.data.url);
+    }
+
+    console.log(profilePic)
 
     return (
         <div className="flex min-h-screen lg:min-h-[calc(100vh-72px)] flex-col items-center justify-center md:p-10">
@@ -57,7 +74,7 @@ const SignUp = () => {
 
                                 <div className="grid gap-3">
                                     <Label htmlFor="picture">Photo</Label>
-                                    <Input {...register('file', { required: true })} id="picture" type="file" />
+                                    <Input onChange={handleImageUpload} {...register('file', { required: true })} id="picture" type="file" />
                                     {errors.file?.type === 'required' && <span className="text-red-500 text-xs">Please upload a profile photo.</span>}
                                 </div>
 
