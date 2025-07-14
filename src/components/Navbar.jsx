@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router';
 import { X } from 'lucide-react';
 // eslint-disable-next-line no-unused-vars
@@ -6,12 +6,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ThemeChange from './ThemeChange';
 import logo from '@/assets/Tru-Logo.png'
 import useAuth from '@/Hooks/useAuth';
+import { Button } from './ui/button';
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
     const [showNavbar, setShowNavbar] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const dropDownRef = useRef(null);
 
     const handleLogOut = () => {
         logOut()
@@ -22,6 +25,18 @@ const Navbar = () => {
                 console.log(error)
             })
     }
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+                setIsDropDownOpen(false);
+            };
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+    }, [])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -96,11 +111,39 @@ const Navbar = () => {
                         <ThemeChange></ThemeChange>
                         {
                             user ?
-                                <>
-                                    <button onClick={handleLogOut} className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
-                                        Sign Out
-                                    </button>
-                                </>
+
+                                <div ref={dropDownRef} className="relative">
+                                    {/* Avatar Button */}
+                                    <div
+                                        role="button"
+                                        tabIndex={0}
+                                        onClick={() => setIsDropDownOpen(prev => !prev)}
+                                        className="cursor-pointer w-14 h-14 rounded-full overflow-hidden border-2 border-primary transition-shadow hover:shadow-md focus:outline-none"
+                                    >
+                                        <img
+                                            src={user?.photoURL || "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"}
+                                            alt="User Avatar"
+                                            className="w-full h-full object-cover"
+                                            referrerPolicy="no-referrer"
+                                        />
+                                    </div>
+
+                                    {/* Dropdown */}
+                                    {isDropDownOpen && (
+                                        <ul
+                                            className="absolute top-full mt-3 right-0 lg:left-1/2 lg:-translate-x-1/2 z-50 w-56 shadow-xl rounded-xl p-4 space-y-3 transition-all">
+                                            <li className="text-center text-sm font-medium">
+                                                Hi, {user?.displayName || "User"}
+                                            </li>
+
+                                            <div className='flex justify-center items-center'><Button
+                                                onClick={() => { handleLogOut(); setIsDropDownOpen(false); }}
+                                                className="w-2/3 text-white">
+                                                Log Out
+                                            </Button></div>
+                                        </ul>
+                                    )}
+                                </div>
                                 :
                                 <>
                                     <Link to="/signin">

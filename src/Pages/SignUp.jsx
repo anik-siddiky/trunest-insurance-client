@@ -69,9 +69,26 @@ const SignUp = () => {
 
                                 <div className="grid gap-3">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input {...register('password', { required: true, minLength: 6 })} id="password" type="password" placeholder="Enter a secure password." />
+                                    <Input {...register('password', {
+                                        required: true, minLength: 6,
+                                        validate: {
+                                            hasUpperCase: value =>
+                                                /[A-Z]/.test(value) || 'Password must include at least one uppercase letter.',
+                                            hasLowerCase: value =>
+                                                /[a-z]/.test(value) || 'Password must include at least one lowercase letter.',
+                                            hasNumber: value =>
+                                                /[0-9]/.test(value) || 'Password must include at least one number.',
+                                            hasSpecialChar: value =>
+                                                /[!@#$%^&*(),.?":{}|<>]/.test(value) || 'Password must include at least one special character.',
+                                        }
+                                    })} id="password" type="password" placeholder="Enter a secure password." />
                                     {errors.password?.type === 'required' && <span className="text-red-500 text-xs">Please create a secure password.</span>}
                                     {errors.password?.type === 'minLength' && <span className="text-red-500 text-xs">Password must be at least 6 characters long.</span>}
+                                    {errors.password && <span className="text-red-500 text-xs">{errors.password.message}</span>}
+                                    {errors.password?.types?.hasUpperCase && <span className="text-red-500 text-xs">{errors.password.types.hasUpperCase}</span>}
+                                    {errors.password?.types?.hasLowerCase && <span className="text-red-500 text-xs">{errors.password.types.hasLowerCase}</span>}
+                                    {errors.password?.types?.hasNumber && <span className="text-red-500 text-xs">{errors.password.types.hasNumber}</span>}
+                                    {errors.password?.types?.hasSpecialChar && <span className="text-red-500 text-xs">{errors.password.types.hasSpecialChar}</span>}
                                 </div>
                                 <Button type="submit" className="w-full text-white">
                                     Create account
