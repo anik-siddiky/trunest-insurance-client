@@ -3,11 +3,13 @@ import useAxios from '@/Hooks/useAxios';
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Input } from "../components/ui/input";
+import AddPolicyModal from '../components/AddPolicyModal';
 
 const ManagePolicies = () => {
     const [loading, setLoading] = useState(true);
     const [policies, setPolicies] = useState([]);
     const [search, setSearch] = useState('');
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const axios = useAxios();
 
     useEffect(() => {
@@ -30,18 +32,22 @@ const ManagePolicies = () => {
 
     return (
         <div className="p-3 lg:p-6 min-h-screen">
+            <AddPolicyModal open={isAddModalOpen} setOpen={setIsAddModalOpen} />
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 dark:text-gray-200">Manage Policies</h2>
-                <Input
-                    type="text"
-                    className="border rounded-md w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Search policies..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+                <div className='flex items-center gap-3'>
+                    <button onClick={() => setIsAddModalOpen(true)} className="bg-primary text-white px-4 py-1.5 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                        <span className='lg:block hidden'>Add a Policy</span> <span className='lg:hidden'>Add</span>
+                    </button>
+                    <Input
+                        type="text"
+                        className="border rounded-md w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Search policies..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)} />
+                </div>
             </div>
 
-            {/* Table for large screens */}
             <div className="hidden lg:block overflow-x-auto rounded-md border dark:border-[#171717]">
                 <table className="w-full min-w-[800px] text-left text-sm">
                     <thead className="bg-gray-100 dark:bg-[#171717] text-gray-700 dark:text-gray-300">

@@ -23,7 +23,7 @@ const DashboardLayout = () => {
 
                     <Link to="/" className="text-3xl flex">
                         <img className='w-6 md:w-8 lg:w-10' src={logo} alt="" />
-                        <p className='font-bold lg:mt-2 mt-2 lg:-ml-5 -ml-3.5 text-xl lg:text-2xl'>ruNest</p>
+                        <p className='font-bold lg:mt-2 mt-2 lg:-ml-5 -ml-2.5 text-xl lg:text-2xl'>ruNest</p>
                     </Link>
                     <div className='flex'>
                         <ThemeChange></ThemeChange>
