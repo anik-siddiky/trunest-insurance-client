@@ -19,7 +19,7 @@ const DashboardLayout = () => {
             <aside
                 className={`fixed z-40 lg:static top-0 left-0 h-full w-80 transform transition-transform duration-300 flex flex-col bg-[#FAFAFA] dark:bg-[#171717] lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
 
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between py-4 px-6 border-b border-gray-200 dark:border-gray-700">
 
                     <Link to="/" className="text-3xl flex">
                         <img className='w-6 md:w-8 lg:w-10' src={logo} alt="" />
@@ -61,7 +61,7 @@ const DashboardLayout = () => {
                     </div>
 
 
-                    <div className="mt-auto hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl p-2 flex items-center gap-3">
+                    <div className="mt-auto hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl p-2 flex items-center gap-3">
                         <img className="w-10 h-10 rounded-full object-cover" src={user?.photoURL} alt="User" />
                         <div className="text-sm">
                             <p className="font-medium">{user?.displayName || 'User'}</p>
@@ -83,7 +83,7 @@ const DashboardLayout = () => {
                 </header>
 
                 <div className="flex-1 overflow-y-auto p-4 rounded-2xl bg-[#FAFAFA] dark:bg-[#171717]">
-                    <div className='bg-white dark:bg-black rounded-2xl border'>
+                    <div className='bg-white dark:bg-[#09090B] rounded-2xl border'>
                         <Outlet />
                     </div>
                 </div>
