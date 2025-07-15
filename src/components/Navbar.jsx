@@ -19,7 +19,6 @@ const Navbar = () => {
     const handleLogOut = () => {
         logOut()
             .then(() => {
-                console.log("Signed out successfully")
             })
             .catch(error => {
                 console.log(error)
@@ -121,7 +120,7 @@ const Navbar = () => {
                                         className="cursor-pointer w-14 h-14 rounded-full overflow-hidden border-2 border-primary transition-shadow hover:shadow-md focus:outline-none"
                                     >
                                         <img
-                                            src={user?.photoURL || "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"}
+                                            src={user?.photoURL}
                                             alt="User Avatar"
                                             className="w-full h-full object-cover"
                                             referrerPolicy="no-referrer"
@@ -131,7 +130,7 @@ const Navbar = () => {
                                     {/* Dropdown */}
                                     {isDropDownOpen && (
                                         <ul
-                                            className="absolute top-full mt-3 right-0 lg:left-1/2 lg:-translate-x-1/2 z-50 w-56 shadow-xl rounded-xl p-4 space-y-3 transition-all">
+                                            className="absolute top-full mt-3 right-0 lg:left-1/2 lg:-translate-x-1/2 z-[999] w-56 shadow-xl rounded-xl p-4 space-y-3 transition-all bg-white dark:bg-zinc-900">
                                             <li className="text-center text-sm font-medium">
                                                 Hi, {user?.displayName || "User"}
                                             </li>
@@ -170,7 +169,7 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className="fixed inset-0 z-[999] bg-opacity-90 backdrop-blur-sm flex flex-col items-center justify-center p-6 lg:hidden">
+                        className="fixed inset-0 z-[999] bg-opacity-90 bg-white dark:bg-black backdrop-blur-sm flex flex-col items-center justify-center p-6 lg:hidden">
                         <button
                             onClick={() => setDrawerOpen(false)}
                             className="absolute top-6 right-6">

@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form"
 import SocialLoginButtons from "@/components/SocialLoginButtons"
 import useAuth from "@/Hooks/useAuth"
 import { toast } from "sonner"
-import axios from "axios"
 
 const SignUp = () => {
     const [profilePic, setProfilePic] = useState('');
@@ -20,7 +19,6 @@ const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = data => {
-        console.log(data)
         createUser(data.email, data.password)
             .then(result => {
 
@@ -38,17 +36,31 @@ const SignUp = () => {
 
     const handleImageUpload = async (e) => {
         const image = e.target.files[0];
-        console.log(image)
+        console.log(image);
 
         const formData = new FormData();
         formData.append('image', image);
 
+        const imagUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_bb_key}`;
 
-        const imagUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_bb_key}`
-        const res = await axios.post(imagUploadUrl, formData)
+        try {
+            const res = await fetch(imagUploadUrl, {
+                method: 'POST',
+                body: formData,
+            });
 
-        setProfilePic(res.data.data.url);
-    }
+            const data = await res.json();
+
+            if (data.success) {
+                setProfilePic(data.data.url);
+            } else {
+                console.error("Upload failed:", data);
+            }
+        } catch (error) {
+            console.error("Image upload error:", error);
+        }
+    };
+
 
     console.log(profilePic)
 
