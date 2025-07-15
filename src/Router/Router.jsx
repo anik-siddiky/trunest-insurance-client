@@ -1,4 +1,5 @@
 import DashboardHome from "@/Dashboard/DashboardHome";
+import ManagePolicies from "@/Dashboard/ManagePolicies";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import ErrorLayout from "@/Layouts/ErrorLayout";
 import MainLayout from "@/Layouts/MainLayout";
@@ -38,7 +39,7 @@ const Router = createBrowserRouter([
 
     {
         path: "/dashboard",
-        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children: [
             {
                 index: true,
@@ -48,7 +49,10 @@ const Router = createBrowserRouter([
                 path: "home",
                 element: <DashboardHome></DashboardHome>
             },
-
+            {
+                path: 'manage-policies',
+                element: <ManagePolicies></ManagePolicies>
+            }
         ]
     },
 

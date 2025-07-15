@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Outlet, Link, NavLink } from 'react-router';
 import { FiMenu, FiHome, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
+import { HiOutlineDocumentText } from "react-icons/hi";
 import useAuth from '@/Hooks/useAuth';
 import logo from '../assets/Tru-Logo.png'
+import ThemeChange from '@/components/ThemeChange';
+import { IoCloseSharp } from "react-icons/io5";;
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -14,17 +17,20 @@ const DashboardLayout = () => {
         <div className="flex h-screen bg-[#FAFAFA] dark:bg-[#171717]">
             {/* Sidebar */}
             <aside
-                className={`fixed z-40 lg:static top-0 left-0 h-full w-80 transform transition-transform duration-300 flex flex-col bg-white dark:bg-[#171717] shadow-lg lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                className={`fixed z-40 lg:static top-0 left-0 h-full w-80 transform transition-transform duration-300 flex flex-col bg-[#FAFAFA] dark:bg-[#171717] lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
 
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
 
                     <Link to="/" className="text-3xl flex">
-                        <img className='w-8 md:w-10 lg:w-12' src={logo} alt="" />
-                        <p className='font-bold lg:mt-2 mt-2 lg:-ml-5 -ml-3.5 text-2xl md:text-3xl lg:text-4xl'>ruNest</p>
+                        <img className='w-6 md:w-8 lg:w-10' src={logo} alt="" />
+                        <p className='font-bold lg:mt-2 mt-2 lg:-ml-5 -ml-3.5 text-xl lg:text-2xl'>ruNest</p>
                     </Link>
-                    <button className="lg:hidden" onClick={closeSidebar}>
-                        ✕
-                    </button>
+                    <div className='flex'>
+                        <ThemeChange></ThemeChange>
+                        <button className="lg:hidden" onClick={closeSidebar}>
+                            <IoCloseSharp size={35} />
+                        </button>
+                    </div>
                 </div>
 
 
@@ -34,17 +40,19 @@ const DashboardLayout = () => {
 
                         <NavLink to="/dashboard/home" onClick={closeSidebar}
                             className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <FiHome /> Home
+                            <FiHome /> <span className='lg:mt-0.5'>Home</span>
                         </NavLink>
 
-                        <NavLink to="/dashboard/asdf" onClick={closeSidebar}
+                        <NavLink to="/dashboard/manage-policies" onClick={closeSidebar}
                             className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <FiUser /> Profile
+                            <HiOutlineDocumentText /><span className='lg:mt-0.5'>Manage Policies</span>
                         </NavLink>
+
                         <NavLink to="/dashboard/fdsa" onClick={closeSidebar}
                             className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
                             <FiSettings /> Settings
                         </NavLink>
+
                         <button
                             className="flex items-center gap-2 py-2 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
                             onClick={() => alert('Logging out...')}>
