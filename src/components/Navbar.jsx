@@ -211,6 +211,7 @@ const Navbar = () => {
                                         </Link>
                                     </>
                             }
+                            <li className='flex justify-center'><ThemeChange></ThemeChange></li>
                         </ul>
                     </motion.div>
                 )}
