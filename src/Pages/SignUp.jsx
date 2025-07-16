@@ -49,9 +49,7 @@ const SignUp = () => {
                         };
                         updateUserProfile(userProfile)
                             .then(() => {
-                                toast("Account created successfully!", {
-                                    description: "Welcome to TruNest!",
-                                });
+                                toast("Account created successfully!");
                                 navigate('/');
                             })
                             .catch(error => {

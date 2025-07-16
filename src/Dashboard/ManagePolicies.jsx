@@ -4,15 +4,18 @@ import React, { useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Input } from "../components/ui/input";
 import AddPolicyModal from '../components/AddPolicyModal';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { toast } from "sonner"
 
 const ManagePolicies = () => {
     const [search, setSearch] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [policyToDelete, setPolicyToDelete] = useState(null);
     const axios = useAxios();
     const queryClient = useQueryClient();
 
-
+    // Posting new policy to DB
     const { data: policies = [], isLoading } = useQuery({
         queryKey: ['policies'],
         queryFn: async () => {
@@ -25,6 +28,27 @@ const ManagePolicies = () => {
         queryClient.invalidateQueries({ queryKey: ['policies'] });
         setIsAddModalOpen(false);
     }
+
+    // Deleting policy from DB
+
+    const deletePolicy = async (id) => {
+        const res = await axios.delete(`/policies/${id}`);
+        return res.data;
+    };
+
+    const { mutate: handleDelete, isPending: isDeleting } = useMutation({
+        mutationFn: deletePolicy,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['policies'] });
+            setPolicyToDelete(null);
+            toast('Policy deleted successfully!');
+        },
+        onError: (error) => {
+            toast(`Failed to delete policy: ${error.message || 'Unknown error'}`);
+        }
+    })
+
+
 
     const filteredPolicies = policies.filter(policy =>
         (policy.policyTitle || '').toLowerCase().includes(search.toLowerCase())
@@ -75,7 +99,7 @@ const ManagePolicies = () => {
                                         <button className="text-blue-600 hover:underline flex items-center gap-1">
                                             <FaEdit /> Edit
                                         </button>
-                                        <button className="text-red-600 hover:underline flex items-center gap-1">
+                                        <button onClick={() => setPolicyToDelete(policy)} className="text-red-600 hover:underline  flex items-center gap-1">
                                             <FaTrash /> Delete
                                         </button>
                                     </td>
@@ -124,8 +148,33 @@ const ManagePolicies = () => {
                     <p className="text-center text-gray-500 dark:text-gray-400">No policies found.</p>
                 )}
             </div>
+
+
+            <AlertDialog open={!!policyToDelete} onOpenChange={(open) => !open && setPolicyToDelete(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the policy "{policyToDelete?.policyTitle}".
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            className="text-white"
+                            disabled={isDeleting}
+                            onClick={() => handleDelete(policyToDelete._id)}>
+                            {isDeleting ? "Deleting..." : "Delete"}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+
+
         </div>
     );
+
 };
 
 export default ManagePolicies;
