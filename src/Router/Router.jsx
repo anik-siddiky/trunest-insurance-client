@@ -1,5 +1,5 @@
-import DashboardHome from "@/Dashboard/DashboardHome";
-import ManagePolicies from "@/Dashboard/ManagePolicies";
+import DashboardHome from "@/Dashboard/Home/DashboardHome";
+import ManagePolicies from "@/Dashboard/ManagePolicies/ManagePolicies";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import ErrorLayout from "@/Layouts/ErrorLayout";
 import MainLayout from "@/Layouts/MainLayout";

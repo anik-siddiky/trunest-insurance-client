@@ -2,20 +2,22 @@ import Loading from '@/components/Loading';
 import useAxios from '@/Hooks/useAxios';
 import React, { useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import { Input } from "../components/ui/input";
-import AddPolicyModal from '../components/AddPolicyModal';
+import { Input } from "../../components/ui/input";
+import AddPolicyModal from './AddPolicyModal';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { toast } from "sonner"
+import UpdatePolicyModal from './UpdatePolicyModal';
 
 const ManagePolicies = () => {
     const [search, setSearch] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [policyToDelete, setPolicyToDelete] = useState(null);
+    const [selectedPolicyToEdit, setSelectedPolicyToEdit] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const axios = useAxios();
     const queryClient = useQueryClient();
 
-    // Posting new policy to DB
     const { data: policies = [], isLoading } = useQuery({
         queryKey: ['policies'],
         queryFn: async () => {
@@ -28,8 +30,6 @@ const ManagePolicies = () => {
         queryClient.invalidateQueries({ queryKey: ['policies'] });
         setIsAddModalOpen(false);
     }
-
-    // Deleting policy from DB
 
     const deletePolicy = async (id) => {
         const res = await axios.delete(`/policies/${id}`);
@@ -48,7 +48,10 @@ const ManagePolicies = () => {
         }
     })
 
-
+    const handlePolicyUpdated = () => {
+        queryClient.invalidateQueries({ queryKey: ['policies'] });
+        setIsEditModalOpen(false);
+    };
 
     const filteredPolicies = policies.filter(policy =>
         (policy.policyTitle || '').toLowerCase().includes(search.toLowerCase())
@@ -59,6 +62,7 @@ const ManagePolicies = () => {
     return (
         <div className="p-3 lg:p-6 min-h-screen">
             <AddPolicyModal open={isAddModalOpen} setOpen={setIsAddModalOpen} onPolicyAdded={handlePolicyAdded} />
+            <UpdatePolicyModal open={isEditModalOpen} setOpen={setIsEditModalOpen} policy={selectedPolicyToEdit} onPolicyUpdated={handlePolicyUpdated} />
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 dark:text-gray-200">Manage Policies</h2>
                 <div className='flex items-center gap-3'>
@@ -95,12 +99,24 @@ const ManagePolicies = () => {
                                     <td className="px-4 py-3">{policy.minAge} - {policy.maxAge}</td>
                                     <td className="px-4 py-3">{policy.coverageRange}</td>
                                     <td className="px-4 py-3">{policy.basePremiumRate}৳</td>
-                                    <td className="px-4 py-3 flex gap-2">
-                                        <button className="text-blue-600 hover:underline flex items-center gap-1">
-                                            <FaEdit /> Edit
+                                    <td className="px-4 py-2.5 flex gap-3">
+                                        <button
+                                            onClick={() => {
+                                                setSelectedPolicyToEdit(policy);
+                                                setIsEditModalOpen(true);
+                                            }}
+                                            className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer"
+                                            aria-label={`Edit ${policy.policyTitle}`}>
+                                            <FaEdit />
+                                            Edit
                                         </button>
-                                        <button onClick={() => setPolicyToDelete(policy)} className="text-red-600 hover:underline  flex items-center gap-1">
-                                            <FaTrash /> Delete
+
+                                        <button
+                                            onClick={() => setPolicyToDelete(policy)}
+                                            className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer"
+                                            aria-label={`Delete ${policy.policyTitle}`}>
+                                            <FaTrash />
+                                            Delete
                                         </button>
                                     </td>
                                 </tr>
@@ -125,21 +141,24 @@ const ManagePolicies = () => {
                             <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Category:</strong> {policy.category}</p>
                             <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Age Range:</strong> {policy.minAge} - {policy.maxAge}</p>
                             <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Coverage:</strong> {policy.coverageRange}</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">
-                                <strong>Premium:</strong> {
-                                    new Intl.NumberFormat('en-US', {
-                                        style: 'currency',
-                                        currency: 'USD',
-                                        maximumFractionDigits: 0,
-                                    }).format(policy.basePremiumRate)
-                                }
-                            </p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Premium:</strong> {policy.basePremiumRate}</p>
                             <div className="flex gap-4 mt-3">
-                                <button className="text-blue-600 hover:underline flex items-center gap-1">
-                                    <FaEdit /> Edit
+                                <button
+                                    onClick={() => {
+                                        setSelectedPolicyToEdit(policy);
+                                        setIsEditModalOpen(true);
+                                    }}
+                                    className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer"
+                                    aria-label={`Edit ${policy.policyTitle}`}>
+                                    <FaEdit />
+                                    Edit
                                 </button>
-                                <button className="text-red-600 hover:underline flex items-center gap-1">
-                                    <FaTrash /> Delete
+                                <button
+                                    onClick={() => setPolicyToDelete(policy)}
+                                    className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer"
+                                    aria-label={`Delete ${policy.policyTitle}`}>
+                                    <FaTrash />
+                                    Delete
                                 </button>
                             </div>
                         </div>

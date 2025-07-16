@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "../components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "../../components/ui/dialog";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,8 @@ import useAxios from "@/Hooks/useAxios";
 import { toast } from "sonner";
 
 const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
-    const { register, handleSubmit, setValue, formState: { errors }, } = useForm();
+
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm();
     const [category, setCategory] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const axios = useAxios();
@@ -58,6 +59,8 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
                 axios.post('/policies', policyData)
                     .then(() => {
                         toast("Policy was added successfully")
+                        reset();
+                        setCategory('');
                         onPolicyAdded();
                     })
                     .catch(error => {
