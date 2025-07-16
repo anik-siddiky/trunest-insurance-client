@@ -11,11 +11,13 @@ import useAuth from "@/Hooks/useAuth"
 import { toast } from "sonner"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
+import useAxios from "@/Hooks/useAxios"
 
 const SignUp = () => {
     const { createUser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const axios = useAxios();
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -52,7 +54,27 @@ const SignUp = () => {
                                 });
                                 navigate('/');
                             })
-                            .catch(console.log);
+                            .catch(error => {
+                                console.log(error);
+                            });
+
+                        const saveUser = {
+                            name: data.name,
+                            email: data.email,
+                            photoURL: profilePicUrl,
+                            role: "customer",
+                            registrationDate: new Date().toISOString(),
+                            lastLogin: new Date().toISOString(),
+                        };
+
+                        axios.post("/users", saveUser)
+                            .then(() => {
+                                navigate("/");
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+
                     })
                     .catch(error => {
                         console.error("Auth error:", error);
