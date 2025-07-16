@@ -15,15 +15,59 @@ const AddPolicyModal = ({ open, setOpen }) => {
         formState: { errors },
     } = useForm();
     const [category, setCategory] = useState("");
-
-    const onSubmit = (data) => {
-        console.log({ ...data, category });
-        setOpen(false);
-    };
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleCategoryChange = (value) => {
         setCategory(value);
         setValue("category", value, { shouldValidate: true });
+    };
+
+    const onSubmit = async (data) => {
+        const imageFile = data.image[0];
+
+        if (!imageFile) {
+            console.error("No image file provided.");
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const formData = new FormData();
+            formData.append("image", imageFile);
+
+            const response = await fetch(
+                `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_IMGBB}`,
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+
+            const result = await response.json();
+
+            if (result.success) {
+                const imageUrl = result.data.url;
+
+                const policyData = {
+                    ...data,
+                    image: imageUrl,
+                    category,
+                };
+
+                console.log("Final submitted data:", policyData);
+
+                // todo
+
+                setOpen(false);
+            } else {
+                console.error("Image upload failed:", result);
+            }
+        } catch (err) {
+            console.error("Upload error:", err);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -45,9 +89,7 @@ const AddPolicyModal = ({ open, setOpen }) => {
                                 placeholder="e.g., Gold Health Plan"
                                 {...register("title", { required: "This field is required" })}
                             />
-                            {errors.title && (
-                                <p className="text-red-500 text-sm">{errors.title.message}</p>
-                            )}
+                            {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -103,9 +145,7 @@ const AddPolicyModal = ({ open, setOpen }) => {
                                 placeholder="18"
                                 {...register("minAge", { required: "This field is required" })}
                             />
-                            {errors.minAge && (
-                                <p className="text-red-500 text-sm">{errors.minAge.message}</p>
-                            )}
+                            {errors.minAge && <p className="text-red-500 text-sm">{errors.minAge.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -116,9 +156,7 @@ const AddPolicyModal = ({ open, setOpen }) => {
                                 placeholder="65"
                                 {...register("maxAge", { required: "This field is required" })}
                             />
-                            {errors.maxAge && (
-                                <p className="text-red-500 text-sm">{errors.maxAge.message}</p>
-                            )}
+                            {errors.maxAge && <p className="text-red-500 text-sm">{errors.maxAge.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -177,8 +215,8 @@ const AddPolicyModal = ({ open, setOpen }) => {
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button className="text-white" type="submit">
-                            Save Policy
+                        <Button className="text-white" type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Saving..." : "Save Policy"}
                         </Button>
                     </DialogFooter>
                 </form>

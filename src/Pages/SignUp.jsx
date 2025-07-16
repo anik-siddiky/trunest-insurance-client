@@ -1,5 +1,4 @@
 "use client"
-import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,59 +9,70 @@ import { useForm } from "react-hook-form"
 import SocialLoginButtons from "@/components/SocialLoginButtons"
 import useAuth from "@/Hooks/useAuth"
 import { toast } from "sonner"
+import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
 const SignUp = () => {
-    const [profilePic, setProfilePic] = useState('');
-    const { createUser } = useAuth();
+    const { createUser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = data => {
-        createUser(data.email, data.password)
-            .then(result => {
-
-                toast("Account created successfully!", {
-                    description: "Welcome to TruNest!",
-                });
-
-                console.log(result);
-                navigate('/')
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    };
-
-    const handleImageUpload = async (e) => {
-        const image = e.target.files[0];
-        console.log(image);
-
+    const onSubmit = async data => {
+        setIsLoading(true); // START loading
+        const image = data.file[0];
         const formData = new FormData();
         formData.append('image', image);
 
-        const imagUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_bb_key}`;
+        const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB}`;
 
         try {
-            const res = await fetch(imagUploadUrl, {
+            const res = await fetch(imageUploadUrl, {
                 method: 'POST',
                 body: formData,
             });
 
-            const data = await res.json();
+            const imgData = await res.json();
 
-            if (data.success) {
-                setProfilePic(data.data.url);
+            if (imgData.success) {
+                const profilePicUrl = imgData.data.url;
+
+                createUser(data.email, data.password)
+                    .then(result => {
+                        console.log(result);
+                        const userProfile = {
+                            displayName: data.name,
+                            photoURL: profilePicUrl
+                        };
+                        updateUserProfile(userProfile)
+                            .then(() => {
+                                toast("Account created successfully!", {
+                                    description: "Welcome to TruNest!",
+                                });
+                                navigate('/');
+                            })
+                            .catch(console.log);
+                    })
+                    .catch(error => {
+                        console.error("Auth error:", error);
+                        toast.error("Signup failed.");
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
+                    });
             } else {
-                console.error("Upload failed:", data);
+                toast.error("Image upload failed");
+                console.error("Upload failed:", imgData);
+                setIsLoading(false);
             }
         } catch (error) {
             console.error("Image upload error:", error);
+            toast.error("Image upload error");
+            setIsLoading(false);
         }
     };
 
-
-    console.log(profilePic)
 
     return (
         <div className="flex min-h-screen lg:min-h-[calc(100vh-72px)] flex-col items-center justify-center md:p-10">
@@ -73,9 +83,7 @@ const SignUp = () => {
                             <div className="flex flex-col gap-6">
                                 <div className="flex flex-col items-center text-center">
                                     <h1 className="text-2xl font-bold">Create your account</h1>
-                                    <p className="text-muted-foreground text-balance">
-                                        Sign up to join TruNest
-                                    </p>
+                                    <p className="text-muted-foreground text-balance">Sign up to join TruNest</p>
                                 </div>
 
                                 <div className="grid gap-3">
@@ -86,7 +94,7 @@ const SignUp = () => {
 
                                 <div className="grid gap-3">
                                     <Label htmlFor="picture">Photo</Label>
-                                    <Input onChange={handleImageUpload} {...register('file', { required: true })} id="picture" type="file" />
+                                    <Input {...register('file', { required: true })} id="picture" type="file" />
                                     {errors.file?.type === 'required' && <span className="text-red-500 text-xs">Please upload a profile photo.</span>}
                                 </div>
 
@@ -119,8 +127,15 @@ const SignUp = () => {
                                     {errors.password?.types?.hasNumber && <span className="text-red-500 text-xs">{errors.password.types.hasNumber}</span>}
                                     {errors.password?.types?.hasSpecialChar && <span className="text-red-500 text-xs">{errors.password.types.hasSpecialChar}</span>}
                                 </div>
-                                <Button type="submit" className="w-full text-white">
-                                    Create account
+                                <Button type="submit" className="w-full text-white" disabled={isLoading}>
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="animate-spin size-4 mr-2" />
+                                            Creating...
+                                        </>
+                                    ) : (
+                                        "Create account"
+                                    )}
                                 </Button>
 
                                 {/* Or continue with */}
@@ -145,9 +160,8 @@ const SignUp = () => {
                             <img
                                 src={happyFamily}
                                 alt="Sign up image"
-                                className="absolute inset-0 h-full w-full object-cover brightness-90"
-                            />
-                            {/* Black overlay */}
+                                className="absolute inset-0 h-full w-full object-cover brightness-90" />
+
                             <div className="absolute inset-0 bg-black opacity-40"></div>
 
                             <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-white">
