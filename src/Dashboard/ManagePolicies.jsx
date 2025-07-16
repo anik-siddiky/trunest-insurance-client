@@ -1,38 +1,40 @@
 import Loading from '@/components/Loading';
 import useAxios from '@/Hooks/useAxios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Input } from "../components/ui/input";
 import AddPolicyModal from '../components/AddPolicyModal';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const ManagePolicies = () => {
-    const [loading, setLoading] = useState(true);
-    const [policies, setPolicies] = useState([]);
     const [search, setSearch] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const axios = useAxios();
+    const queryClient = useQueryClient();
 
-    useEffect(() => {
-        axios.get('/policies')
-            .then(res => {
-                setPolicies(res.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("Error Fetching Policies", error);
-                setLoading(false);
-            });
-    }, [axios]);
+
+    const { data: policies = [], isLoading } = useQuery({
+        queryKey: ['policies'],
+        queryFn: async () => {
+            const res = await axios.get('/policies');
+            return res.data
+        }
+    });
+
+    const handlePolicyAdded = () => {
+        queryClient.invalidateQueries({ queryKey: ['policies'] });
+        setIsAddModalOpen(false);
+    }
 
     const filteredPolicies = policies.filter(policy =>
         (policy.policyTitle || '').toLowerCase().includes(search.toLowerCase())
     );
 
-    if (loading) return <Loading />;
+    if (isLoading) return <Loading />;
 
     return (
         <div className="p-3 lg:p-6 min-h-screen">
-            <AddPolicyModal open={isAddModalOpen} setOpen={setIsAddModalOpen} />
+            <AddPolicyModal open={isAddModalOpen} setOpen={setIsAddModalOpen} onPolicyAdded={handlePolicyAdded} />
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 dark:text-gray-200">Manage Policies</h2>
                 <div className='flex items-center gap-3'>
@@ -68,13 +70,7 @@ const ManagePolicies = () => {
                                     <td className="px-4 py-3">{policy.category}</td>
                                     <td className="px-4 py-3">{policy.minAge} - {policy.maxAge}</td>
                                     <td className="px-4 py-3">{policy.coverageRange}</td>
-                                    <td className="px-4 py-3">
-                                        {new Intl.NumberFormat('en-US', {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                            maximumFractionDigits: 0,
-                                        }).format(policy.basePremiumRate)}
-                                    </td>
+                                    <td className="px-4 py-3">{policy.basePremiumRate}৳</td>
                                     <td className="px-4 py-3 flex gap-2">
                                         <button className="text-blue-600 hover:underline flex items-center gap-1">
                                             <FaEdit /> Edit

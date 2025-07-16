@@ -6,16 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import useAxios from "@/Hooks/useAxios";
+import { toast } from "sonner";
 
-const AddPolicyModal = ({ open, setOpen }) => {
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-    } = useForm();
+const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
+    const { register, handleSubmit, setValue, formState: { errors }, } = useForm();
     const [category, setCategory] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const axios = useAxios();
 
     const handleCategoryChange = (value) => {
         setCategory(value);
@@ -57,7 +55,14 @@ const AddPolicyModal = ({ open, setOpen }) => {
 
                 console.log("Final submitted data:", policyData);
 
-                // todo
+                axios.post('/policies', policyData)
+                    .then(() => {
+                        toast("Policy was added successfully")
+                        onPolicyAdded();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
 
                 setOpen(false);
             } else {
@@ -83,13 +88,13 @@ const AddPolicyModal = ({ open, setOpen }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="title">Policy Title</Label>
+                            <Label htmlFor="policyTitle">Policy Title</Label>
                             <Input
-                                id="title"
+                                id="policyTitle"
                                 placeholder="e.g., Gold Health Plan"
-                                {...register("title", { required: "This field is required" })}
+                                {...register("policyTitle", { required: "This field is required" })}
                             />
-                            {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+                            {errors.policyTitle && <p className="text-red-500 text-sm">{errors.policyTitle.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -160,22 +165,23 @@ const AddPolicyModal = ({ open, setOpen }) => {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="coverage">Coverage Range</Label>
+                            <Label htmlFor="coverageRange">Coverage Range</Label>
                             <Input
-                                id="coverage"
-                                placeholder="e.g., $10,000 - $100,000"
-                                {...register("coverage", { required: "This field is required" })}
+                                id="coverageRange"
+                                placeholder="e.g., 5L - 1Cr"
+                                {...register("coverageRange", { required: "This field is required" })}
                             />
-                            {errors.coverage && (
-                                <p className="text-red-500 text-sm">{errors.coverage.message}</p>
+                            {errors.coverageRange && (
+                                <p className="text-red-500 text-sm">{errors.coverageRange.message}</p>
                             )}
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="duration">Duration Options</Label>
+                            <Label htmlFor="duration">Duration Years</Label>
                             <Input
                                 id="duration"
-                                placeholder="e.g., 10, 15, 20 years"
+                                type="number"
+                                placeholder="e.g., 10, 15, 20"
                                 {...register("duration", { required: "This field is required" })}
                             />
                             {errors.duration && (
@@ -184,15 +190,15 @@ const AddPolicyModal = ({ open, setOpen }) => {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="premium">Base Premium Rate</Label>
+                            <Label htmlFor="basePremiumRate">Base Premium Rate</Label>
                             <Input
-                                id="premium"
+                                id="basePremiumRate"
                                 type="number"
-                                placeholder="$100/month"
-                                {...register("premium", { required: "This field is required" })}
+                                placeholder="৳1000"
+                                {...register("basePremiumRate", { required: "This field is required" })}
                             />
-                            {errors.premium && (
-                                <p className="text-red-500 text-sm">{errors.premium.message}</p>
+                            {errors.basePremiumRate && (
+                                <p className="text-red-500 text-sm">{errors.basePremiumRate.message}</p>
                             )}
                         </div>
 
