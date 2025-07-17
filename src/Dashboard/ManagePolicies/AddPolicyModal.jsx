@@ -118,6 +118,7 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
                                         <SelectItem value="life">Life Insurance</SelectItem>
                                         <SelectItem value="health">Health Insurance</SelectItem>
                                         <SelectItem value="critical-illness">Critical Illness</SelectItem>
+                                        <SelectItem value="heart">Heart Insurance</SelectItem>
                                         <SelectItem value="home">Homeowners</SelectItem>
                                         <SelectItem value="renters">Renters</SelectItem>
                                         <SelectItem value="travel">Travel</SelectItem>

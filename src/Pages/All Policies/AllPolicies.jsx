@@ -2,18 +2,34 @@ import React, { useEffect, useState } from 'react';
 import useAxios from '@/Hooks/useAxios';
 import AllPoliciesCard from './AllPoliciesCard';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from '@/components/ui/select';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const AllPolicies = () => {
     const axios = useAxios();
     const [policies, setPolicies] = useState([]);
+    const [category, setCategory] = useState('');
+    const [search, setSearch] = useState('');
+
+    const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => {
-        axios.get('/policies')
-            .then(res => setPolicies(res.data))
-            .catch(err => console.error(err));
-    }, [axios]);
+        const fetchPolicies = async () => {
+            try {
+                const res = await axios.get('/policies', {
+                    params: {
+                        category,
+                        search: debouncedSearch,
+                    },
+                });
+                setPolicies(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchPolicies();
+    }, [axios, category, debouncedSearch]);
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto py-8 px-4 overflow-x-hidden">
@@ -27,16 +43,18 @@ const AllPolicies = () => {
             </div>
 
             <div className="flex justify-end flex-wrap gap-3 mb-6 lg:mb-8">
-                <Select onValueChange={() => { }}>
+                <Select value={category || 'all'} onValueChange={(value) => setCategory(value === 'all' ? '' : value)}>
                     <SelectTrigger className="w-full lg:w-60">
                         <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
                             <SelectLabel>Insurance Categories</SelectLabel>
+                            <SelectItem value="all">All Categories</SelectItem>
                             <SelectItem value="life">Life Insurance</SelectItem>
                             <SelectItem value="health">Health Insurance</SelectItem>
                             <SelectItem value="critical-illness">Critical Illness</SelectItem>
+                            <SelectItem value="heart">Heart Insurance</SelectItem>
                             <SelectItem value="home">Homeowners</SelectItem>
                             <SelectItem value="renters">Renters</SelectItem>
                             <SelectItem value="travel">Travel</SelectItem>
@@ -52,17 +70,28 @@ const AllPolicies = () => {
                     type="text"
                     placeholder="Search policies..."
                     className="w-full lg:w-80"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
 
-
-            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {
-                    policies.map(policy => (
+            {policies.length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {policies.map((policy) => (
                         <AllPoliciesCard key={policy._id} policy={policy} />
-                    ))
-                }
-            </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="text-center py-20">
+                    <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                        No Policies Found
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+                        We couldn’t find any policies matching your search or selected category.
+                        Try adjusting your filters or search terms to explore more options.
+                    </p>
+                </div>
+            )}
         </div>
     );
 };
