@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link, useNavigate } from "react-router"
-import happyFamily from '../assets/happy-family.jpg'
+import happyFamily from '../../assets/happy-family.jpg'
 import { useForm } from "react-hook-form"
 import SocialLoginButtons from "@/components/SocialLoginButtons"
 import useAuth from "@/Hooks/useAuth"

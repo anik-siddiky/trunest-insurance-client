@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAxios from '@/Hooks/useAxios';
 import AllPoliciesCard from './AllPoliciesCard';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, } from '@/components/ui/pagination';
 import { useDebounce } from '@/hooks/useDebounce';
-
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '@/components/Loading';
 
 const POLICIES_PER_PAGE = 9;
 
 const AllPolicies = () => {
     const axios = useAxios();
 
-    const [policies, setPolicies] = useState([]);
-    const [totalPolicies, setTotalPolicies] = useState(0);
     const [category, setCategory] = useState('');
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
@@ -21,34 +20,31 @@ const AllPolicies = () => {
     const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => {
-        const fetchPolicies = async () => {
-            try {
-                const res = await axios.get('/policies', {
-                    params: {
-                        category,
-                        search: debouncedSearch,
-                        page,
-                        limit: POLICIES_PER_PAGE,
-                    },
-                });
-                setPolicies(res.data.policies);
-                setTotalPolicies(res.data.totalPolicies);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        fetchPolicies();
-    }, [axios, category, debouncedSearch, page]);
-
-    useEffect(() => {
         setPage(1);
     }, [category, debouncedSearch]);
 
+    const { data, isLoading, isError, } = useQuery({
+        queryKey: ['policies', category, debouncedSearch, page],
+        queryFn: async () => {
+            const res = await axios.get('/policies', {
+                params: {
+                    category,
+                    search: debouncedSearch,
+                    page,
+                    limit: POLICIES_PER_PAGE,
+                },
+            });
+            return res.data;
+        },
+        keepPreviousData: true,
+    });
+
+    const policies = data?.policies || [];
+    const totalPolicies = data?.totalPolicies || 0;
     const totalPages = Math.ceil(totalPolicies / POLICIES_PER_PAGE);
 
     return (
-        <div className="min-h-screen max-w-7xl mx-auto py-8 px-4 overflow-x-hidden">
+        <div className="min-h-screen max-w-7xl mx-auto py-8 px-4 lg:mb-16 overflow-x-hidden">
             <div className="text-center mb-10">
                 <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                     Explore Our Insurance Plans
@@ -95,7 +91,11 @@ const AllPolicies = () => {
                 />
             </div>
 
-            {policies.length > 0 ? (
+            {isLoading ? (
+                <Loading></Loading>
+            ) : isError ? (
+                <div className="text-center py-20 text-lg text-red-500">Failed to load policies. Please try again.</div>
+            ) : policies.length > 0 ? (
                 <>
                     <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         {policies.map((policy) => (
@@ -112,12 +112,12 @@ const AllPolicies = () => {
                                             href="#"
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                if (page > 1) setPage(page - 1);
+                                                if (page > 1) setPage((prev) => prev - 1);
                                             }}
                                         />
                                     </PaginationItem>
 
-                                    {[...Array(totalPages)].map((_, i) => {
+                                    {Array.from({ length: totalPages }, (_, i) => {
                                         const pageNumber = i + 1;
                                         return (
                                             <PaginationItem key={pageNumber}>
@@ -140,7 +140,7 @@ const AllPolicies = () => {
                                             href="#"
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                if (page < totalPages) setPage(page + 1);
+                                                if (page < totalPages) setPage((prev) => prev + 1);
                                             }}
                                         />
                                     </PaginationItem>

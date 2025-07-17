@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router';
 
 const AllPoliciesCard = ({ policy }) => {
+    const { _id } = policy;
     return (
         <div
             className="bg-white dark:bg-[#171717] shadow-md rounded-lg overflow-hidden flex flex-col transition-transform hover:scale-105 hover:shadow-xl duration-500"
@@ -30,7 +32,9 @@ const AllPoliciesCard = ({ policy }) => {
                     <li><strong>Duration:</strong> {policy.duration} years</li>
                 </ul>
 
-                <Button className="w-full text-white">View Details</Button>
+                <Link to={`/policy-details/${_id}`}>
+                    <Button className="w-full text-white cursor-pointer">View Details</Button>
+                </Link>
             </div>
         </div>
     );

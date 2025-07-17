@@ -4,12 +4,13 @@ import DashboardLayout from "@/Layouts/DashboardLayout";
 import ErrorLayout from "@/Layouts/ErrorLayout";
 import MainLayout from "@/Layouts/MainLayout";
 import AllPolicies from "@/Pages/All Policies/AllPolicies";
-import ErrorPage from "@/Pages/ErrorPage";
+import ErrorPage from "@/Pages/Error/ErrorPage";
 import Home from "@/Pages/Home/Home";
-import SignIn from "@/Pages/SignIn";
-import SignUp from "@/Pages/SignUp";
+import SignIn from "@/Pages/AuthPage/SignIn";
+import SignUp from "@/Pages/AuthPage/SignUp";
 import PrivateRoute from "@/Routes/PrivateRoute";
 import { createBrowserRouter, Navigate } from "react-router";
+import PolicyDetails from "@/Pages/Policy Details/PolicyDetails";
 
 
 const Router = createBrowserRouter([
@@ -33,6 +34,10 @@ const Router = createBrowserRouter([
             {
                 path: 'all-policies',
                 element: <PrivateRoute><AllPolicies></AllPolicies></PrivateRoute>
+            },
+            {
+                path: 'policy-details/:id',
+                element: <PolicyDetails></PolicyDetails>
             }
         ]
     },

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link, useLocation, useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
-import oldCouple from '../assets/old-couple.jpg'
+import oldCouple from '../../assets/old-couple.jpg'
 import SocialLoginButtons from "@/components/SocialLoginButtons"
 import useAuth from "@/Hooks/useAuth"
 import { toast } from "sonner"
