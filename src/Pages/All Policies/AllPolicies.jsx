@@ -5,11 +5,18 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from '@/components/ui/select';
 import { useDebounce } from '@/hooks/useDebounce';
 
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+
+const POLICIES_PER_PAGE = 9;
+
 const AllPolicies = () => {
     const axios = useAxios();
+
     const [policies, setPolicies] = useState([]);
+    const [totalPolicies, setTotalPolicies] = useState(0);
     const [category, setCategory] = useState('');
     const [search, setSearch] = useState('');
+    const [page, setPage] = useState(1);
 
     const debouncedSearch = useDebounce(search, 500);
 
@@ -20,16 +27,25 @@ const AllPolicies = () => {
                     params: {
                         category,
                         search: debouncedSearch,
+                        page,
+                        limit: POLICIES_PER_PAGE,
                     },
                 });
-                setPolicies(res.data);
+                setPolicies(res.data.policies);
+                setTotalPolicies(res.data.totalPolicies);
             } catch (err) {
                 console.error(err);
             }
         };
 
         fetchPolicies();
-    }, [axios, category, debouncedSearch]);
+    }, [axios, category, debouncedSearch, page]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [category, debouncedSearch]);
+
+    const totalPages = Math.ceil(totalPolicies / POLICIES_PER_PAGE);
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto py-8 px-4 overflow-x-hidden">
@@ -38,12 +54,16 @@ const AllPolicies = () => {
                     Explore Our Insurance Plans
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-lg">
-                    Discover tailored insurance solutions designed to protect what matters most — your health, assets, and future. Choose the right plan and get covered with confidence.
+                    Discover tailored insurance solutions designed to protect what matters most — your health,
+                    assets, and future. Choose the right plan and get covered with confidence.
                 </p>
             </div>
 
             <div className="flex justify-end flex-wrap gap-3 mb-6 lg:mb-8">
-                <Select value={category || 'all'} onValueChange={(value) => setCategory(value === 'all' ? '' : value)}>
+                <Select
+                    value={category || 'all'}
+                    onValueChange={(value) => setCategory(value === 'all' ? '' : value)}
+                >
                     <SelectTrigger className="w-full lg:w-60">
                         <SelectValue placeholder="Select category" />
                     </SelectTrigger>
@@ -76,19 +96,67 @@ const AllPolicies = () => {
             </div>
 
             {policies.length > 0 ? (
-                <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {policies.map((policy) => (
-                        <AllPoliciesCard key={policy._id} policy={policy} />
-                    ))}
-                </div>
+                <>
+                    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {policies.map((policy) => (
+                            <AllPoliciesCard key={policy._id} policy={policy} />
+                        ))}
+                    </div>
+
+                    {totalPages > 1 && (
+                        <div className="flex justify-center mt-10">
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious
+                                            href="#"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (page > 1) setPage(page - 1);
+                                            }}
+                                        />
+                                    </PaginationItem>
+
+                                    {[...Array(totalPages)].map((_, i) => {
+                                        const pageNumber = i + 1;
+                                        return (
+                                            <PaginationItem key={pageNumber}>
+                                                <PaginationLink
+                                                    href="#"
+                                                    isActive={page === pageNumber}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setPage(pageNumber);
+                                                    }}
+                                                >
+                                                    {pageNumber}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        );
+                                    })}
+
+                                    <PaginationItem>
+                                        <PaginationNext
+                                            href="#"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (page < totalPages) setPage(page + 1);
+                                            }}
+                                        />
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                        </div>
+                    )}
+                </>
             ) : (
                 <div className="text-center py-20">
                     <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
                         No Policies Found
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-                        We couldn’t find any policies matching your search or selected category.
-                        Try adjusting your filters or search terms to explore more options.
+                        We couldn’t find any policies matching your search or selected category. Try adjusting your
+                        filters or search terms to explore more options.
                     </p>
                 </div>
             )}

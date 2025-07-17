@@ -18,13 +18,14 @@ const ManagePolicies = () => {
     const axios = useAxios();
     const queryClient = useQueryClient();
 
-    const { data: policies = [], isLoading } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ['policies'],
         queryFn: async () => {
             const res = await axios.get('/policies');
             return res.data
         }
     });
+    const policies = data?.policies || [];
 
     const handlePolicyAdded = () => {
         queryClient.invalidateQueries({ queryKey: ['policies'] });
