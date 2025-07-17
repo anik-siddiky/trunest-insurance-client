@@ -46,7 +46,7 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                 formData.append("image", imageFile);
 
                 const res = await fetch(
-                    `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_IMGBB}`,
+                    `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB}`,
                     { method: "POST", body: formData }
                 );
                 const result = await res.json();

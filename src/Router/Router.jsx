@@ -3,7 +3,7 @@ import ManagePolicies from "@/Dashboard/ManagePolicies/ManagePolicies";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import ErrorLayout from "@/Layouts/ErrorLayout";
 import MainLayout from "@/Layouts/MainLayout";
-import AllPolicies from "@/Pages/AllPolicies";
+import AllPolicies from "@/Pages/All Policies/AllPolicies";
 import ErrorPage from "@/Pages/ErrorPage";
 import Home from "@/Pages/Home/Home";
 import SignIn from "@/Pages/SignIn";

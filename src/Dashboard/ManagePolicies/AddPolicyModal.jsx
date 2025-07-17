@@ -36,7 +36,7 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
             formData.append("image", imageFile);
 
             const response = await fetch(
-                `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_IMGBB}`,
+                `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB}`,
                 {
                     method: "POST",
                     body: formData,
@@ -44,14 +44,20 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
             );
 
             const result = await response.json();
+            const policyPurchased = 0;
 
             if (result.success) {
                 const imageUrl = result.data.url;
 
                 const policyData = {
                     ...data,
+                    minAge: Number(data.minAge),
+                    maxAge: Number(data.maxAge),
+                    duration: Number(data.duration),
+                    basePremiumRate: Number(data.basePremiumRate),
                     image: imageUrl,
                     category,
+                    purchasedCount: policyPurchased,
                 };
 
                 console.log("Final submitted data:", policyData);
