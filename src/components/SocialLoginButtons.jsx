@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from './ui/button';
 import useAuth from '@/Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
+import useAxios from '@/Hooks/useAxios';
 
 const SocialLoginButtons = () => {
 
@@ -9,12 +10,29 @@ const SocialLoginButtons = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state || '/';
+    const axios = useAxios();
 
     const handleSignInWithGoogle = () => {
         signInWithGoogle()
             .then((result) => {
                 navigate(from)
                 console.log(result);
+
+                const saveUser = {
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    photoURL: result.user.photoURL,
+                    role: "customer",
+                    registrationDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                };
+                axios.post('/users', saveUser)
+                    .then(() => {
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+
             })
             .catch(error => {
                 console.log(error);

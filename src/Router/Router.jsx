@@ -11,6 +11,7 @@ import SignUp from "@/Pages/AuthPage/SignUp";
 import PrivateRoute from "@/Routes/PrivateRoute";
 import { createBrowserRouter, Navigate } from "react-router";
 import PolicyDetails from "@/Pages/Policy Details/PolicyDetails";
+import ManageUsers from "@/Dashboard/ManageUsers/ManageUsers";
 
 
 const Router = createBrowserRouter([
@@ -57,6 +58,10 @@ const Router = createBrowserRouter([
             {
                 path: 'manage-policies',
                 element: <ManagePolicies></ManagePolicies>
+            },
+            {
+                path: 'manage-users',
+                element: <ManageUsers></ManageUsers>
             }
         ]
     },

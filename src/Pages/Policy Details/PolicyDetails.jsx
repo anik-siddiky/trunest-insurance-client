@@ -34,19 +34,7 @@ const PolicyDetails = () => {
         );
     }
 
-    const {
-        policyTitle,
-        description,
-        category,
-        minAge,
-        maxAge,
-        coverageRange,
-        durationOptions,
-        basePremiumRate,
-        image,
-        eligibility,
-        benefits,
-    } = policy;
+    const { policyTitle, description, category, minAge, maxAge, coverageRange, durationOptions, basePremiumRate, image, eligibility, benefits, } = policy;
 
     return (
         <div className="max-w-7xl mx-auto lg:px-0 px-4 py-10">
