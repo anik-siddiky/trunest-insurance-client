@@ -9,9 +9,18 @@ import { IoCloseSharp } from "react-icons/io5";;
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const { user } = useAuth();
+    const { user, logOut } = useAuth();
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const closeSidebar = () => setIsSidebarOpen(false);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
     return (
         <div className="flex h-screen bg-[#FAFAFA] dark:bg-[#171717]">
@@ -59,20 +68,21 @@ const DashboardLayout = () => {
                         </NavLink>
 
                         <button
-                            className="flex items-center gap-2 py-2 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-                            onClick={() => alert('Logging out...')}>
+                        
+                            className="flex items-center gap-2 py-2 px-4 rounded-xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                            onClick={() => handleLogOut()}>
                             <FiLogOut /> Logout
                         </button>
                     </div>
 
 
-                    <div className="mt-auto hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl p-2 flex items-center gap-3">
+                    <Link to="/update-profile" className="mt-auto hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl p-2 flex items-center gap-3">
                         <img className="w-10 h-10 rounded-full object-cover" src={user?.photoURL} alt="User" />
                         <div className="text-sm">
                             <p className="font-medium">{user?.displayName || 'User'}</p>
                             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
                         </div>
-                    </div>
+                    </Link>
                 </nav>
             </aside>
 

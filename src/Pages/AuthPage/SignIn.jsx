@@ -61,7 +61,7 @@ const SignIn = () => {
                                     {errors.password?.type === 'required' && <span className="text-red-500 text-xs">Please your password.</span>}
                                 </div>
 
-                                <Button type="submit" className="w-full text-white">
+                                <Button type="submit" className="w-full text-white cursor-pointer">
                                     Sign In
                                 </Button>
 

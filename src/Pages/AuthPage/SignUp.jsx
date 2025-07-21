@@ -147,7 +147,7 @@ const SignUp = () => {
                                     {errors.password?.types?.hasNumber && <span className="text-red-500 text-xs">{errors.password.types.hasNumber}</span>}
                                     {errors.password?.types?.hasSpecialChar && <span className="text-red-500 text-xs">{errors.password.types.hasSpecialChar}</span>}
                                 </div>
-                                <Button type="submit" className="w-full text-white" disabled={isLoading}>
+                                <Button type="submit" className="w-full text-white cursor-pointer" disabled={isLoading}>
                                     {isLoading ? (
                                         <>
                                             <Loader2 className="animate-spin size-4 mr-2" />

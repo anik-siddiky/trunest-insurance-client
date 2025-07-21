@@ -41,7 +41,7 @@ const SocialLoginButtons = () => {
 
     return (
         <div className="grid grid-cols-1">
-            <Button onClick={handleSignInWithGoogle} variant="outline" type="button" className="w-full gap-2">
+            <Button onClick={handleSignInWithGoogle} variant="outline" type="button" className="w-full gap-2 cursor-pointer">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"

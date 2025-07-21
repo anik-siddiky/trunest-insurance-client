@@ -133,11 +133,19 @@ const Navbar = () => {
                                                 Hi, {user?.displayName || "User"}
                                             </li>
 
-                                            <div className='flex justify-center items-center'><Button
-                                                onClick={() => { handleLogOut(); setIsDropDownOpen(false); }}
-                                                className="w-2/3 text-white">
-                                                Log Out
-                                            </Button></div>
+                                            <li className='flex justify-center hover:bg-gray-100 rounded-sm '>
+                                                <Link to="/update-profile" onClick={() => { setIsDropDownOpen(false) }}>
+                                                    <button className='p-2 cursor-pointer'>Manage Profile</button>
+                                                </Link>
+                                            </li>
+
+                                            <div className='flex justify-center items-center'>
+                                                <Button
+                                                    onClick={() => { handleLogOut(); setIsDropDownOpen(false); }}
+                                                    className="w-2/3 text-white">
+                                                    Log Out
+                                                </Button>
+                                            </div>
                                         </ul>
                                     )}
                                 </div>
@@ -189,6 +197,17 @@ const Navbar = () => {
                                     </NavLink>
                                 </li>
                             ))}
+                            <li>
+                                <NavLink
+                                    to="/update-profile"
+                                    onClick={() => setDrawerOpen(false)}
+                                    className={({ isActive }) =>
+                                        `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`
+                                    }
+                                >
+                                    Update Profile
+                                </NavLink>
+                            </li>
                             {
                                 user ?
                                     <>
