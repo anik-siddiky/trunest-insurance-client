@@ -60,8 +60,8 @@ const Navbar = () => {
     const navItems = [
         { path: '/', label: 'Home' },
         { path: '/all-policies', label: 'All Policies' },
-        { path: '/blogs', label: 'Blogs' },
         { path: '/dashboard', label: 'Dashboard' },
+        { path: '/blogs', label: 'Blogs' },
     ];
 
     return (
@@ -112,7 +112,6 @@ const Navbar = () => {
                             user ?
 
                                 <div ref={dropDownRef} className="relative">
-                                    {/* Avatar Button */}
                                     <div
                                         role="button"
                                         tabIndex={0}
@@ -127,7 +126,6 @@ const Navbar = () => {
                                         />
                                     </div>
 
-                                    {/* Dropdown */}
                                     {isDropDownOpen && (
                                         <ul
                                             className="absolute top-full mt-3 right-0 lg:left-1/2 lg:-translate-x-1/2 z-[999] w-56 shadow-xl rounded-xl p-4 space-y-3 transition-all bg-white dark:bg-zinc-900">
@@ -160,7 +158,6 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            {/* Mobile Drawer */}
             <AnimatePresence>
                 {drawerOpen && (
                     <motion.div
@@ -180,7 +177,6 @@ const Navbar = () => {
                             <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"></svg>
                         </button>
 
-                        {/* Mobile Nav Items */}
                         <ul className="flex flex-col gap-2 text-xl text-center">
                             {navItems.map(({ path, label }) => (
                                 <li key={path}>
@@ -188,9 +184,7 @@ const Navbar = () => {
                                         to={path}
                                         onClick={() => setDrawerOpen(false)}
                                         className={({ isActive }) =>
-                                            `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`
-                                        }
-                                    >
+                                            `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`}>
                                         {label}
                                     </NavLink>
                                 </li>

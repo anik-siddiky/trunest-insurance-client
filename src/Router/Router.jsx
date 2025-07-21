@@ -12,6 +12,8 @@ import PrivateRoute from "@/Routes/PrivateRoute";
 import { createBrowserRouter, Navigate } from "react-router";
 import PolicyDetails from "@/Pages/Policy Details/PolicyDetails";
 import ManageUsers from "@/Dashboard/ManageUsers/ManageUsers";
+import ManageBlogs from "@/Dashboard/ManageBlogs/ManageBlogs";
+import Blogs from "@/Pages/Blogs/Blogs";
 
 
 const Router = createBrowserRouter([
@@ -39,7 +41,11 @@ const Router = createBrowserRouter([
             {
                 path: 'policy-details/:id',
                 element: <PolicyDetails></PolicyDetails>
-            }
+            },
+            {
+                path: 'blogs',
+                element: <Blogs></Blogs>
+            },
         ]
     },
 
@@ -62,6 +68,10 @@ const Router = createBrowserRouter([
             {
                 path: 'manage-users',
                 element: <ManageUsers></ManageUsers>
+            },
+            {
+                path: 'manage-blogs',
+                element: <ManageBlogs></ManageBlogs>
             }
         ]
     },

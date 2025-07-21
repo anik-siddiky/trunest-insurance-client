@@ -75,7 +75,7 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[700px] w-full">
+            <DialogContent className="sm:max-w-[700px] w-full max-h-[90vh] overflow-y-auto">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <DialogHeader>
                         <DialogTitle className="text-xl">Update Policy</DialogTitle>
@@ -202,6 +202,7 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                         <div className="space-y-2">
                             <Label htmlFor="image">Policy Image</Label>
                             <Input
+                                className="cursor-pointer"
                                 id="image"
                                 type="file"
                                 {...register("image")}
@@ -214,9 +215,9 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
 
                     <DialogFooter className="mt-2">
                         <DialogClose asChild>
-                            <Button variant="outline" type="button">Cancel</Button>
+                            <Button className="cursor-pointer" variant="outline" type="button">Cancel</Button>
                         </DialogClose>
-                        <Button className="text-white" type="submit" disabled={isSubmitting}>
+                        <Button className="text-white cursor-pointer" type="submit" disabled={isSubmitting}>
                             {isSubmitting ? "Updating..." : "Update Policy"}
                         </Button>
                     </DialogFooter>
