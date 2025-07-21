@@ -34,11 +34,11 @@ const PolicyDetails = () => {
         );
     }
 
-    const { policyTitle, description, category, minAge, maxAge, coverageRange, durationOptions, basePremiumRate, image, eligibility, benefits, } = policy;
+    const { policyTitle, description, category, minAge, maxAge, coverageFrom, coverageTo, duration, basePremiumRate, image, eligibility, benefits, } = policy;
 
     return (
-        <div className="max-w-7xl mx-auto lg:px-0 px-4 py-10">
-            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden shadow-lg mb-10">
+        <div className="max-w-7xl mx-auto lg:px-0 px-4 py-10 pb-24 lg:pb-44">
+            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[18rem] rounded-xl overflow-hidden shadow-lg mb-10">
                 <img
                     src={image}
                     alt={policyTitle}
@@ -61,9 +61,9 @@ const PolicyDetails = () => {
 
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                     <li><strong>Age Eligibility:</strong> {minAge} - {maxAge} years</li>
-                    <li><strong>Coverage Range:</strong> {coverageRange}</li>
-                    <li><strong>Duration Options:</strong> {durationOptions?.join(', ')}</li>
-                    <li><strong>Base Premium Rate:</strong> ${basePremiumRate} per unit</li>
+                    <li><strong>Coverage Range:</strong>৳{coverageFrom} - ৳{coverageTo}</li>
+                    <li><strong>Duration Options:</strong> {duration} years</li>
+                    <li><strong>Base Premium Rate:</strong> ৳{basePremiumRate} per unit</li>
                 </ul>
 
                 {eligibility && (
@@ -80,12 +80,11 @@ const PolicyDetails = () => {
                     </div>
                 )}
 
-                <Button
-                    onClick={() => navigate(`/quote/${id}`)}
-                    className="mt-6 w-full sm:w-auto"
-                >
-                    Get a Quote
-                </Button>
+                <div className='flex justify-center'>
+                    <Button onClick={() => navigate(`/quote/${id}`)} className="mt-2 px-10 sm:w-auto cursor-pointer text-xl text-white py-5">
+                        Get a Quote
+                    </Button>
+                </div>
             </div>
         </div>
     );

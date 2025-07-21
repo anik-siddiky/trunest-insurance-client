@@ -1,7 +1,23 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "../../components/ui/dialog";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "../../components/ui/dialog";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +26,14 @@ import useAxios from "@/Hooks/useAxios";
 import { toast } from "sonner";
 
 const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors },
+        watch,
+    } = useForm();
+
     const [category, setCategory] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const axios = useAxios();
@@ -21,7 +44,8 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
             setValue("description", policy.description);
             setValue("minAge", policy.minAge);
             setValue("maxAge", policy.maxAge);
-            setValue("coverageRange", policy.coverageRange);
+            setValue("coverageFrom", policy.coverageFrom || 0);
+            setValue("coverageTo", policy.coverageTo || 0);
             setValue("duration", policy.duration);
             setValue("basePremiumRate", policy.basePremiumRate);
             setCategory(policy.category);
@@ -36,7 +60,6 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
-
         try {
             let imageUrl = policy.image;
             const imageFile = data.image?.[0];
@@ -56,9 +79,16 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
             }
 
             const updatedPolicy = {
-                ...data,
+                policyTitle: data.policyTitle,
+                description: data.description,
+                minAge: Number(data.minAge),
+                maxAge: Number(data.maxAge),
+                coverageFrom: Number(data.coverageFrom),
+                coverageTo: Number(data.coverageTo),
+                duration: Number(data.duration),
+                basePremiumRate: Number(data.basePremiumRate),
                 image: imageUrl,
-                category
+                category,
             };
 
             await axios.put(`/policies/${policy._id}`, updatedPolicy);
@@ -121,9 +151,7 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                                 {...register("category", { required: "This field is required" })}
                                 value={category}
                             />
-                            {errors.category && (
-                                <p className="text-red-500 text-sm">{errors.category.message}</p>
-                            )}
+                            {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
                         </div>
 
                         <div className="col-span-1 md:col-span-2 space-y-2">
@@ -134,9 +162,7 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                                 placeholder="Write a short description of the policy..."
                                 {...register("description", { required: "This field is required" })}
                             />
-                            {errors.description && (
-                                <p className="text-red-500 text-sm">{errors.description.message}</p>
-                            )}
+                            {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -162,15 +188,33 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="coverageRange">Coverage Range</Label>
+                            <Label htmlFor="coverageFrom">Coverage From (৳)</Label>
                             <Input
-                                id="coverageRange"
-                                placeholder="e.g., 5L - 1Cr"
-                                {...register("coverageRange", { required: "This field is required" })}
+                                id="coverageFrom"
+                                type="number"
+                                placeholder="e.g., 100000"
+                                {...register("coverageFrom", {
+                                    required: "This field is required",
+                                    min: { value: 0, message: "Must be greater than or equal to 0" },
+                                })}
                             />
-                            {errors.coverageRange && (
-                                <p className="text-red-500 text-sm">{errors.coverageRange.message}</p>
-                            )}
+                            {errors.coverageFrom && <p className="text-red-500 text-sm">{errors.coverageFrom.message}</p>}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="coverageTo">Coverage To (৳)</Label>
+                            <Input
+                                id="coverageTo"
+                                type="number"
+                                placeholder="e.g., 1000000"
+                                {...register("coverageTo", {
+                                    required: "This field is required",
+                                    validate: (value) =>
+                                        parseInt(value) > parseInt(watch("coverageFrom")) ||
+                                        "Coverage To must be greater than Coverage From",
+                                })}
+                            />
+                            {errors.coverageTo && <p className="text-red-500 text-sm">{errors.coverageTo.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -181,9 +225,7 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                                 placeholder="e.g., 10, 15, 20"
                                 {...register("duration", { required: "This field is required" })}
                             />
-                            {errors.duration && (
-                                <p className="text-red-500 text-sm">{errors.duration.message}</p>
-                            )}
+                            {errors.duration && <p className="text-red-500 text-sm">{errors.duration.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -194,9 +236,7 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                                 placeholder="৳1000"
                                 {...register("basePremiumRate", { required: "This field is required" })}
                             />
-                            {errors.basePremiumRate && (
-                                <p className="text-red-500 text-sm">{errors.basePremiumRate.message}</p>
-                            )}
+                            {errors.basePremiumRate && <p className="text-red-500 text-sm">{errors.basePremiumRate.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -207,9 +247,6 @@ const UpdatePolicyModal = ({ open, setOpen, policy, onPolicyUpdated }) => {
                                 type="file"
                                 {...register("image")}
                             />
-                            {errors.image && (
-                                <p className="text-red-500 text-sm">{errors.image.message}</p>
-                            )}
                         </div>
                     </div>
 

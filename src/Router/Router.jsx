@@ -16,6 +16,8 @@ import ManageBlogs from "@/Dashboard/ManageBlogs/ManageBlogs";
 import Blogs from "@/Pages/Blogs/Blogs";
 import BlogDetails from "@/Pages/BlogDetails/BlogDetails";
 import UpdateProfile from "@/Pages/UpdateProfile/UpdateProfile";
+import Quote from "@/Pages/QuotePage/Quote";
+import ApplyForPolicy from "@/Pages/ApplyForPolicy/ApplyForPolicy";
 
 
 const Router = createBrowserRouter([
@@ -56,6 +58,14 @@ const Router = createBrowserRouter([
                 path: 'update-profile',
                 element: <PrivateRoute><UpdateProfile></UpdateProfile> </PrivateRoute>
             },
+            {
+                path: "quote/:id",
+                element: <PrivateRoute><Quote></Quote></PrivateRoute>
+            },
+            {
+                path: 'apply/:id',
+                element: <PrivateRoute><ApplyForPolicy></ApplyForPolicy></PrivateRoute>
+            }
         ]
     },
 

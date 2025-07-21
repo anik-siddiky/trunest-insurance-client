@@ -1,22 +1,6 @@
 import { useForm } from "react-hook-form";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../../components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "../../components/ui/dialog";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +16,7 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
     setValue,
     formState: { errors },
     reset,
+    watch
   } = useForm();
 
   const [category, setCategory] = useState("");
@@ -77,10 +62,13 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
           maxAge: Number(data.maxAge),
           duration: Number(data.duration),
           basePremiumRate: Number(data.basePremiumRate),
+          coverageFrom: Number(data.coverageFrom),
+          coverageTo: Number(data.coverageTo),
           image: imageUrl,
           category,
           purchasedCount: policyPurchased,
         };
+        console.log(policyData)
 
         axios.post("/policies", policyData).then(() => {
           toast("Policy was added successfully");
@@ -131,7 +119,7 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 mt-3">
                 <Label htmlFor="category">Category</Label>
                 <Select onValueChange={handleCategoryChange}>
                   <SelectTrigger className="w-full">
@@ -220,17 +208,42 @@ const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="coverageRange">Coverage Range</Label>
+                <Label htmlFor="coverageFrom">Coverage From (৳)</Label>
                 <Input
-                  id="coverageRange"
-                  placeholder="e.g., 5L - 1Cr"
-                  {...register("coverageRange", {
+                  id="coverageFrom"
+                  type="number"
+                  placeholder="e.g., 100000"
+                  {...register("coverageFrom", {
                     required: "This field is required",
+                    min: {
+                      value: 0,
+                      message: "Coverage must be at least ৳0",
+                    },
                   })}
                 />
-                {errors.coverageRange && (
+                {errors.coverageFrom && (
                   <p className="text-red-500 text-sm">
-                    {errors.coverageRange.message}
+                    {errors.coverageFrom.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="coverageTo">Coverage To (৳)</Label>
+                <Input
+                  id="coverageTo"
+                  type="number"
+                  placeholder="e.g., 1000000"
+                  {...register("coverageTo", {
+                    required: "This field is required",
+                    validate: (value) =>
+                      parseInt(value) > parseInt(watch("coverageFrom")) ||
+                      "Coverage To must be greater than Coverage From",
+                  })}
+                />
+                {errors.coverageTo && (
+                  <p className="text-red-500 text-sm">
+                    {errors.coverageTo.message}
                   </p>
                 )}
               </div>

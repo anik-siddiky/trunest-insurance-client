@@ -19,28 +19,28 @@ const ManagePolicies = () => {
     const queryClient = useQueryClient();
 
     const { data, isLoading } = useQuery({
-        queryKey: ['policies'],
+        queryKey: ['all-policies'],
         queryFn: async () => {
-            const res = await axios.get('/policies');
-            return res.data
+            const res = await axios.get('/all-policies');
+            return res.data;
         }
     });
-    const policies = data?.policies || [];
+    const policies = data || [];
 
     const handlePolicyAdded = () => {
-        queryClient.invalidateQueries({ queryKey: ['policies'] });
+        queryClient.invalidateQueries({ queryKey: ['all-policies'] });
         setIsAddModalOpen(false);
     }
 
     const deletePolicy = async (id) => {
-        const res = await axios.delete(`/policies/${id}`);
+        const res = await axios.delete(`/all-policies/${id}`);
         return res.data;
     };
 
     const { mutate: handleDelete, isPending: isDeleting } = useMutation({
         mutationFn: deletePolicy,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['policies'] });
+            queryClient.invalidateQueries({ queryKey: ['all-policies'] });
             setPolicyToDelete(null);
             toast('Policy deleted successfully!');
         },
@@ -50,7 +50,7 @@ const ManagePolicies = () => {
     })
 
     const handlePolicyUpdated = () => {
-        queryClient.invalidateQueries({ queryKey: ['policies'] });
+        queryClient.invalidateQueries({ queryKey: ['all-policies'] });
         setIsEditModalOpen(false);
     };
 
@@ -98,7 +98,7 @@ const ManagePolicies = () => {
                                     <td className="px-4 py-3">{policy.policyTitle}</td>
                                     <td className="px-4 py-3">{policy.category}</td>
                                     <td className="px-4 py-3">{policy.minAge} - {policy.maxAge}</td>
-                                    <td className="px-4 py-3">{policy.coverageRange}</td>
+                                    <td className="px-4 py-3">৳{policy.coverageFrom} - ৳{policy.coverageTo}</td>
                                     <td className="px-4 py-3">{policy.basePremiumRate}৳</td>
                                     <td className="px-4 py-2.5 flex gap-3">
                                         <button

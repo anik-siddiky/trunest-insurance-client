@@ -28,7 +28,7 @@ const AllPoliciesCard = ({ policy }) => {
                 </p>
 
                 <ul className="text-sm space-y-1 mb-4 mt-auto text-gray-700 dark:text-gray-400">
-                    <li><strong>Coverage:</strong> {policy.coverageRange}</li>
+                    <li><strong>Coverage:</strong> {policy.coverageFrom} - {policy.coverageTo}</li>
                     <li><strong>Duration:</strong> {policy.duration} years</li>
                 </ul>
 

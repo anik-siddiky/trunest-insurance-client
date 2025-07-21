@@ -8,7 +8,6 @@ const BlogDetails = () => {
     const { id } = useParams();
     const axios = useAxios();
 
-    // Fetch single blog by ID
     const fetchBlog = async () => {
         const { data } = await axios.get(`/blog/${id}`);
         return data;
@@ -25,12 +24,11 @@ const BlogDetails = () => {
 
         const timer = setTimeout(async () => {
             try {
-                // Send request to increment viewCount
                 await axios.patch(`/blogs/${id}/increment-view`);
             } catch (err) {
                 console.error('Failed to increment view count', err);
             }
-        }, 5000); // 5 seconds delay
+        }, 5000);
 
         return () => clearTimeout(timer);
     }, [id, axios]);
