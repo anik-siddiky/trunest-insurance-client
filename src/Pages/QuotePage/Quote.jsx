@@ -87,33 +87,47 @@ const Quote = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-6 min-h-screen my-5">
-            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[18rem] rounded-xl overflow-hidden shadow-lg mb-10">
+        <div className="max-w-7xl mx-auto p-6 min-h-screen my-5 lg:mb-28">
+            {/* Hero Section */}
+            <div className="relative w-full h-72 sm:h-96 rounded-3xl overflow-hidden shadow-xl mb-12">
                 <img
                     src={policy.image}
                     alt={policy.policyTitle}
-                    className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/60 bg-opacity-50 flex items-center justify-center text-center px-4">
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+                    className="w-full h-full object-cover brightness-75"
+                />
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-6 text-center">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
                         {policy.policyTitle}
                     </h1>
                 </div>
             </div>
-            <p className="mb-4 text-gray-600">{policy.description}</p>
 
-            <div className="space-y-6 mb-6">
+            {/* Policy Description */}
+            <p className="mb-10 leading-relaxed text-gray-700 dark:text-gray-300 max-w-7xl mx-auto text-center">
+                {policy.description}
+            </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Quote Form Section */}
+            <div className="bg-white/80 dark:bg-[#1e1e1e]/80 backdrop-blur-xl border border-gray-200 dark:border-gray-700 p-8 rounded-2xl shadow-lg max-w-3xl mx-auto space-y-8">
+
+                <h2 className="text-2xl font-semibold text-center text-gray-800 dark:text-white">
+                    Get Your Quote
+                </h2>
+
+                {/* Form Inputs */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <Input
                         type="number"
                         name="age"
                         value={form.age}
                         onChange={handleChange}
-                        placeholder={`Enter your age (${policy.minAge}-${policy.maxAge})`} />
+                        placeholder={`Enter your age (${policy.minAge}-${policy.maxAge})`}
+                    />
                     <Select
                         value={form.gender}
                         onValueChange={(value) =>
-                            setForm((prev) => ({ ...prev, gender: value }))}>
+                            setForm((prev) => ({ ...prev, gender: value }))
+                        }>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select Gender" />
                         </SelectTrigger>
@@ -122,27 +136,30 @@ const Quote = () => {
                             <SelectItem value="female">Female</SelectItem>
                         </SelectContent>
                     </Select>
+
                     <Input
                         type="number"
                         name="coverage"
                         value={form.coverage}
                         onChange={handleChange}
-                        placeholder={`Coverage Amount (৳${policy.coverageFrom.toLocaleString()} - ৳${policy.coverageTo.toLocaleString()})`} />
+                        placeholder={`Coverage (৳${policy.coverageFrom.toLocaleString()} - ৳${policy.coverageTo.toLocaleString()})`}
+                    />
                     <Input
                         type="number"
                         name="duration"
                         value={form.duration}
                         onChange={handleChange}
-                        placeholder={`Duration in years (1-${policy.duration})`}
+                        placeholder={`Duration (1 - ${policy.duration} years)`}
                     />
                 </div>
 
                 <Select
                     value={form.smoker}
                     onValueChange={(value) =>
-                        setForm((prev) => ({ ...prev, smoker: value }))}>
+                        setForm((prev) => ({ ...prev, smoker: value }))
+                    }>
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select smoking status" />
+                        <SelectValue placeholder="Select Smoking Status" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="no">Non-Smoker</SelectItem>
@@ -151,23 +168,58 @@ const Quote = () => {
                 </Select>
 
                 <div className="flex justify-center">
-                    <Button className="text-white cursor-pointer" onClick={handleQuote}>Get Estimated Premium</Button>
+                    <Button
+                        onClick={handleQuote}
+                        className="text-white px-6 py-2 rounded-sm shadow-md transition cursor-pointer">
+                        Get Estimated Premium
+                    </Button>
                 </div>
             </div>
 
+
             {quote && (
-                <div className="bg-gray-100 dark:bg-[#1f1f1f] p-4 rounded-lg space-y-2 text-lg">
-                    <p>
-                        <strong>Estimated Monthly Premium:</strong> ৳{quote.monthly}
-                    </p>
-                    <p>
-                        <strong>Estimated Annual Premium:</strong> ৳{quote.annual}
-                    </p>
-                    <Button onClick={() => navigate(`/apply/${id}`)} className="mt-4 text-white cursor-pointer">
-                        Apply for Policy
-                    </Button>
+                <div className="flex justify-center mt-10">
+                    <div className="bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 shadow-xl rounded-2xl p-8 w-full max-w-3xl">
+                        <h2 className="text-2xl font-semibold text-center mb-6 text-primary">
+                            💡 Your Estimated Premium
+                        </h2>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center text-lg">
+                            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 shadow-inner">
+                                <p className="text-gray-600 dark:text-gray-300">Monthly Premium</p>
+                                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+                                    ৳{quote.monthly}
+                                </p>
+                            </div>
+
+                            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 shadow-inner">
+                                <p className="text-gray-600 dark:text-gray-300">Annual Premium</p>
+                                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+                                    ৳{quote.annual}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 flex justify-center">
+                            <Button
+                                onClick={() =>
+                                    navigate(`/apply/${id}`, {
+                                        state: {
+                                            quote,
+                                            form,
+                                            policyTitle: policy.policyTitle,
+                                        },
+                                    })
+                                }
+                                className="w-full sm:w-auto bg-primary text-white hover:bg-primary/90 transition-colors cursor-pointer rounded-sm"
+                            >
+                                Apply for Policy
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             )}
+
         </div>
     );
 };
