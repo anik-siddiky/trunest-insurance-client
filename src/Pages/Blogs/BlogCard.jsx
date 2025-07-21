@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const truncateText = (text, limit = 50) => {
     const words = text?.split(" ") || [];
@@ -31,9 +32,11 @@ const BlogCard = ({ blog }) => {
                         {truncateText(blog.content, 40)}
                     </p>
                 </div>
-                <button className="cursor-pointer bg-primary text-white py-1.5 rounded-sm shadow-sm transition transform active:scale-95">
-                    Read More
-                </button>
+                <Link to={`/blog-details/${blog?._id}`}>
+                    <button className="cursor-pointer bg-primary text-white px-4 py-1.5 rounded-sm shadow-sm transition transform active:scale-95">
+                        Read More
+                    </button>
+                </Link>
             </div>
         </div>
     );

@@ -14,6 +14,7 @@ import PolicyDetails from "@/Pages/Policy Details/PolicyDetails";
 import ManageUsers from "@/Dashboard/ManageUsers/ManageUsers";
 import ManageBlogs from "@/Dashboard/ManageBlogs/ManageBlogs";
 import Blogs from "@/Pages/Blogs/Blogs";
+import BlogDetails from "@/Pages/BlogDetails/BlogDetails";
 
 
 const Router = createBrowserRouter([
@@ -46,6 +47,10 @@ const Router = createBrowserRouter([
                 path: 'blogs',
                 element: <Blogs></Blogs>
             },
+            {
+                path: 'blog-details/:id',
+                element: <BlogDetails></BlogDetails>
+            }
         ]
     },
 
