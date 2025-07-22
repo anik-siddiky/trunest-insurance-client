@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, NavLink } from 'react-router';
 import { FiMenu, FiHome, FiLogOut, FiUsers } from 'react-icons/fi';
-import { HiOutlineDocumentText, HiOutlineNewspaper } from "react-icons/hi";
+import { HiOutlineClipboardCheck, HiOutlineDocumentText, HiOutlineNewspaper } from "react-icons/hi";
 import useAuth from '@/Hooks/useAuth';
 import logo from '../assets/Tru-Logo.png'
 import ThemeChange from '@/components/ThemeChange';
@@ -67,8 +67,18 @@ const DashboardLayout = () => {
                             <HiOutlineNewspaper /> <span className='lg:mt-0.5'>Manage Blogs</span>
                         </NavLink>
 
+                        <NavLink to="/dashboard/manage-application" onClick={closeSidebar}
+                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                            <HiOutlineClipboardCheck /> <span className="lg:mt-0.5">Manage Applications</span>
+                        </NavLink>
+
+                        <NavLink to="/dashboard/assigned-customers" onClick={closeSidebar}
+                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                            <FiUsers /> <span className="lg:mt-0.5">Assigned Customers</span>
+                        </NavLink>
+
                         <button
-                        
+
                             className="flex items-center gap-2 py-2 px-4 rounded-xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition"
                             onClick={() => handleLogOut()}>
                             <FiLogOut /> Logout

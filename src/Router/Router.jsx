@@ -18,6 +18,8 @@ import BlogDetails from "@/Pages/BlogDetails/BlogDetails";
 import UpdateProfile from "@/Pages/UpdateProfile/UpdateProfile";
 import Quote from "@/Pages/QuotePage/Quote";
 import ApplyForPolicy from "@/Pages/ApplyForPolicy/ApplyForPolicy";
+import ManageApplication from "@/Dashboard/ManageApplication/ManageApplication";
+import AssignedCustomers from "@/Dashboard/AssignedCustomers/AssignedCustomers";
 
 
 const Router = createBrowserRouter([
@@ -92,6 +94,14 @@ const Router = createBrowserRouter([
             {
                 path: 'manage-blogs',
                 element: <ManageBlogs></ManageBlogs>
+            },
+            {
+                path: 'manage-application',
+                element: <ManageApplication></ManageApplication>
+            },
+            {
+                path: 'assigned-customers',
+                element: <AssignedCustomers></AssignedCustomers>
             }
         ]
     },

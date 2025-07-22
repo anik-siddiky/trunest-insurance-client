@@ -50,8 +50,12 @@ const ApplyForPolicy = () => {
         const applicationData = {
             policyId: id,
             policyTitle,
-            quote,     
-            quoteInput: formInput,
+            quote,
+            quoteInput: {
+                age: Number(formInput.age),
+                coverage: Number(formInput.coverage),
+                duration: Number(formInput.duration),
+            },
             personal: {
                 name: data.name,
                 email: data.email,
@@ -66,6 +70,7 @@ const ApplyForPolicy = () => {
             status: 'pending',
             appliedAt: new Date(),
         };
+
 
         try {
             await axios.post('/application', applicationData);
