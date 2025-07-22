@@ -20,6 +20,7 @@ import Quote from "@/Pages/QuotePage/Quote";
 import ApplyForPolicy from "@/Pages/ApplyForPolicy/ApplyForPolicy";
 import ManageApplication from "@/Dashboard/ManageApplication/ManageApplication";
 import AssignedCustomers from "@/Dashboard/AssignedCustomers/AssignedCustomers";
+import MyPolicies from "@/Dashboard/MyPolicies/MyPolicies";
 
 
 const Router = createBrowserRouter([
@@ -102,6 +103,10 @@ const Router = createBrowserRouter([
             {
                 path: 'assigned-customers',
                 element: <AssignedCustomers></AssignedCustomers>
+            },
+            {
+                path: 'my-policies',
+                element: <MyPolicies></MyPolicies>
             }
         ]
     },

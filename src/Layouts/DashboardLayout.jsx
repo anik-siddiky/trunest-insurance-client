@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, NavLink } from 'react-router';
-import { FiMenu, FiHome, FiLogOut, FiUsers } from 'react-icons/fi';
+import { FiMenu, FiHome, FiLogOut, FiUsers, FiFileText } from 'react-icons/fi';
 import { HiOutlineClipboardCheck, HiOutlineDocumentText, HiOutlineNewspaper } from "react-icons/hi";
 import useAuth from '@/Hooks/useAuth';
 import logo from '../assets/Tru-Logo.png'
@@ -75,6 +75,10 @@ const DashboardLayout = () => {
                         <NavLink to="/dashboard/assigned-customers" onClick={closeSidebar}
                             className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
                             <FiUsers /> <span className="lg:mt-0.5">Assigned Customers</span>
+                        </NavLink>
+
+                        <NavLink to="/dashboard/my-policies" onClick={closeSidebar} className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                            <FiFileText /> <span className="lg:mt-0.5">My Policies</span>
                         </NavLink>
 
                         <button
