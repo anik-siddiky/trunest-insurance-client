@@ -21,6 +21,8 @@ import ApplyForPolicy from "@/Pages/ApplyForPolicy/ApplyForPolicy";
 import ManageApplication from "@/Dashboard/ManageApplication/ManageApplication";
 import AssignedCustomers from "@/Dashboard/AssignedCustomers/AssignedCustomers";
 import MyPolicies from "@/Dashboard/MyPolicies/MyPolicies";
+import PaymentStatus from "@/Dashboard/PaymentStatus/PaymentStatus";
+import Payment from "@/Pages/Payment/Payment";
 
 
 const Router = createBrowserRouter([
@@ -68,6 +70,10 @@ const Router = createBrowserRouter([
             {
                 path: 'apply/:id',
                 element: <PrivateRoute><ApplyForPolicy></ApplyForPolicy></PrivateRoute>
+            },
+            {
+                path: 'payment/:id',
+                element: <PrivateRoute><Payment></Payment></PrivateRoute>
             }
         ]
     },
@@ -107,6 +113,10 @@ const Router = createBrowserRouter([
             {
                 path: 'my-policies',
                 element: <MyPolicies></MyPolicies>
+            },
+            {
+                path: 'payment-status',
+                element: <PaymentStatus></PaymentStatus>
             }
         ]
     },

@@ -21,20 +21,20 @@ const AssignedCustomers = () => {
         }
     });
 
-const { mutate: approveApplication, isLoading: isApproving } = useMutation({
-    mutationFn: async ({ appId, policyId }) => {
-        await axios.patch(`/application/${appId}`, { status: 'approved' });
+    const { mutate: approveApplication, isLoading: isApproving } = useMutation({
+        mutationFn: async ({ appId, policyId }) => {
+            await axios.patch(`/application/${appId}`, { status: 'approved', paymentStatus: 'due', });
 
-        if (policyId) {
-            await axios.patch(`/policies/${policyId}/increase`);
-        }
-    },
-    onSuccess: () => {
-        toast.success('Application approved successfully');
-        queryClient.invalidateQueries({ queryKey: ['assignedCustomers', user?.email] });
-    },
-    onError: () => toast.error('Failed to approve application'),
-});
+            if (policyId) {
+                await axios.patch(`/policies/${policyId}/increase`);
+            }
+        },
+        onSuccess: () => {
+            toast.success('Application approved successfully');
+            queryClient.invalidateQueries({ queryKey: ['assignedCustomers', user?.email] });
+        },
+        onError: () => toast.error('Failed to approve application'),
+    });
 
 
 
@@ -83,8 +83,8 @@ const { mutate: approveApplication, isLoading: isApproving } = useMutation({
                                         <td className="px-4 py-3">{app.appliedAt ? new Date(app.appliedAt).toLocaleDateString() : '-'}</td>
                                         <td className="px-4 py-3">
                                             <span className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === "approved" ? "bg-green-200 text-green-800" :
-                                                    app.status === "rejected" ? "bg-red-200 text-red-800" :
-                                                        "bg-yellow-200 text-yellow-800"
+                                                app.status === "rejected" ? "bg-red-200 text-red-800" :
+                                                    "bg-yellow-200 text-yellow-800"
                                                 }`}>
                                                 {app.status || 'pending'}
                                             </span>
@@ -128,8 +128,8 @@ const { mutate: approveApplication, isLoading: isApproving } = useMutation({
                                 <div className="flex justify-between items-center mb-1">
                                     <h3 className="font-medium">{app.personal?.name || '-'}</h3>
                                     <span className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === "approved" ? "bg-green-200 text-green-800" :
-                                            app.status === "rejected" ? "bg-red-200 text-red-800" :
-                                                "bg-yellow-200 text-yellow-800"
+                                        app.status === "rejected" ? "bg-red-200 text-red-800" :
+                                            "bg-yellow-200 text-yellow-800"
                                         }`}>
                                         {app.status || 'pending'}
                                     </span>

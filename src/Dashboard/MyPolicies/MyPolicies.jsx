@@ -11,10 +11,11 @@ const MyPolicies = () => {
     const { user } = useAuth();
     const axios = useAxios();
     const queryClient = useQueryClient();
-    const [selectedPolicy, setSelectedPolicy] = useState(null);
+
     const [rating, setRating] = useState(0);
     const [feedback, setFeedback] = useState('');
-    const [showModal, setShowModal] = useState(false);
+    const [selectedPolicyForReview, setSelectedPolicyForReview] = useState(null);
+    const [selectedPolicyForDetails, setSelectedPolicyForDetails] = useState(null);
 
     const { data: myApplications = [], isLoading } = useQuery({
         queryKey: ['myPolicies', user?.email],
@@ -32,24 +33,13 @@ const MyPolicies = () => {
         },
         onSuccess: () => {
             toast.success('Review submitted!');
-            setShowModal(false);
+            setSelectedPolicyForReview(null);
             setRating(0);
             setFeedback('');
             queryClient.invalidateQueries(['myPolicies', user?.email]);
         },
-        onError: () => toast.error('Failed to submit review.')
+        onError: () => toast.error('Failed to submit review.'),
     });
-
-    const handleReviewSubmit = () => {
-        if (!rating || !feedback.trim()) return toast.error('Please provide rating and feedback.');
-        submitReview({
-            email: user.email,
-            name: user.displayName,
-            policyTitle: selectedPolicy.policyTitle,
-            rating,
-            feedback
-        });
-    };
 
     if (isLoading) return <Loading />;
 
@@ -75,35 +65,38 @@ const MyPolicies = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y dark:divide-neutral-700">
-                                {myApplications.map(app => (
+                                {myApplications.map((app) => (
                                     <tr key={app._id}>
                                         <td className="px-4 py-3">{app.policyTitle}</td>
                                         <td className="px-4 py-3">৳{app.quoteInput.coverage}</td>
                                         <td className="px-4 py-3">{app.quoteInput.duration} years</td>
                                         <td className="px-4 py-3">৳{app.quote.monthly}/mo</td>
                                         <td className="px-4 py-3">
-                                            <span className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === 'approved' ? 'bg-green-200 text-green-800' :
-                                                app.status === 'rejected' ? 'bg-red-200 text-red-800' :
-                                                    'bg-yellow-200 text-yellow-800'
-                                                }`}>{app.status}</span>
+                                            <span
+                                                className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === 'approved'
+                                                    ? 'bg-green-200 text-green-800'
+                                                    : app.status === 'rejected'
+                                                        ? 'bg-red-200 text-red-800'
+                                                        : 'bg-yellow-200 text-yellow-800'
+                                                    }`}
+                                            >
+                                                {app.status}
+                                            </span>
                                         </td>
                                         <td className="px-4 py-3 flex space-x-2">
                                             <button
-                                                onClick={() => setSelectedPolicy(app)}
-                                                className="px-2 py-1 rounded-sm border border-blue-600 bg-blue-50 text-blue-600 text-sm font-medium hover:bg-blue-600 hover:text-white transition"
-                                            >
+                                                onClick={() => setSelectedPolicyForDetails(app)}
+                                                className="px-2 py-1 rounded-sm bg-black dark:bg-white text-white dark:text-black text-sm font-medium cursor-pointer transition hover:scale-105 active:scale-95">
                                                 View Details
                                             </button>
                                             {app.status === 'approved' && (
                                                 <button
-                                                    onClick={() => { setSelectedPolicy(app); setShowModal(true); }}
-                                                    className="px-2 py-1 rounded-sm border border-amber-500 bg-amber-50 text-amber-600 text-sm font-medium hover:bg-amber-600 hover:text-white transition"
-                                                >
+                                                    onClick={() => setSelectedPolicyForReview(app)}
+                                                    className="px-2 py-1 rounded-sm bg-black dark:bg-white text-white dark:text-black text-sm font-medium cursor-pointer transition hover:scale-105 active:scale-95">
                                                     Give Review
                                                 </button>
                                             )}
                                         </td>
-
                                     </tr>
                                 ))}
                             </tbody>
@@ -112,76 +105,158 @@ const MyPolicies = () => {
 
                     {/* Mobile Cards */}
                     <div className="block md:hidden space-y-4">
-                        {myApplications.map(app => (
+                        {myApplications.map((app) => (
                             <div key={app._id} className="border rounded-lg p-4 dark:border-neutral-700">
                                 <h3 className="font-semibold text-lg mb-1">{app.policyTitle}</h3>
-                                <p><strong>Coverage:</strong> ৳{app.quoteInput.coverage}</p>
-                                <p><strong>Duration:</strong> {app.quoteInput.duration} years</p>
-                                <p><strong>Premium:</strong> ৳{app.quote.monthly}/mo</p>
+                                <p>
+                                    <strong>Coverage:</strong> ৳{app.quoteInput.coverage}
+                                </p>
+                                <p>
+                                    <strong>Duration:</strong> {app.quoteInput.duration} years
+                                </p>
+                                <p>
+                                    <strong>Premium:</strong> ৳{app.quote.monthly}/mo
+                                </p>
                                 <p>
                                     <strong>Status:</strong>{' '}
-                                    <span className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === 'approved' ? 'bg-green-200 text-green-800' :
-                                        app.status === 'rejected' ? 'bg-red-200 text-red-800' :
-                                            'bg-yellow-200 text-yellow-800'
-                                        }`}>{app.status}</span>
+                                    <span
+                                        className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === 'approved'
+                                            ? 'bg-green-200 text-green-800'
+                                            : app.status === 'rejected'
+                                                ? 'bg-red-200 text-red-800'
+                                                : 'bg-yellow-200 text-yellow-800'
+                                            }`}
+                                    >
+                                        {app.status}
+                                    </span>
                                 </p>
                                 <div className="mt-2 flex space-x-4">
                                     <Button
-                                        onClick={() => setSelectedPolicy(app)}
+                                        onClick={() => setSelectedPolicyForDetails(app)}
                                         className="px-3 py-1.5 rounded-sm border border-blue-600 bg-blue-50 text-blue-600 text-sm font-medium hover:bg-blue-600 hover:text-white transition"
                                     >
                                         View Details
                                     </Button>
                                     {app.status === 'approved' && (
                                         <Button
-                                            onClick={() => { setSelectedPolicy(app); setShowModal(true); }}
+                                            onClick={() => setSelectedPolicyForReview(app)}
                                             className="px-3 py-1.5 rounded-sm border border-amber-500 bg-amber-50 text-amber-600 text-sm font-medium hover:bg-amber-600 hover:text-white transition"
                                         >
                                             Give Review
                                         </Button>
                                     )}
                                 </div>
-
                             </div>
                         ))}
                     </div>
 
                     {/* Review Modal */}
-                    {showModal && selectedPolicy && (
+                    {selectedPolicyForReview && (
                         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4">
                             <div className="bg-white dark:bg-neutral-900 p-6 rounded-lg max-w-md w-full relative">
                                 <button
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => {
+                                        setSelectedPolicyForReview(null);
+                                        setRating(0);
+                                        setFeedback('');
+                                    }}
                                     className="absolute top-2 right-3 text-xl"
-                                >×</button>
-                                <h3 className="text-xl font-semibold mb-4">Review: {selectedPolicy.policyTitle}</h3>
+                                >
+                                    ×
+                                </button>
+                                <h3 className="text-xl font-semibold mb-4">Review: {selectedPolicyForReview.policyTitle}</h3>
                                 <div className="mb-3">
                                     <label className="block text-sm font-medium mb-1">Rating</label>
                                     <div className="flex space-x-1">
-                                        {[1, 2, 3, 4, 5].map(star => (
+                                        {[1, 2, 3, 4, 5].map((star) => (
                                             <button
                                                 key={star}
                                                 type="button"
                                                 onClick={() => setRating(star)}
                                                 className={`text-2xl ${star <= rating ? 'text-yellow-500' : 'text-gray-400'}`}
-                                            >★</button>
+                                            >
+                                                ★
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
                                 <div className="mb-4">
                                     <label className="block text-sm font-medium mb-1">Feedback</label>
                                     <textarea
-                                        rows="4"
+                                        rows={4}
                                         className="w-full border rounded p-2 dark:bg-neutral-800 dark:border-neutral-700"
                                         value={feedback}
-                                        onChange={e => setFeedback(e.target.value)}
+                                        onChange={(e) => setFeedback(e.target.value)}
                                     ></textarea>
                                 </div>
                                 <button
                                     disabled={isSubmitting}
-                                    onClick={handleReviewSubmit}
+                                    onClick={() => {
+                                        if (!rating || !feedback.trim()) return toast.error('Please provide rating and feedback.');
+                                        submitReview({
+                                            email: user.email,
+                                            name: user.displayName,
+                                            policyTitle: selectedPolicyForReview.policyTitle,
+                                            rating,
+                                            feedback,
+                                        });
+                                    }}
                                     className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
-                                >Submit Review</button>
+                                >
+                                    Submit Review
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* View Details Modal */}
+                    {selectedPolicyForDetails && (
+                        <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4">
+                            <div className="bg-white dark:bg-neutral-900 p-6 rounded-lg max-w-md w-full relative">
+                                <button
+                                    onClick={() => setSelectedPolicyForDetails(null)}
+                                    className="absolute top-2 right-3 text-xl"
+                                >
+                                    ×
+                                </button>
+                                <h3 className="text-xl font-semibold mb-4">Policy Details</h3>
+
+                                <div className="space-y-2 text-sm">
+                                    <p>
+                                        <strong>Policy:</strong> {selectedPolicyForDetails.policyTitle}
+                                    </p>
+                                    <p>
+                                        <strong>Coverage:</strong> ৳{selectedPolicyForDetails.quoteInput.coverage}
+                                    </p>
+                                    <p>
+                                        <strong>Duration:</strong> {selectedPolicyForDetails.quoteInput.duration} years
+                                    </p>
+                                    <p>
+                                        <strong>Premium:</strong> ৳{selectedPolicyForDetails.quote.monthly}/mo
+                                    </p>
+                                    <p>
+                                        <strong>Status:</strong> {selectedPolicyForDetails.status}
+                                    </p>
+                                    <p>
+                                        <strong>Payment:</strong> {selectedPolicyForDetails.paymentStatus}
+                                    </p>
+                                    <hr className="my-2" />
+                                    <p>
+                                        <strong>Name:</strong> {selectedPolicyForDetails.personal?.name}
+                                    </p>
+                                    <p>
+                                        <strong>Email:</strong> {selectedPolicyForDetails.personal?.email}
+                                    </p>
+                                    <p>
+                                        <strong>Address:</strong> {selectedPolicyForDetails.personal?.address}
+                                    </p>
+                                    <p>
+                                        <strong>NID:</strong> {selectedPolicyForDetails.personal?.nid}
+                                    </p>
+                                    <p>
+                                        <strong>Nominee:</strong> {selectedPolicyForDetails.nominee?.name} ({selectedPolicyForDetails.nominee?.relationship})
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     )}

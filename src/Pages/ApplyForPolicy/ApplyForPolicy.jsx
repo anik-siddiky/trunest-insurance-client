@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import useAxios from '@/Hooks/useAxios';
@@ -6,8 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
+import useAuth from '@/Hooks/useAuth';
 
 const ApplyForPolicy = () => {
+    const { user } = useAuth();
     const { id } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
@@ -41,6 +43,12 @@ const ApplyForPolicy = () => {
         },
     });
 
+    useEffect(() => {
+        if (user?.email) {
+            setValue('email', user.email);
+        }
+    }, [user?.email, setValue]);
+
     const onSubmit = async (data) => {
         if (!quote) {
             toast('Quote not found. Please go back and calculate first.');
@@ -58,7 +66,7 @@ const ApplyForPolicy = () => {
             },
             personal: {
                 name: data.name,
-                email: data.email,
+                email: user?.email,
                 address: data.address,
                 nid: data.nid,
             },
@@ -75,7 +83,7 @@ const ApplyForPolicy = () => {
         try {
             await axios.post('/application', applicationData);
             toast('Application submitted!');
-            navigate('/dashboard');
+            navigate('/dashboard/my-policies');
         } catch (err) {
             console.error('Submission Error:', err);
             toast('Failed to submit application. Try again.');
@@ -108,7 +116,14 @@ const ApplyForPolicy = () => {
             <div className="bg-white dark:bg-[#1a1a1a] p-6 rounded-xl shadow space-y-4">
                 <h2 className="text-xl font-semibold mb-2">Personal Information</h2>
                 <Input placeholder="Full Name" {...register('name', { required: true })} />
-                <Input type="email" placeholder="Email Address" {...register('email', { required: true })} />
+                <Input
+                    type="email"
+                    placeholder="Email Address"
+                    {...register('email', { required: true })}
+                    readOnly
+                    className="bg-gray-100 dark:bg-gray-800 cursor-not-allowed"
+                />
+
                 <Input placeholder="Full Address" {...register('address', { required: true })} />
                 <Input placeholder="NID Number" {...register('nid', { required: true })} />
             </div>
