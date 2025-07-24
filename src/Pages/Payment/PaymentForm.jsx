@@ -5,15 +5,18 @@ import useAxios from '@/Hooks/useAxios';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { toast } from 'sonner';
 
 const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
     const axios = useAxios();
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const { data: applicationInfo = {}, isPending } = useQuery({
         queryKey: ['application', id],
@@ -21,10 +24,10 @@ const PaymentForm = () => {
             const res = await axios.get(`/application/${id}`);
             return res.data;
         }
-    })
+    });
 
     if (isPending) {
-        return <Loading></Loading>
+        return <Loading />;
     }
 
     const amount = applicationInfo.quote.annual;
@@ -33,42 +36,53 @@ const PaymentForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!stripe || !elements) return;
+        setLoading(true);
 
         const card = elements.getElement(CardElement);
-        if (!card) return;
+        if (!card) {
+            setLoading(false);
+            return;
+        }
 
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
+        const { error: cardError, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card,
         });
 
-        if (error) {
-            setError(error.message);
+        if (cardError) {
+            setError(cardError.message);
+            setLoading(false);
+            return;
         } else {
             setError('');
-            console.log('payment method', paymentMethod);
+            console.log('Payment method:', paymentMethod);
         }
 
-        const res = await axios.post('/create-payment-intent', {
-            amountInCents,
-            id
-        });
+        try {
+            const res = await axios.post('/create-payment-intent', {
+                amountInCents,
+                id
+            });
 
-        const clientSecret = res.data.clientSecret;
+            const clientSecret = res.data.clientSecret;
 
-        const result = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement),
-                billing_details: {
-                    name: user?.displayName,
-                    email: user?.email
+            const result = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card,
+                    billing_details: {
+                        name: user?.displayName,
+                        email: user?.email
+                    },
                 },
-            },
-        });
+            });
 
-        if (result.error) {
-            console.log(result.error.message);
-        } else {
+            if (result.error) {
+                console.error(result.error.message);
+                setError(result.error.message);
+                setLoading(false);
+                return;
+            }
+
             if (result.paymentIntent.status === 'succeeded') {
                 const paymentRecord = {
                     applicationId: id,
@@ -79,10 +93,18 @@ const PaymentForm = () => {
                 };
 
                 await axios.post('/confirm-payment', paymentRecord);
+
+                card.clear();
+                navigate('/dashboard/payment-status/')
+                toast.success('Payment successful!');
             }
 
+        } catch (err) {
+            console.error('Payment failed:', err);
+            setError('Something went wrong. Please try again.');
+        } finally {
+            setLoading(false);
         }
-
     };
 
     return (
@@ -94,14 +116,32 @@ const PaymentForm = () => {
                 </div>
                 <Button
                     type="submit"
-                    disabled={!stripe}
-                    className="w-full bg-primary text-white hover:bg-primary/90 cursor-pointer">
-                    Pay ৳{amount}
+                    disabled={!stripe || loading}
+                    className="w-full bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                    {loading ? (
+                        <>
+                            <svg
+                                className="animate-spin h-4 w-4 text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v8z"
+                                />
+                            </svg>
+                            Processing...
+                        </>
+                    ) : (
+                        <>Pay ৳{amount}</>
+                    )}
                 </Button>
 
-                {
-                    error && <p className='text-red-500 text-center'>{error}</p>
-                }
+                {error && <p className="text-red-500 text-center">{error}</p>}
             </form>
         </div>
     );
