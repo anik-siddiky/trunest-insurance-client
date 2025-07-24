@@ -23,6 +23,7 @@ import AssignedCustomers from "@/Dashboard/AssignedCustomers/AssignedCustomers";
 import MyPolicies from "@/Dashboard/MyPolicies/MyPolicies";
 import PaymentStatus from "@/Dashboard/PaymentStatus/PaymentStatus";
 import Payment from "@/Pages/Payment/Payment";
+import PaymentHistory from "@/Dashboard/PaymentHistory/PaymentHistory";
 
 
 const Router = createBrowserRouter([
@@ -74,7 +75,7 @@ const Router = createBrowserRouter([
             {
                 path: 'payment/:id',
                 element: <PrivateRoute><Payment></Payment></PrivateRoute>
-            }
+            },
         ]
     },
 
@@ -117,7 +118,11 @@ const Router = createBrowserRouter([
             {
                 path: 'payment-status',
                 element: <PaymentStatus></PaymentStatus>
-            }
+            },
+            {
+                path: 'payment-history',
+                element: <PaymentHistory></PaymentHistory>
+            },
         ]
     },
 

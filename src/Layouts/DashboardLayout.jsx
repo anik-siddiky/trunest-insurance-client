@@ -7,6 +7,7 @@ import logo from '../assets/Tru-Logo.png'
 import ThemeChange from '@/components/ThemeChange';
 import { IoCloseSharp } from "react-icons/io5";;
 import { FiCreditCard } from 'react-icons/fi';
+import { RiMoneyDollarCircleLine } from 'react-icons/ri';
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -85,6 +86,11 @@ const DashboardLayout = () => {
                         <NavLink to="/dashboard/payment-status" onClick={closeSidebar}
                             className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
                             <FiCreditCard /> <span className="lg:mt-0.5">Payment Status</span>
+                        </NavLink>
+
+                        <NavLink to="/dashboard/payment-history" onClick={closeSidebar}
+                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                            <RiMoneyDollarCircleLine /> <span className="lg:mt-0.5">Payment History</span>
                         </NavLink>
 
                         <button
