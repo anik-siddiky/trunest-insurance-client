@@ -8,6 +8,7 @@ import ThemeChange from '@/components/ThemeChange';
 import { IoCloseSharp } from "react-icons/io5";;
 import { FiCreditCard } from 'react-icons/fi';
 import { RiFileShieldLine, RiMoneyDollarCircleLine } from 'react-icons/ri';
+import { MdGavel } from 'react-icons/md';
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -96,6 +97,11 @@ const DashboardLayout = () => {
                         <NavLink to="/dashboard/claim-policy" onClick={closeSidebar}
                             className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
                             <RiFileShieldLine /> <span className="lg:mt-0.5">Claim Policy</span>
+                        </NavLink>
+
+                        <NavLink to="/dashboard/policy-clearance" onClick={closeSidebar}
+                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                            <MdGavel /> <span className="lg:mt-0.5">Policy Clearance</span>
                         </NavLink>
 
 

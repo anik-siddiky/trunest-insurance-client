@@ -25,6 +25,7 @@ import PaymentStatus from "@/Dashboard/PaymentStatus/PaymentStatus";
 import Payment from "@/Pages/Payment/Payment";
 import PaymentHistory from "@/Dashboard/PaymentHistory/PaymentHistory";
 import ClaimAPolicy from "@/Dashboard/ClaimAPolicy/ClaimAPolicy";
+import PolicyClearance from "@/Dashboard/PolicyClearance/PolicyClearance";
 
 
 const Router = createBrowserRouter([
@@ -127,6 +128,10 @@ const Router = createBrowserRouter([
             {
                 path: 'claim-policy',
                 element: <ClaimAPolicy></ClaimAPolicy>
+            },
+            {
+                path: 'policy-clearance',
+                element: <PolicyClearance></PolicyClearance>
             }
         ]
     },
