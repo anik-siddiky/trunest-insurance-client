@@ -1,3 +1,4 @@
+import { createBrowserRouter, Navigate } from "react-router";
 import DashboardHome from "@/Dashboard/Home/DashboardHome";
 import ManagePolicies from "@/Dashboard/ManagePolicies/ManagePolicies";
 import DashboardLayout from "@/Layouts/DashboardLayout";
@@ -9,7 +10,6 @@ import Home from "@/Pages/Home/Home";
 import SignIn from "@/Pages/AuthPage/SignIn";
 import SignUp from "@/Pages/AuthPage/SignUp";
 import PrivateRoute from "@/Routes/PrivateRoute";
-import { createBrowserRouter, Navigate } from "react-router";
 import PolicyDetails from "@/Pages/Policy Details/PolicyDetails";
 import ManageUsers from "@/Dashboard/ManageUsers/ManageUsers";
 import ManageBlogs from "@/Dashboard/ManageBlogs/ManageBlogs";
@@ -24,6 +24,7 @@ import MyPolicies from "@/Dashboard/MyPolicies/MyPolicies";
 import PaymentStatus from "@/Dashboard/PaymentStatus/PaymentStatus";
 import Payment from "@/Pages/Payment/Payment";
 import PaymentHistory from "@/Dashboard/PaymentHistory/PaymentHistory";
+import ClaimAPolicy from "@/Dashboard/ClaimAPolicy/ClaimAPolicy";
 
 
 const Router = createBrowserRouter([
@@ -123,6 +124,10 @@ const Router = createBrowserRouter([
                 path: 'payment-history',
                 element: <PaymentHistory></PaymentHistory>
             },
+            {
+                path: 'claim-policy',
+                element: <ClaimAPolicy></ClaimAPolicy>
+            }
         ]
     },
 
