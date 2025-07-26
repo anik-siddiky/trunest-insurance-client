@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '@/Firebase/firebase.config';
+import useAxiosSecure from '@/Hooks/useAxiosSecure';
 
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
+    const axiosSecure = useAxiosSecure();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -28,10 +30,18 @@ const AuthProvider = ({ children }) => {
         return updateProfile(auth.currentUser, profileInfo)
     }
 
-    const logOut = () => {
+    const logOut = async () => {
         setLoading(true);
-        return signOut(auth)
+
+        try {
+            await axiosSecure.post('/logout', {}, { withCredentials: true });
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+
+        return signOut(auth);
     };
+
 
     const authInfo = {
         user,
@@ -47,12 +57,22 @@ const AuthProvider = ({ children }) => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false)
+
+            if (currentUser?.email) {
+                axiosSecure.post('/jwt', { email: currentUser.email }, { withCredentials: true })
+                    .then(res => {
+                        console.log('token after jwt', res.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         });
 
         return () => {
             unSubscribe();
         }
-    }, [])
+    }, [axiosSecure])
 
     return (
         <AuthContext value={authInfo}>

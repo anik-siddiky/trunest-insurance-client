@@ -5,21 +5,11 @@ import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Input } from "@/components/ui/input";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-} from "@/components/ui/dialog";
-import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectItem,
-} from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, } from "@/components/ui/dialog";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Eye, XCircle } from 'lucide-react';
+import { FaTrash } from 'react-icons/fa';
 
 const ManageApplication = () => {
     const axios = useAxios();
@@ -28,8 +18,9 @@ const ManageApplication = () => {
     const [search, setSearch] = useState('');
     const [selectedApplication, setSelectedApplication] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [applicationToDelete, setApplicationToDelete] = useState(null);
 
-    // Fetch all applications
     const { data: applications = [], isLoading: loadingApps } = useQuery({
         queryKey: ['applications'],
         queryFn: async () => {
@@ -38,7 +29,6 @@ const ManageApplication = () => {
         }
     });
 
-    // Fetch agents
     const { data: agents = [], isLoading: loadingAgents } = useQuery({
         queryKey: ['agents'],
         queryFn: async () => {
@@ -47,7 +37,6 @@ const ManageApplication = () => {
         }
     });
 
-    // Mutation to update application
     const updateApplication = useMutation({
         mutationFn: async ({ id, updates }) => {
             return axios.patch(`/application/${id}`, updates);
@@ -57,6 +46,19 @@ const ManageApplication = () => {
             toast.success('Application updated');
         },
         onError: () => toast.error('Something went wrong'),
+    });
+
+    const deleteApplication = useMutation({
+        mutationFn: async (id) => {
+            return axios.delete(`/application/${id}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['applications'] });
+            toast.success('Application deleted successfully');
+            setDeleteConfirmOpen(false);
+            setApplicationToDelete(null);
+        },
+        onError: () => toast.error('Failed to delete application'),
     });
 
     const filteredApps = applications.filter(app =>
@@ -73,6 +75,11 @@ const ManageApplication = () => {
         toast.success("Assigned an agent successfully");
     };
 
+    const openDeleteConfirm = (app) => {
+        setApplicationToDelete(app);
+        setDeleteConfirmOpen(true);
+    };
+
     return (
         <div className="p-3 lg:p-6 min-h-screen">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
@@ -83,11 +90,10 @@ const ManageApplication = () => {
                     placeholder="Search applicants..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    disabled={updateApplication.isLoading}
+                    disabled={updateApplication.isLoading || deleteApplication.isLoading}
                 />
             </div>
 
-            {/* Desktop View */}
             <div className="hidden md:block overflow-x-auto rounded-md border dark:border-[#171717]">
                 <table className="w-full min-w-[900px] text-left text-sm">
                     <thead className="bg-gray-100 dark:bg-[#171717] text-gray-700 dark:text-gray-300">
@@ -119,9 +125,8 @@ const ManageApplication = () => {
                                     <Select
                                         value={app.assignedAgent || ''}
                                         onValueChange={(val) => handleAssignAgent(app._id, val)}
-                                        disabled={updateApplication.isLoading}
-                                    >
-                                        <SelectTrigger className="w-[120px] h-8">
+                                        disabled={updateApplication.isLoading || deleteApplication.isLoading}>
+                                        <SelectTrigger className="w-[120px] h-5">
                                             <SelectValue placeholder="Assign" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -133,28 +138,20 @@ const ManageApplication = () => {
                                         </SelectContent>
                                     </Select>
 
-                                    <Button
-                                        size="sm"
-                                        variant="destructive"
-                                        disabled={updateApplication.isLoading}
-                                        onClick={() =>
-                                            updateApplication.mutate({ id: app._id, updates: { status: "rejected" } })
-                                        }
-                                    >
-                                        Reject
-                                    </Button>
+                                    <button className='inline-flex cursor-pointer items-center gap-1 rounded bg-black dark:bg-white bg-opacity-90 px-2 py-0.5 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95' size="sm" variant="destructive" disabled={updateApplication.isLoading || deleteApplication.isLoading} onClick={() => updateApplication.mutate({ id: app._id, updates: { status: "rejected" } })}>
+                                        <XCircle className="w-4 h-4" /> Reject
+                                    </button>
 
-                                    <Button
-                                        size="sm"
-                                        variant="outline"
-                                        disabled={updateApplication.isLoading}
-                                        onClick={() => {
-                                            setSelectedApplication(app);
-                                            setDialogOpen(true);
-                                        }}
-                                    >
-                                        View
-                                    </Button>
+                                    <button className='inline-flex cursor-pointer items-center gap-1 rounded bg-black dark:bg-white bg-opacity-90 px-2 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
+                                        size="sm" variant="outline" disabled={updateApplication.isLoading || deleteApplication.isLoading}
+                                        onClick={() => { setSelectedApplication(app); setDialogOpen(true); }}>
+                                        <Eye className="w-4 h-4" /> View
+                                    </button>
+
+                                    <button className='inline-flex cursor-pointer items-center gap-1 rounded bg-black dark:bg-white bg-opacity-90 px-2 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
+                                        size="sm" variant="destructive" disabled={updateApplication.isLoading || deleteApplication.isLoading} onClick={() => openDeleteConfirm(app)}>
+                                        <FaTrash className="w-3 h-3" /> Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -168,7 +165,7 @@ const ManageApplication = () => {
                     <div key={app._id} className="border rounded-lg p-4 space-y-2 dark:border-neutral-700 shadow-sm">
                         <div className="flex justify-between items-center">
                             <h3 className="font-medium">{app.personal?.name || '-'}</h3>
-                            <span className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === "Approved" ? "bg-green-200 text-green-800" :
+                            <span className={`text-xs font-medium px-2 py-1 rounded-full ${app.status === "approved" ? "bg-green-200 text-green-800" :
                                 app.status === "rejected" ? "bg-red-200 text-red-800" :
                                     "bg-yellow-200 text-yellow-800"
                                 }`}>
@@ -183,8 +180,7 @@ const ManageApplication = () => {
                             <Select
                                 value={app.assignedAgent || ''}
                                 onValueChange={(val) => handleAssignAgent(app._id, val)}
-                                disabled={updateApplication.isLoading}
-                            >
+                                disabled={updateApplication.isLoading || deleteApplication.isLoading}>
                                 <SelectTrigger className="w-[120px] h-8">
                                     <SelectValue placeholder="Assign" />
                                 </SelectTrigger>
@@ -197,36 +193,40 @@ const ManageApplication = () => {
                                 </SelectContent>
                             </Select>
 
-                            <Button
-                                size="sm"
-                                variant="destructive"
-                                className="w-full"
-                                disabled={updateApplication.isLoading}
-                                onClick={() =>
-                                    updateApplication.mutate({ id: app._id, updates: { status: "rejected" } })
-                                }
-                            >
-                                Reject
-                            </Button>
+                            <div className='flex gap-2'>
+                                <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    className="bg-black dark:bg-white text-white dark:text-black"
+                                    disabled={updateApplication.isLoading || deleteApplication.isLoading}
+                                    onClick={() => updateApplication.mutate({ id: app._id, updates: { status: "rejected" } })}>
+                                    <XCircle className="w-4 h-4" /> Reject
+                                </Button>
 
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                className="w-full"
-                                disabled={updateApplication.isLoading}
-                                onClick={() => {
-                                    setSelectedApplication(app);
-                                    setDialogOpen(true);
-                                }}
-                            >
-                                View
-                            </Button>
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className=""
+                                    disabled={updateApplication.isLoading || deleteApplication.isLoading}
+                                    onClick={() => { setSelectedApplication(app); setDialogOpen(true); }}>
+                                    <Eye className="w-4 h-4" /> View
+                                </Button>
+
+                                <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    className="bg-black dark:bg-white text-white dark:text-black"
+                                    disabled={updateApplication.isLoading || deleteApplication.isLoading}
+                                    onClick={() => openDeleteConfirm(app)}>
+                                    <FaTrash className="w-2 h-2" /> Delete
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Single Dialog */}
+            {/* View Application Dialog */}
             <Dialog
                 open={dialogOpen}
                 onOpenChange={(open) => {
@@ -273,6 +273,38 @@ const ManageApplication = () => {
 
                     <DialogFooter>
                         <Button onClick={() => setDialogOpen(false)}>Close</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog
+                open={deleteConfirmOpen}
+                onOpenChange={(open) => {
+                    setDeleteConfirmOpen(open);
+                    if (!open) setApplicationToDelete(null);
+                }}>
+                <DialogContent className="max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>Confirm Delete</DialogTitle>
+                    </DialogHeader>
+                    <p className="my-4 text-sm">
+                        Are you sure you want to delete the application from <strong>{applicationToDelete?.personal?.name || 'this user'}</strong>? This action cannot be undone.
+                    </p>
+                    <DialogFooter className="flex justify-end gap-2">
+                        <Button
+                            className="cursor-pointer"
+                            variant="outline"
+                            onClick={() => setDeleteConfirmOpen(false)}
+                            disabled={deleteApplication.isLoading}>
+                            Cancel
+                        </Button>
+                        <Button
+                            className="cursor-pointer"
+                            variant="destructive"
+                            onClick={() => deleteApplication.mutate(applicationToDelete._id)}
+                            disabled={deleteApplication.isLoading}>
+                            {deleteApplication.isLoading ? 'Deleting...' : 'Delete'}
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

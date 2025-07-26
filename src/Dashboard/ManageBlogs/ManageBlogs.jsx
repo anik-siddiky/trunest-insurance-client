@@ -147,8 +147,7 @@ const ManageBlogs = () => {
                                         setSelectedBlogToEdit(blog);
                                         setIsEditModalOpen(true);
                                     }}
-                                    className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95"
-                                >
+                                    className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95">
                                     <FaEdit /> Edit
                                 </button>
                                 <button
