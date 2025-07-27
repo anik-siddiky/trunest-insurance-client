@@ -9,12 +9,15 @@ import { IoCloseSharp } from "react-icons/io5";;
 import { FiCreditCard } from 'react-icons/fi';
 import { RiFileShieldLine, RiMoneyDollarCircleLine } from 'react-icons/ri';
 import { MdGavel } from 'react-icons/md';
+import useUserRole from '@/Hooks/useUserRole';
 
 const DashboardLayout = () => {
+    const { role, roleLoading } = useUserRole();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { user, logOut } = useAuth();
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const closeSidebar = () => setIsSidebarOpen(false);
+    console.log(role);
 
     const handleLogOut = () => {
         logOut()
@@ -55,54 +58,79 @@ const DashboardLayout = () => {
                             <FiHome /> <span className='lg:mt-0.5'>Home</span>
                         </NavLink>
 
-                        <NavLink to="/dashboard/manage-policies" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <HiOutlineDocumentText /><span className='lg:mt-0.5'>Manage Policies</span>
-                        </NavLink>
 
-                        <NavLink to="/dashboard/manage-users" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <FiUsers /><span className='lg:mt-0.5'>Manage Users</span>
-                        </NavLink>
+                        {/* Admin routes */}
+                        {!roleLoading && role === 'admin' &&
+                            <>
+                                <NavLink to="/dashboard/manage-policies" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <HiOutlineDocumentText /><span className='lg:mt-0.5'>Manage Policies</span>
+                                </NavLink>
 
-                        <NavLink to="/dashboard/manage-blogs" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <HiOutlineNewspaper /> <span className='lg:mt-0.5'>Manage Blogs</span>
-                        </NavLink>
+                                <NavLink to="/dashboard/manage-users" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <FiUsers /><span className='lg:mt-0.5'>Manage Users</span>
+                                </NavLink>
 
-                        <NavLink to="/dashboard/manage-application" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <HiOutlineClipboardCheck /> <span className="lg:mt-0.5">Manage Applications</span>
-                        </NavLink>
+                                <NavLink to="/dashboard/manage-application" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <HiOutlineClipboardCheck /> <span className="lg:mt-0.5">Manage Applications</span>
+                                </NavLink>
+                            </>
+                        }
 
-                        <NavLink to="/dashboard/assigned-customers" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <FiUsers /> <span className="lg:mt-0.5">Assigned Customers</span>
-                        </NavLink>
 
-                        <NavLink to="/dashboard/my-policies" onClick={closeSidebar} className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <FiFileText /> <span className="lg:mt-0.5">My Policies</span>
-                        </NavLink>
 
-                        <NavLink to="/dashboard/payment-status" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <FiCreditCard /> <span className="lg:mt-0.5">Payment Status</span>
-                        </NavLink>
+                        {/* Both admin and agent route */}
+                        {!roleLoading && (role === 'admin' || role === 'agent') &&
+                            <>
+                                <NavLink to="/dashboard/manage-blogs" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <HiOutlineNewspaper /> <span className='lg:mt-0.5'>Manage Blogs</span>
+                                </NavLink>
+                            </>
+                        }
 
-                        <NavLink to="/dashboard/payment-history" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <RiMoneyDollarCircleLine /> <span className="lg:mt-0.5">Payment History</span>
-                        </NavLink>
+                        {/* Agent routes */}
+                        {!roleLoading && role === 'agent' &&
+                            <>
+                                <NavLink to="/dashboard/assigned-customers" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <FiUsers /> <span className="lg:mt-0.5">Assigned Customers</span>
+                                </NavLink>
 
-                        <NavLink to="/dashboard/claim-policy" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <RiFileShieldLine /> <span className="lg:mt-0.5">Claim Policy</span>
-                        </NavLink>
+                                <NavLink to="/dashboard/policy-clearance" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <MdGavel /> <span className="lg:mt-0.5">Policy Clearance</span>
+                                </NavLink>
+                            </>
+                        }
 
-                        <NavLink to="/dashboard/policy-clearance" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <MdGavel /> <span className="lg:mt-0.5">Policy Clearance</span>
-                        </NavLink>
+
+                        {!roleLoading && role === 'customer' &&
+                            <>
+                                <NavLink to="/dashboard/my-policies" onClick={closeSidebar} className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <FiFileText /> <span className="lg:mt-0.5">My Policies</span>
+                                </NavLink>
+
+                                <NavLink to="/dashboard/payment-status" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <FiCreditCard /> <span className="lg:mt-0.5">Payment Status</span>
+                                </NavLink>
+
+                                <NavLink to="/dashboard/payment-history" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <RiMoneyDollarCircleLine /> <span className="lg:mt-0.5">Payment History</span>
+                                </NavLink>
+
+                                <NavLink to="/dashboard/claim-policy" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <RiFileShieldLine /> <span className="lg:mt-0.5">Claim Policy</span>
+                                </NavLink>
+                            </>
+                        }
+
+
 
 
                         <button
@@ -142,7 +170,7 @@ const DashboardLayout = () => {
                 </div>
 
             </div>
-        </div>
+        </div >
     );
 };
 
