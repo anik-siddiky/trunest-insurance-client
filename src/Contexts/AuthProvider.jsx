@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '@/Firebase/firebase.config';
-import useAxiosSecure from '@/Hooks/useAxiosSecure';
+import useAxios from '@/Hooks/useAxios';
 
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
-    const axiosSecure = useAxiosSecure();
+    const axios = useAxios();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            await axiosSecure.post('/logout', {}, { withCredentials: true });
+            await axios.post('/logout', {}, { withCredentials: true });
         } catch (error) {
             console.error('Logout failed:', error);
         }
@@ -59,7 +59,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false)
 
             if (currentUser?.email) {
-                axiosSecure.post('/jwt', { email: currentUser.email }, { withCredentials: true })
+                axios.post('/jwt', { email: currentUser.email }, { withCredentials: true })
                     .then(res => {
                         console.log('token after jwt', res.data);
                     })
@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
         return () => {
             unSubscribe();
         }
-    }, [axiosSecure])
+    }, [axios])
 
     return (
         <AuthContext value={authInfo}>
