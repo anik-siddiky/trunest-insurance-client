@@ -43,7 +43,14 @@ const PaymentStatus = () => {
                                 <td className="px-4 py-3">{app.policyTitle}</td>
                                 <td className="px-4 py-3">৳{app.quote.monthly}</td>
                                 <td className="px-4 py-3">৳{app.quote.annual}</td>
-                                <td className="px-4 py-3 capitalize">{app.paymentStatus || 'due'}</td>
+                                <td className="px-4 py-3">
+                                    <span
+                                        className={`capitalize px-2 py-1 rounded-full text-xs font-medium
+      ${app.paymentStatus === 'paid' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'}`}
+                                    >
+                                        {app.paymentStatus || 'due'}
+                                    </span>
+                                </td>
                                 <td className="px-4 py-3">
                                     {app.paymentStatus === 'due' ? (
                                         <button
@@ -77,9 +84,18 @@ const PaymentStatus = () => {
                         <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                             <strong>Yearly Premium:</strong> ৳{app.quote.annual}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 capitalize">
-                            <strong>Status:</strong> {app.paymentStatus || 'due'}
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 capitalize flex items-center gap-2">
+                            <strong>Status:</strong>
+                            <span
+                                className={`px-2 py-1 rounded-full text-xs font-semibold ${app.paymentStatus === 'paid'
+                                        ? 'bg-green-200 text-green-800'
+                                        : 'bg-yellow-200 text-yellow-800'
+                                    }`}
+                            >
+                                {app.paymentStatus || 'due'}
+                            </span>
                         </p>
+
 
                         <div className="flex justify-end mt-4">
                             {app.paymentStatus === 'due' ? (

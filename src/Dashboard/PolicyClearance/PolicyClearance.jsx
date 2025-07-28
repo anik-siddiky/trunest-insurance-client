@@ -3,14 +3,7 @@ import useAuth from '@/Hooks/useAuth';
 import useAxios from '@/Hooks/useAxios';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Loading from '@/components/Loading';
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-    DialogFooter,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 const PolicyClearance = () => {
@@ -21,7 +14,6 @@ const PolicyClearance = () => {
     const [selectedClaim, setSelectedClaim] = useState(null);
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
-    // Confirmation modal states
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null); // 'approve' or 'reject'
     const [confirmClaim, setConfirmClaim] = useState(null);
@@ -47,7 +39,6 @@ const PolicyClearance = () => {
         }
     };
 
-    // Open confirmation modal before status change
     const openConfirmModal = (claim, action) => {
         setConfirmClaim(claim);
         setConfirmAction(action);
@@ -82,31 +73,33 @@ const PolicyClearance = () => {
                                 <td className="px-4 py-3">{claim.customerName}</td>
                                 <td className="px-4 py-3">{claim.email}</td>
                                 <td className="px-4 py-3">{claim.coverage}</td>
-                                <td className="px-4 py-3 capitalize">{claim.claimStatus}</td>
+                                <td className="px-4 py-3 capitalize"><span className='bg-green-200 py-1 px-2 rounded-full text-black'>{claim.claimStatus}</span></td>
                                 <td className="px-4 py-3 flex gap-2">
-                                    <Button
+                                    <button
+                                        className='cursor-pointer inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
                                         size="sm"
                                         onClick={() => {
                                             setSelectedClaim(claim);
                                             setIsViewModalOpen(true);
-                                        }}
-                                    >
+                                        }}>
                                         View
-                                    </Button>
-                                    <Button
+                                    </button>
+                                    <button
+                                        className='cursor-pointer inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
                                         size="sm"
                                         variant="success"
-                                        onClick={() => openConfirmModal(claim, 'approve')}
-                                    >
+                                        disabled={claim.claimStatus !== 'pending'}
+                                        onClick={() => openConfirmModal(claim, 'approve')}>
                                         Approve
-                                    </Button>
-                                    <Button
+                                    </button>
+                                    <button
+                                        className='cursor-pointer inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
                                         size="sm"
                                         variant="destructive"
-                                        onClick={() => openConfirmModal(claim, 'reject')}
-                                    >
+                                        disabled={claim.claimStatus !== 'pending'}
+                                        onClick={() => openConfirmModal(claim, 'reject')}>
                                         Reject
-                                    </Button>
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -126,26 +119,28 @@ const PolicyClearance = () => {
                             <strong>Status:</strong> {claim.claimStatus}
                         </p>
                         <div className="flex gap-2 mt-2">
-                            <Button
+                            <button
+                                className='inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
                                 size="sm"
                                 onClick={() => {
                                     setSelectedClaim(claim);
                                     setIsViewModalOpen(true);
                                 }}>
                                 View
-                            </Button>
-                            <Button
+                            </button>
+                            <button
+                                className='inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
                                 size="sm"
                                 variant="success"
                                 onClick={() => openConfirmModal(claim, 'approve')}>
                                 Approve
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="destructive"
+                            </button>
+                            <button
+                                className='inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'
+
                                 onClick={() => openConfirmModal(claim, 'reject')}>
                                 Reject
-                            </Button>
+                            </button>
                         </div>
                     </div>
                 ))}
@@ -196,6 +191,7 @@ const PolicyClearance = () => {
                             Cancel
                         </Button>
                         <Button
+                            className="bg-primary text-white"
                             variant={confirmAction === 'approve' ? 'success' : 'destructive'}
                             onClick={() => handleStatusChange(confirmClaim._id, confirmAction === 'approve' ? 'approved' : 'rejected')}
                         >

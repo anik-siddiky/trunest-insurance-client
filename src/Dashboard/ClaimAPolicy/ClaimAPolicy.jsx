@@ -72,28 +72,27 @@ const ClaimAPolicy = () => {
                                     <td className="px-4 py-3">৳{policy.quoteInput.coverage.toLocaleString()}</td>
                                     <td className="px-4 py-3">{policy.quoteInput.duration} Years</td>
                                     <td className="px-4 py-3">
-                                        <span className="py-1 px-2 bg-green-300 rounded-sm text-sm">{policy.policyStatus}</span>
+                                        <span className="py-1 px-2 bg-green-200 rounded-sm text-sm text-black">{policy.policyStatus}</span>
                                     </td>
                                     <td className="px-4 py-3">
                                         {claimStatus ? (
                                             claimStatus === 'approved' ? (
-                                                <Button size="sm" onClick={() => handleApprovedClick(policy)}>Approved</Button>
+                                                <span className='bg-green-200 py-1 px-2 rounded-full text-black' size="sm" onClick={() => handleApprovedClick(policy)}>Approved</span>
                                             ) : (
-                                                <span className="bg-yellow-100 rounded-sm py-1 px-2 text-sm">Pending</span>
+                                                <span className="bg-yellow-100 rounded-full py-1 px-2 text-sm text-black">Pending</span>
                                             )
                                         ) : (
                                             <span className="text-gray-500 text-sm">Not Claimed</span>
                                         )}
                                     </td>
                                     <td className="px-4 py-3">
-                                        <Button
+                                        <button
                                             size="sm"
-                                            className="cursor-pointer"
+                                            className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95"
                                             onClick={() => handleClaimClick(policy)}
-                                            disabled={!!claimStatus}
-                                        >
+                                            disabled={!!claimStatus}>
                                             Claim
-                                        </Button>
+                                        </button>
                                     </td>
                                 </tr>
                             );

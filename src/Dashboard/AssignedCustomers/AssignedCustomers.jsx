@@ -95,23 +95,20 @@ const AssignedCustomers = () => {
                                                     <button
                                                         onClick={() => approveApplication({ appId: app._id, policyId: app.policyId })}
                                                         disabled={isApproving}
-                                                        className="bg-green-600 text-white px-2 py-1 rounded-sm text-sm disabled:opacity-50"
-                                                    >
+                                                        className='cursor-pointer inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'>
                                                         Approve
                                                     </button>
                                                     <button
                                                         onClick={() => rejectApplication(app._id)}
                                                         disabled={isRejecting}
-                                                        className="bg-red-600 text-white px-2 py-1 rounded-sm text-sm disabled:opacity-50"
-                                                    >
+                                                        className='cursor-pointer inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'>
                                                         Reject
                                                     </button>
                                                 </>
                                             )}
                                             <button
                                                 onClick={() => setSelectedApp(app)}
-                                                className="bg-gray-200 text-gray-800 px-2 py-1 rounded-sm text-sm dark:bg-[#2a2a2a] dark:text-white"
-                                            >
+                                                className='cursor-pointer inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95'>
                                                 View Details
                                             </button>
                                         </td>
