@@ -58,8 +58,7 @@ const AllPolicies = () => {
             <div className="flex justify-end flex-wrap gap-3 mb-6 lg:mb-8">
                 <Select
                     value={category || 'all'}
-                    onValueChange={(value) => setCategory(value === 'all' ? '' : value)}
-                >
+                    onValueChange={(value) => setCategory(value === 'all' ? '' : value)}>
                     <SelectTrigger className="w-full lg:w-60">
                         <SelectValue placeholder="Select category" />
                     </SelectTrigger>

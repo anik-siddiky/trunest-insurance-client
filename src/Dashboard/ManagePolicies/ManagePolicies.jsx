@@ -33,7 +33,7 @@ const ManagePolicies = () => {
     }
 
     const deletePolicy = async (id) => {
-        const res = await axios.delete(`/all-policies/${id}`);
+        const res = await axios.delete(`/policies/${id}`);
         return res.data;
     };
 
