@@ -10,14 +10,7 @@ import useAxios from "@/Hooks/useAxios";
 import { toast } from "sonner";
 
 const AddPolicyModal = ({ open, setOpen, onPolicyAdded }) => {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    reset,
-    watch
-  } = useForm();
+  const { register, handleSubmit, setValue, formState: { errors }, reset, watch } = useForm();
 
   const [category, setCategory] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

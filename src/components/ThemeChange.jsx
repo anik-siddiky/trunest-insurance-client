@@ -26,7 +26,7 @@ function ThemeChange() {
             opacity: 1,
             transition: {
                 duration: 0.6,
-                ease: [0.22, 1, 0.36, 1], // Ease-out-back style
+                ease: [0.22, 1, 0.36, 1], 
             },
         },
         exit: {
@@ -35,7 +35,7 @@ function ThemeChange() {
             opacity: 0,
             transition: {
                 duration: 0.4,
-                ease: [0.55, 0.085, 0.68, 0.53], // ease-in
+                ease: [0.55, 0.085, 0.68, 0.53],
             },
         },
     };

@@ -24,7 +24,6 @@ const FeaturedAgents = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-12">
-            {/* Headline & Description */}
             <div className="text-center mb-10 max-w-3xl mx-auto">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     Meet Our Expert Agents
@@ -34,7 +33,6 @@ const FeaturedAgents = () => {
                 </p>
             </div>
 
-            {/* Agents Grid */}
             <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 {agents.map(({ _id, name, email, role, photoURL }) => (
                     <div

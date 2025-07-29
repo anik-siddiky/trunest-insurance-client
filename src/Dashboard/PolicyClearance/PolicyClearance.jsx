@@ -15,7 +15,7 @@ const PolicyClearance = () => {
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-    const [confirmAction, setConfirmAction] = useState(null); // 'approve' or 'reject'
+    const [confirmAction, setConfirmAction] = useState(null);
     const [confirmClaim, setConfirmClaim] = useState(null);
 
     const { data: claims = [], isLoading } = useQuery({
@@ -53,7 +53,6 @@ const PolicyClearance = () => {
                 Policy Clearance
             </h2>
 
-            {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto rounded-md border dark:border-gray-700">
                 <table className="w-full min-w-[900px] text-left text-sm">
                     <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
@@ -107,7 +106,6 @@ const PolicyClearance = () => {
                 </table>
             </div>
 
-            {/* Mobile Cards */}
             <div className="lg:hidden space-y-4">
                 {claims.map((claim) => (
                     <div key={claim._id} className="p-4 border rounded-md dark:border-gray-700 dark:bg-gray-800">
@@ -146,7 +144,6 @@ const PolicyClearance = () => {
                 ))}
             </div>
 
-            {/* View Claim Reason Modal */}
             <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
                 <DialogContent>
                     <DialogHeader>
@@ -174,7 +171,6 @@ const PolicyClearance = () => {
                 </DialogContent>
             </Dialog>
 
-            {/* Confirm Approve/Reject Modal */}
             <Dialog open={isConfirmModalOpen} onOpenChange={setIsConfirmModalOpen}>
                 <DialogContent>
                     <DialogHeader>

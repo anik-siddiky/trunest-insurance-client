@@ -133,7 +133,6 @@ const ManagePolicies = () => {
                 </table>
             </div>
 
-            {/* Card layout for mobile and tablet */}
             <div className="lg:hidden space-y-4">
                 {filteredPolicies.length > 0 ? (
                     filteredPolicies.map(policy => (

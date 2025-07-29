@@ -61,7 +61,6 @@ const AssignedCustomers = () => {
                 </p>
             ) : (
                 <>
-                    {/* Desktop Table */}
                     <div className="hidden md:block overflow-x-auto rounded-md border dark:border-[#171717]">
                         <table className="w-full min-w-[900px] text-left text-sm">
                             <thead className="bg-gray-100 dark:bg-[#171717] text-gray-700 dark:text-gray-300">
@@ -118,7 +117,6 @@ const AssignedCustomers = () => {
                         </table>
                     </div>
 
-                    {/* Mobile Cards */}
                     <div className="block md:hidden space-y-4">
                         {assignedApps.map(app => (
                             <div key={app._id} className="border rounded-lg p-4 dark:border-neutral-700 shadow-sm">
@@ -166,7 +164,6 @@ const AssignedCustomers = () => {
                         ))}
                     </div>
 
-                    {/* Modal */}
                     {selectedApp && (
                         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4">
                             <div className="bg-white dark:bg-[#1f1f1f] rounded-lg shadow-lg max-w-md w-full p-6 relative">

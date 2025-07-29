@@ -8,8 +8,12 @@ import { toast } from "sonner";
 import BlogsAddingModal from './BlogsAddingModal';
 import BlogsUpdatingModal from './BlogsUpdatingModal';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "@/components/ui/alert-dialog";
+import useUserRole from '@/Hooks/useUserRole';
+import useAuth from '@/Hooks/useAuth';
 
 const ManageBlogs = () => {
+    const { user } = useAuth();
+    const { role } = useUserRole();
     const axios = useAxios();
     const queryClient = useQueryClient();
     const [search, setSearch] = useState('');
@@ -21,10 +25,17 @@ const ManageBlogs = () => {
     const { data, isLoading } = useQuery({
         queryKey: ['blogs'],
         queryFn: async () => {
-            const res = await axios.get('/blogs');
+            const params =
+                role === 'agent'
+                    ? `/blogs?role=agent&email=${user?.email}`
+                    : '/blogs';
+
+            const res = await axios.get(params);
             return res.data;
         },
+        enabled: !!user?.email && !!role,
     });
+
 
     const blogs = data || [];
 
@@ -131,7 +142,7 @@ const ManageBlogs = () => {
                 </table>
             </div>
 
-            {/* Mobile Cards */}
+            
             <div className="lg:hidden space-y-4">
                 {filteredBlogs.length > 0 ? (
                     filteredBlogs.map(blog => (

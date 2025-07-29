@@ -50,7 +50,6 @@ const ClaimAPolicy = () => {
         <div className="p-3 lg:p-6 min-h-screen">
             <h2 className="text-2xl font-semibold mb-6">Claim Eligible Policies</h2>
 
-            {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto rounded-md border dark:border-[#171717]">
                 <table className="w-full min-w-[800px] text-left text-sm">
                     <thead className="bg-gray-100 dark:bg-[#171717] text-gray-700 dark:text-gray-300">
@@ -88,7 +87,7 @@ const ClaimAPolicy = () => {
                                     <td className="px-4 py-3">
                                         <button
                                             size="sm"
-                                            className="inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95"
+                                            className="cursor-pointer inline-flex items-center gap-2 rounded bg-black dark:bg-white bg-opacity-90 px-2.5 py-1 text-white dark:text-black text-xs shadow-md hover:scale-105 hover:shadow-lg active:scale-95"
                                             onClick={() => handleClaimClick(policy)}
                                             disabled={!!claimStatus}>
                                             Claim
@@ -101,7 +100,6 @@ const ClaimAPolicy = () => {
                 </table>
             </div>
 
-            {/* Mobile Cards */}
             <div className="lg:hidden space-y-4">
                 {claimablePolicies.map(policy => {
                     const claimStatus = claimedPolicyMap[policy.policyId];
@@ -132,14 +130,12 @@ const ClaimAPolicy = () => {
                 })}
             </div>
 
-            {/* No Policies Fallback */}
             {claimablePolicies.length === 0 && (
                 <p className="text-gray-500 dark:text-gray-400 text-center mt-8">
                     No eligible policies found.
                 </p>
             )}
 
-            {/* Claim Modal */}
             {selectedPolicy && (
                 <ClaimPolicyModal
                     policy={selectedPolicy}

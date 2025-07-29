@@ -112,7 +112,6 @@ const ApplyForPolicy = () => {
                 <p className="text-red-500 text-center">No quote found. Please return to quote page.</p>
             )}
 
-            {/* Personal Info */}
             <div className="bg-white dark:bg-[#1a1a1a] p-6 rounded-xl shadow space-y-4">
                 <h2 className="text-xl font-semibold mb-2">Personal Information</h2>
                 <Input placeholder="Full Name" {...register('name', { required: true })} />
@@ -128,14 +127,12 @@ const ApplyForPolicy = () => {
                 <Input placeholder="NID Number" {...register('nid', { required: true })} />
             </div>
 
-            {/* Nominee Info */}
             <div className="bg-white dark:bg-[#1a1a1a] p-6 rounded-xl shadow space-y-4">
                 <h2 className="text-xl font-semibold mb-2">Nominee Information</h2>
                 <Input placeholder="Nominee's Name" {...register('nomineeName', { required: true })} />
                 <Input placeholder="Relationship to You" {...register('nomineeRelation', { required: true })} />
             </div>
 
-            {/* Health Disclosure */}
             <div className="bg-white dark:bg-[#1a1a1a] p-6 rounded-xl shadow space-y-4">
                 <h2 className="text-xl font-semibold mb-2">Health Disclosure</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -151,7 +148,6 @@ const ApplyForPolicy = () => {
                 </div>
             </div>
 
-            {/* Submit */}
             <div className="flex justify-center">
                 <Button
                     onClick={handleSubmit(onSubmit)}

@@ -159,7 +159,6 @@ const ManageApplication = () => {
                 </table>
             </div>
 
-            {/* Mobile View */}
             <div className="block md:hidden space-y-4">
                 {filteredApps.map(app => (
                     <div key={app._id} className="border rounded-lg p-4 space-y-2 dark:border-neutral-700 shadow-sm">
@@ -226,7 +225,6 @@ const ManageApplication = () => {
                 ))}
             </div>
 
-            {/* View Application Dialog */}
             <Dialog
                 open={dialogOpen}
                 onOpenChange={(open) => {

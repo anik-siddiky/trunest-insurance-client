@@ -80,13 +80,11 @@ const Navbar = () => {
                         </svg>
                     </button>
 
-                    {/* Logo */}
                     <Link to="/" className="text-3xl flex">
                         <img className='w-8 md:w-10 lg:w-12' src={logo} alt="" />
                         <p className='font-bold lg:mt-2 mt-2 lg:-ml-5 -ml-3.5 text-2xl md:text-3xl lg:text-4xl'>ruNest</p>
                     </Link>
 
-                    {/* Desktop Nav Items */}
                     <div className="hidden lg:flex items-center gap-6 text-[17px]">
                         {navItems.map(({ path, label }) => (
                             <NavLink

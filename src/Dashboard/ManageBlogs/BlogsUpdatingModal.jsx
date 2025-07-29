@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -77,7 +69,6 @@ const BlogsUpdatingModal = ({ open, setOpen, blog, onBlogUpdated }) => {
                         <DialogDescription>Edit and update the selected blog post.</DialogDescription>
                     </DialogHeader>
 
-                    {/* Scrollable content area */}
                     <div className="flex-grow overflow-y-auto space-y-4 mb-4 mt-3 px-1">
                         <div className="space-y-2">
                             <Label htmlFor="title">Title</Label>
@@ -112,7 +103,6 @@ const BlogsUpdatingModal = ({ open, setOpen, blog, onBlogUpdated }) => {
                         </div>
                     </div>
 
-                    {/* Sticky footer */}
                     <DialogFooter>
                         <DialogClose asChild>
                             <Button variant="outline" type="button" className='cursor-pointer'>Cancel</Button>

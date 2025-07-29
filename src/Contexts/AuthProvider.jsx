@@ -60,8 +60,8 @@ const AuthProvider = ({ children }) => {
 
             if (currentUser?.email) {
                 axios.post('/jwt', { email: currentUser.email }, { withCredentials: true })
+                    // eslint-disable-next-line no-unused-vars
                     .then(res => {
-                        console.log('token after jwt', res.data);
                     })
                     .catch(error => {
                         console.log(error);

@@ -46,7 +46,7 @@ const ManageUsers = () => {
         onSuccess: () => {
             queryClient.invalidateQueries(["users"]);
             toast.success("User deleted");
-            setUserToDelete(null); // close dialog
+            setUserToDelete(null);
         },
         onError: () => {
             toast.error("Failed to delete user");
@@ -124,7 +124,6 @@ const ManageUsers = () => {
                         </table>
                     </div>
 
-                    {/* Mobile Cards */}
                     <div className="lg:hidden space-y-4">
                         {users.map((user) => (
                             <div

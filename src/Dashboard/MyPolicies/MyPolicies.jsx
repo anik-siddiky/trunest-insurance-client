@@ -51,7 +51,6 @@ const MyPolicies = () => {
                 <p className="text-gray-600 dark:text-gray-300">No policies found.</p>
             ) : (
                 <>
-                    {/* Desktop Table */}
                     <div className="hidden md:block overflow-x-auto border rounded-lg">
                         <table className="w-full min-w-[900px] text-sm text-left">
                             <thead className="bg-gray-100 dark:bg-neutral-800 text-gray-800 dark:text-gray-100">
@@ -78,8 +77,7 @@ const MyPolicies = () => {
                                                     : app.status === 'rejected'
                                                         ? 'bg-red-200 text-red-800'
                                                         : 'bg-yellow-200 text-yellow-800'
-                                                    }`}
-                                            >
+                                                    }`}>
                                                 {app.status}
                                             </span>
                                         </td>
@@ -103,7 +101,6 @@ const MyPolicies = () => {
                         </table>
                     </div>
 
-                    {/* Mobile Cards */}
                     <div className="block md:hidden space-y-4">
                         {myApplications.map((app) => (
                             <div key={app._id} className="border rounded-lg p-4 dark:border-neutral-700">
@@ -150,7 +147,6 @@ const MyPolicies = () => {
                         ))}
                     </div>
 
-                    {/* Review Modal */}
                     {selectedPolicyForReview && (
                         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4">
                             <div className="bg-white dark:bg-neutral-900 p-6 rounded-lg max-w-md w-full relative">
@@ -209,7 +205,6 @@ const MyPolicies = () => {
                         </div>
                     )}
 
-                    {/* View Details Modal */}
                     {selectedPolicyForDetails && (
                         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4">
                             <div className="bg-white dark:bg-neutral-900 p-6 rounded-lg max-w-md w-full relative">

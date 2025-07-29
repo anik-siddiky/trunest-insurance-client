@@ -25,7 +25,6 @@ const FeaturedReviews = () => {
 
     return (
         <div className="relative my-12 max-w-7xl mx-auto px-4">
-            {/* Headline & Description */}
             <div className="text-center mb-8 max-w-3xl mx-auto">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     What Our Customers Say
@@ -35,7 +34,6 @@ const FeaturedReviews = () => {
                 </p>
             </div>
 
-            {/* Navigation Buttons */}
             <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-10">
                 <button className="swiper-button-prev p-2 rounded-full  text-white transition">
                     <RiArrowRightWideFill />

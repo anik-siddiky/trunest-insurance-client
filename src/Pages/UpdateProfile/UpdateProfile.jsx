@@ -50,13 +50,11 @@ const UpdateProfile = () => {
                 setPhotoURL(imageUrl);
             }
 
-            // 1. Update Firebase Auth
             await updateProfile(auth.currentUser, {
                 displayName: name,
                 photoURL: imageUrl,
             });
 
-            // 2. Update your DB
             await axios.patch(`/users/email/${user.email}`, {
                 name,
                 photoURL: imageUrl,

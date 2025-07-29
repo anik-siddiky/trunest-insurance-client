@@ -88,7 +88,6 @@ const Quote = () => {
 
     return (
         <div className="max-w-7xl mx-auto p-6 min-h-screen my-5 lg:mb-28">
-            {/* Hero Section */}
             <div className="relative w-full h-72 sm:h-96 rounded-3xl overflow-hidden shadow-xl mb-12">
                 <img
                     src={policy.image}
@@ -102,19 +101,16 @@ const Quote = () => {
                 </div>
             </div>
 
-            {/* Policy Description */}
             <p className="mb-10 leading-relaxed text-gray-700 dark:text-gray-300 max-w-7xl mx-auto text-center">
                 {policy.description}
             </p>
 
-            {/* Quote Form Section */}
             <div className="bg-white/80 dark:bg-[#1e1e1e]/80 backdrop-blur-xl border border-gray-200 dark:border-gray-700 p-8 rounded-2xl shadow-lg max-w-3xl mx-auto space-y-8">
 
                 <h2 className="text-2xl font-semibold text-center text-gray-800 dark:text-white">
                     Get Your Quote
                 </h2>
 
-                {/* Form Inputs */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <Input
                         type="number"

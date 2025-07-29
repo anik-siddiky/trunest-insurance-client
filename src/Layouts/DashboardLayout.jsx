@@ -17,7 +17,6 @@ const DashboardLayout = () => {
     const { user, logOut } = useAuth();
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const closeSidebar = () => setIsSidebarOpen(false);
-    console.log(role);
 
     const handleLogOut = () => {
         logOut()
@@ -30,7 +29,6 @@ const DashboardLayout = () => {
 
     return (
         <div className="flex h-screen bg-[#FAFAFA] dark:bg-[#171717]">
-            {/* Sidebar */}
             <aside
                 className={`fixed z-40 lg:static top-0 left-0 h-full w-80 transform transition-transform duration-300 flex flex-col bg-[#FAFAFA] dark:bg-[#171717] lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
 
@@ -53,9 +51,9 @@ const DashboardLayout = () => {
 
                     <div className="flex flex-col gap-1 flex-grow">
 
-                        <NavLink to="/dashboard/home" onClick={closeSidebar}
-                            className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                            <FiHome /> <span className='lg:mt-0.5'>Home</span>
+                        <NavLink
+                            to="/dashboard" end onClick={closeSidebar} className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                            <FiHome /> <span className="lg:mt-0.5">Home</span>
                         </NavLink>
 
 
@@ -79,17 +77,6 @@ const DashboardLayout = () => {
                             </>
                         }
 
-
-
-                        {/* Both admin and agent route */}
-                        {!roleLoading && (role === 'admin' || role === 'agent') &&
-                            <>
-                                <NavLink to="/dashboard/manage-blogs" onClick={closeSidebar}
-                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
-                                    <HiOutlineNewspaper /> <span className='lg:mt-0.5'>Manage Blogs</span>
-                                </NavLink>
-                            </>
-                        }
 
                         {/* Agent routes */}
                         {!roleLoading && role === 'agent' &&
@@ -126,6 +113,16 @@ const DashboardLayout = () => {
                                 <NavLink to="/dashboard/claim-policy" onClick={closeSidebar}
                                     className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
                                     <RiFileShieldLine /> <span className="lg:mt-0.5">Claim Policy</span>
+                                </NavLink>
+                            </>
+                        }
+
+                        {/* Both admin and agent route */}
+                        {!roleLoading && (role === 'admin' || role === 'agent') &&
+                            <>
+                                <NavLink to="/dashboard/manage-blogs" onClick={closeSidebar}
+                                    className={({ isActive }) => `flex items-center gap-2 py-2 px-4 rounded-xl transition ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+                                    <HiOutlineNewspaper /> <span className='lg:mt-0.5'>Manage Blogs</span>
                                 </NavLink>
                             </>
                         }

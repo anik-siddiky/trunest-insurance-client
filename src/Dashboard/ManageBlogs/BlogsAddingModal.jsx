@@ -87,7 +87,6 @@ const BlogsAddingModal = ({ open, setOpen, onBlogAdded }) => {
                         </DialogDescription>
                     </DialogHeader>
 
-                    {/* Scrollable content area */}
                     <div className="flex-grow overflow-y-auto space-y-4 mb-4 mt-3 px-1">
                         {/* ... all your input fields here ... */}
                         <div className="space-y-2">
@@ -101,8 +100,6 @@ const BlogsAddingModal = ({ open, setOpen, onBlogAdded }) => {
                                 <p className="text-red-500 text-sm">{errors.title.message}</p>
                             )}
                         </div>
-
-                        {/* Rest of inputs ... */}
 
                         <div className="space-y-2 px-1">
                             <Label htmlFor="content">Content</Label>

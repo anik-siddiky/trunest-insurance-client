@@ -14,7 +14,7 @@ const PaymentHistory = () => {
             const res = await axios.get(`/payments?email=${user?.email}`);
             return res.data;
         },
-        enabled: !!user?.email, // ensures query runs only after user is loaded
+        enabled: !!user?.email,
     });
 
     if (isLoading) return <Loading />;
@@ -25,7 +25,6 @@ const PaymentHistory = () => {
                 Payment History
             </h2>
 
-            {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto rounded-md border dark:border-[#171717]">
                 <table className="w-full min-w-[800px] text-left text-sm">
                     <thead className="bg-gray-100 dark:bg-[#171717] text-gray-700 dark:text-gray-300">
@@ -59,7 +58,6 @@ const PaymentHistory = () => {
                 </table>
             </div>
 
-            {/* Mobile Cards */}
             <div className="lg:hidden space-y-4">
                 {userPayments.length > 0 ? (
                     userPayments.map(payment => (
