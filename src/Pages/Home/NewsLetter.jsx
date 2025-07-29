@@ -38,7 +38,7 @@ const NewsLetter = () => {
     };
 
     return (
-        <section className="max-w-7xl mx-auto px-8 py-12 bg-primary rounded-2xl shadow-sm">
+        <section className="max-w-7xl mx-auto px-8 py-12 bg-primary rounded-2xl shadow-sm mb-10">
             <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
                 <div className="flex-1 text-center md:text-left">
                     <h2 className="text-4xl font-extrabold text-white leading-tight mb-4 drop-shadow-lg">

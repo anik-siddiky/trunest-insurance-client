@@ -23,7 +23,7 @@ const FeaturedAgents = () => {
     if (loading) return <p className="text-center text-gray-500 dark:text-gray-400">Loading agents...</p>;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="max-w-7xl mx-auto px-4 lg:px-0 py-12">
             <div className="text-center mb-10 max-w-3xl mx-auto">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     Meet Our Expert Agents
