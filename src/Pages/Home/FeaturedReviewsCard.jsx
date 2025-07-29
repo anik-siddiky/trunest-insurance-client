@@ -5,12 +5,13 @@ const FeaturedReviewsCard = ({ review }) => {
   const { image, name, policyTitle, rating, feedback } = review;
 
   return (
-    <div className="flex flex-col items-center bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 max-w-xs mx-auto hover:shadow-xl transition-shadow duration-300 h-full">
+    <div className="flex flex-col items-center bg-gray-100 dark:bg-[#171717] rounded-2xl p-6 max-w-xs mx-auto transition-shadow duration-300 h-96">
       <div className="relative w-24 h-24 mb-4">
         <img
           src={image}
           alt={name}
-          className="w-full h-full rounded-full object-cover border-4 border-primary shadow-md"/>
+          className="w-full h-full rounded-full object-cover border-4 border-primary"
+        />
         <div className="absolute inset-0 rounded-full border-2 border-primary opacity-30 animate-pulse"></div>
       </div>
 
@@ -30,7 +31,10 @@ const FeaturedReviewsCard = ({ review }) => {
         ))}
       </div>
 
-      <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed line-clamp-5">
+      <p
+        className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed overflow-y-auto"
+        style={{ maxHeight: '6rem' }}
+      >
         “{feedback}”
       </p>
     </div>

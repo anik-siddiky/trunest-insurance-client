@@ -24,7 +24,7 @@ const FeaturedReviews = () => {
     }, [axios]);
 
     return (
-        <div className="relative my-12 max-w-7xl mx-auto px-4">
+        <div className="relative py-12 max-w-7xl mx-auto px-4 lg:px-0">
             <div className="text-center mb-8 max-w-3xl mx-auto">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     What Our Customers Say
