@@ -1,11 +1,7 @@
 import useAxios from '@/Hooks/useAxios';
 import React, { useEffect, useState } from 'react';
 import FeaturedReviewsCard from './FeaturedReviewsCard';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { RiArrowRightWideFill } from "react-icons/ri";
+import Marquee from "react-fast-marquee";
 
 const FeaturedReviews = () => {
     const axios = useAxios();
@@ -24,7 +20,7 @@ const FeaturedReviews = () => {
     }, [axios]);
 
     return (
-        <div className="relative py-12 max-w-7xl mx-auto px-4 lg:px-0">
+        <div className="relative py-12 max-w-7xl mx-auto">
             <div className="text-center mb-8 max-w-3xl mx-auto">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     What Our Customers Say
@@ -34,37 +30,17 @@ const FeaturedReviews = () => {
                 </p>
             </div>
 
-            <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-10">
-                <button className="swiper-button-prev p-2 rounded-full  text-white transition">
-                    <RiArrowRightWideFill />
-                </button>
-            </div>
-            <div className="absolute -right-6 top-1/2 -translate-y-1/2 z-10">
-                <button className="swiper-button-next p-2 rounded-full  text-white transition">
-                    <RiArrowRightWideFill />
-                </button>
-            </div>
-
-            <Swiper
-                modules={[Navigation]}
-                spaceBetween={24}
-                slidesPerView={1.2}
-                loop={true}
-                navigation={{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                }}
-                breakpoints={{
-                    640: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
-                }}
-            >
+            <Marquee
+                gradient={false}
+                speed={40}
+                pauseOnHover={true}
+                className="flex gap-6">
                 {reviews.map(review => (
-                    <SwiperSlide key={review._id}>
+                    <div key={review._id} className="mx-4 w-[320px]">
                         <FeaturedReviewsCard review={review} />
-                    </SwiperSlide>
+                    </div>
                 ))}
-            </Swiper>
+            </Marquee>
         </div>
     );
 };

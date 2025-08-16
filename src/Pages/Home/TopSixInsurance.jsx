@@ -25,7 +25,7 @@ const TopSixInsurance = () => {
                     Top Purchased Insurance Plans
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
-                    These plans are popular among our customers — explore and find out why they’re trusted the most.
+                    These plans are popular among our customers. Explore and find out why they’re trusted the most.
                 </p>
             </div>
 

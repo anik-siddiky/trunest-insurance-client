@@ -23,7 +23,7 @@ const FeaturedAgents = () => {
     if (loading) return <p className="text-center text-gray-500 dark:text-gray-400">Loading agents...</p>;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 lg:px-0 py-12">
+        <div className="max-w-7xl mx-auto py-12">
             <div className="text-center mb-10 max-w-3xl mx-auto">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     Meet Our Expert Agents
@@ -37,7 +37,7 @@ const FeaturedAgents = () => {
                 {agents.map(({ _id, name, email, role, photoURL }) => (
                     <div
                         key={_id}
-                        className="bg-white dark:bg-gray-900 shadow-lg rounded-xl p-6 flex flex-col items-center text-center hover:shadow-2xl transition-shadow duration-300"
+                        className="bg-white dark:bg-[#171717] shadow-lg rounded-xl p-6 flex flex-col items-center text-center hover:shadow-2xl transition-shadow duration-300"
                     >
                         <div className="relative w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-primary shadow-md">
                             <img

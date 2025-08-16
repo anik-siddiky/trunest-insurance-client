@@ -28,7 +28,7 @@ const LatestBlogs = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto py-12 lg:py-16 px-4 lg:px-0">
+        <div className="max-w-7xl mx-auto py-12 lg:py-16">
             <div className="mb-10 text-center">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">
                     Latest Articles
