@@ -35,7 +35,7 @@ const BlogCard = ({ blog }) => {
                         By {blog.author?.displayName || "Unknown"}
                     </p>
                     <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
-                        {truncateText(blog.content, 30)}
+                        {truncateText(blog.content, 20)}
                     </p>
                 </div>
 
