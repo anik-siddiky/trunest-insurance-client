@@ -63,30 +63,30 @@ const Navbar = () => {
         <>
             <nav className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 backdrop-blur-md bg-white/50 dark:bg-black/50 shadow-sm ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
 
-                <div className="hidden w-full bg-primary text-white text-sm md:text-base lg:flex justify-between items-center px-6 py-0.5 shadow-md">
+                <div className="hidden w-full bg-[#0e441d] text-white text-sm md:text-base lg:flex justify-between items-center px-6 py-0.5 shadow-md">
                     <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-1">
-                            <Clock className="w-4 h-4" />
-                            <span>{currentTime.toLocaleTimeString()}</span>
+                            <Clock className="w-4 h-4 mb-0.5" />
+                            <span className=''>{currentTime.toLocaleTimeString()}</span>
                         </div>
                         <div className="flex items-center space-x-1">
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="w-4 h-4 mb-0.5" />
                             <span>{currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                     </div>
                     <div className="flex items-center space-x-6">
                         <div className="flex items-center space-x-1 hover:underline cursor-pointer">
                             <Mail className="w-4 h-4" />
-                            <span>contact@trunestinsurance.com</span>
+                            <span className='italic font-sans'>contact@trunestinsurance.com</span>
                         </div>
                         <div className="flex items-center space-x-1 hover:underline cursor-pointer">
                             <Phone className="w-4 h-4" />
-                            <span>+17 729 226 9522</span>
+                            <span className='italic font-sans'>+17 729 226 9522</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="max-w-7xl mx-auto flex justify-between items-center px-4 lg:px-0 py-2">
+                <div className="max-w-7xl mx-auto flex justify-between items-center px-4 lg:px-0 py-1">
                     <button
                         onClick={() => setDrawerOpen(true)}
                         className="lg:hidden p-2 rounded-md">

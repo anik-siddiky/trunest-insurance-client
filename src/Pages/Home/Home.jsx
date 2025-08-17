@@ -8,6 +8,7 @@ import NewsLetter from './NewsLetter';
 import MarqueeHome from './MarqueeHome';
 import WhyChooseUs from './WhyChooseUs';
 import FAQSection from './FAQSection';
+import CompanyStats from './CompanyStats';
 
 const Home = () => {
     return (
@@ -24,6 +25,7 @@ const Home = () => {
                     <FeaturedReviews />
                     <FeaturedAgents />
                     <FAQSection />
+                    <CompanyStats/>
                     <div className="pb-10 lg:pb-16">
                         <NewsLetter />
                     </div>

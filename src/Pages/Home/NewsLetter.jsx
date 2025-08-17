@@ -39,7 +39,7 @@ const NewsLetter = () => {
 
     return (
         <section
-            className="max-w-7xl mx-auto px-8 py-16 bg-gradient-to-r from-[#056b2c] via-[#078338] to-[#0a9d48] rounded-3xl shadow-xl">
+            className="max-w-7xl mx-auto px-8 py-16 bg-gradient-to-r from-[#078338] to-black rounded-3xl shadow-xl">
             <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
 
                 <div className="flex-1 text-center md:text-left">
@@ -77,7 +77,7 @@ const NewsLetter = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="cursor-pointer px-6 py-2 rounded-lg shadow-md font-semibold text-white bg-black hover:bg-white hover:text-black transition disabled:opacity-60 disabled:cursor-not-allowed">
+                        className="cursor-pointer px-6 py-2 rounded-lg shadow-md font-semibold text-white bg-[#171717] hover:bg-white hover:text-black transition disabled:opacity-60 disabled:cursor-not-allowed">
                         {loading ? 'Submitting...' : 'Subscribe'}
                     </button>
                 </form>

@@ -35,13 +35,13 @@ const FAQSection = () => {
     const toggleFAQ = (index) => setOpenIndex(openIndex === index ? null : index);
 
     return (
-        <section className="group relative rounded-3xl py-20 bg-gradient-to-b from-white to-[#f7fdf9] dark:from-[#0f0f0f] dark:to-[#171717] overflow-hidden">
+        <section className="group relative rounded-3xl py-14 lg:py-20 bg-gradient-to-b from-white to-[#f7fdf9] dark:from-[#0f0f0f] dark:to-[#171717] overflow-hidden">
 
             <div className="absolute top-[-50px] left-[-50px] w-72 h-72 bg-gradient-to-br from-[#078338]/40 via-green-400/20 to-transparent rounded-full blur-3xl animate-[pulse_6s_ease-in-out_infinite] transition-transform duration-700 ease-in-out group-hover:-translate-x-12 group-hover:translate-y-12" />
 
             <div className="absolute bottom-[-60px] right-[-60px] w-96 h-96 bg-gradient-to-tr from-green-600/30 via-[#078338]/20 to-transparent rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite] transition-transform duration-700 ease-in-out group-hover:translate-x-16 group-hover:-translate-y-16" />
 
-            <div className="relative max-w-4xl mx-auto px-6 lg:px-12 text-center">
+            <div className="relative max-w-4xl mx-auto px-4 lg:px-12 text-center">
                 <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 tracking-tight">
                     Frequently Asked <span className="text-[#078338]">Questions</span>
                 </h2>
