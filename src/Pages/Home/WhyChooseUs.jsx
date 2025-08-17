@@ -26,7 +26,7 @@ const WhyChooseUs = () => {
     ];
 
     return (
-        <section className="relative py-10 bg-gradient-to-br from-[#f7fdf9] via-white to-[#f2fbf5] dark:from-[#0f0f0f] dark:via-[#171717] dark:to-[#0f0f0f] overflow-hidden rounded-3xl">
+        <section className="relative py-14 bg-gradient-to-br from-[#f7fdf9] via-white to-[#f2fbf5] dark:from-[#0f0f0f] dark:via-[#171717] dark:to-[#0f0f0f] overflow-hidden rounded-3xl">
             <div className="absolute top-[-40px] left-[-40px] w-60 h-60 
                 bg-gradient-to-br from-[#078338]/40 via-green-400/20 to-transparent 
                 rounded-full blur-3xl animate-[pulse_6s_ease-in-out_infinite] transition-transform duration-700 ease-in-out"

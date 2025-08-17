@@ -3,6 +3,11 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import fullHappyFamily1 from '../../assets/full-happy-family.jpg';
 import fullHappyFamily2 from '../../assets/full-happy-family2.jpg';
 import fullHappyFamily3 from '../../assets/full-happy-family3.jpg';
+import fullHappyFamily4 from '../../assets/full-happy-family4.jpg';
+import fullHappyFamily5 from '../../assets/full-happy-family5.jpg';
+import fullHappyFamily6 from '../../assets/full-happy-family6.jpg';
+import fullHappyFamily7 from '../../assets/full-happy-family7.jpg';
+import fullHappyFamily8 from '../../assets/full-happy-family8.jpg';
 import { Link } from 'react-router';
 
 const Hero = () => {
@@ -23,7 +28,7 @@ const Hero = () => {
                     swipeable={false}
                     emulateTouch={false}
                     stopOnHover={false}>
-                    {[fullHappyFamily1, fullHappyFamily2, fullHappyFamily3].map((img, index) => (
+                    {[fullHappyFamily1, fullHappyFamily2, fullHappyFamily3, fullHappyFamily4, fullHappyFamily5, fullHappyFamily6, fullHappyFamily7, fullHappyFamily8].map((img, index) => (
                         <div key={index} className="relative h-[70vh] md:h-[80vh] w-full group overflow-hidden">
                             <img
                                 src={img}

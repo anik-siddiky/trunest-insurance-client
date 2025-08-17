@@ -20,7 +20,7 @@ const Navbar = () => {
 
     const handleLogOut = () => {
         logOut()
-            .then(() => {})
+            .then(() => { })
             .catch(error => console.log(error));
     };
 
@@ -62,7 +62,7 @@ const Navbar = () => {
     return (
         <>
             <nav className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 backdrop-blur-md bg-white/50 dark:bg-black/50 shadow-sm ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
-                
+
                 <div className="hidden w-full bg-primary text-white text-sm md:text-base lg:flex justify-between items-center px-6 py-0.5 shadow-md">
                     <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-1">
@@ -110,18 +110,17 @@ const Navbar = () => {
                                 key={path}
                                 to={path}
                                 className={({ isActive }) =>
-                                    `relative transition duration-300 ${isActive ? 'text-primary font-semibold' : 'hover:text-primary'}`
-                                }>
+                                    `transition-all duration-500 transform rounded-xl font-medium cursor-pointer text-lg ${isActive
+                                        ? 'animate-float px-4 py-1.5 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] shadow-[#078338]/30 text-white active:scale-95'
+                                        : 'dark:text-gray-100 hover:bg-gradient-to-r hover:text-primary'
+                                    }`
+                                }
+                            >
                                 {label}
-                                {location.pathname === path && (
-                                    <motion.div
-                                        layoutId="underline"
-                                        className="absolute -bottom-2 left-0 h-[5px] w-full bg-primary"
-                                        transition={{ type: 'spring', stiffness: 400, damping: 50 }} />
-                                )}
                             </NavLink>
                         ))}
                     </div>
+
 
                     <div className="hidden lg:flex gap-3 items-center">
                         <ThemeChange />
