@@ -50,7 +50,7 @@ const AllPolicies = () => {
                     Explore Our Insurance Plans
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-lg">
-                    Discover tailored insurance solutions designed to protect what matters most — your health,
+                    Discover tailored insurance solutions designed to protect what matters most. <br className='hidden lg:block' /> Your health,
                     assets, and future. Choose the right plan and get covered with confidence.
                 </p>
             </div>
