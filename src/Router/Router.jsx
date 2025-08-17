@@ -31,6 +31,7 @@ import AdminRoute from "@/Routes/AdminRoute";
 import AgentRoute from "@/Routes/AgentRoute";
 import AdminAndAgentRoute from "@/Routes/AdminAndAgentRoute";
 import CustomerRoute from "@/Routes/CustomerRoute";
+import About from "@/Pages/About/About";
 
 
 const Router = createBrowserRouter([
@@ -86,6 +87,10 @@ const Router = createBrowserRouter([
             {
                 path: 'forbidden',
                 element: <Forbidden></Forbidden>
+            },
+            {
+                path: 'about',
+                element: <About></About>
             }
         ]
     },

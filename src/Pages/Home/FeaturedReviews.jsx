@@ -25,12 +25,12 @@ const FeaturedReviews = () => {
 
             <div className="absolute bottom-[-60px] right-[-60px] w-96 h-96 bg-gradient-to-tr from-green-600/30 via-[#078338]/20 to-transparent rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite] transition-transform duration-700 ease-in-out group-hover:translate-x-16 group-hover:-translate-y-16" />
 
-            <div className="relative max-w-7xl mx-auto z-10 px-6 lg:px-0 text-center">
+            <div className="relative max-w-7xl mx-auto z-10 text-center">
                 <div className="mb-8 max-w-3xl mx-auto">
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
                         What Our Customers Say
                     </h2>
-                    <p className="mt-3 text-gray-600 dark:text-gray-300">
+                    <p className="mt-2 text-gray-600 dark:text-gray-300">
                         Hear from our valued clients about how our insurance policies helped them achieve peace of mind.
                     </p>
                 </div>

@@ -11,6 +11,9 @@ import Loading from '@/components/Loading';
 const POLICIES_PER_PAGE = 9;
 
 const AllPolicies = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     const axios = useAxios();
 
     const [category, setCategory] = useState('');

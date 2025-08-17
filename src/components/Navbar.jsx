@@ -54,9 +54,10 @@ const Navbar = () => {
 
     const navItems = [
         { path: '/', label: 'Home' },
-        { path: '/all-policies', label: 'All Policies' },
-        { path: '/dashboard', label: 'Dashboard' },
+        { path: '/all-policies', label: 'Policies' },
+        ...(user ? [{ path: '/dashboard', label: 'Dashboard' }] : []),
         { path: '/blogs', label: 'Blogs' },
+        { path: '/about', label: 'About' },
     ];
 
     return (

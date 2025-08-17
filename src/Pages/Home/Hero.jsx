@@ -38,8 +38,7 @@ const Hero = () => {
                                 alt={`Slide ${index + 1}`}
                                 className="h-[70vh] md:h-[80vh] w-full object-cover"
                                 whileHover={{ scale: 1.1 }}
-                                transition={{ duration: 0.8 }}
-                            />
+                                transition={{ duration: 0.8 }} />
                             <div className="absolute inset-0 bg-black/50" />
                             <div className="absolute inset-0 bg-gradient-to-r from-green-700/30 via-black/30 to-green-700/30"></div>
                         </div>
@@ -91,21 +90,29 @@ const Hero = () => {
             </motion.div>
 
             <motion.div
-                className="absolute top-10 left-10 w-20 h-20 bg-green-600/20 rounded-full"
+                className="absolute top-10 left-10 w-12 h-12 lg:w-20 lg:h-20 bg-green-600/20 rounded-full"
                 animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+
             <motion.div
-                className="absolute bottom-20 right-16 w-32 h-32 bg-green-500/20 rounded-full"
+                className="absolute bottom-20 right-16 w-16 h-16 lg:w-32 lg:h-32 bg-green-500/20 rounded-full"
                 animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }} />
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+
             <motion.div
-                className="absolute top-1/2 left-1/4 w-16 h-16 bg-white/10 rounded-full"
+                className="absolute top-1/2 left-1/4 w-10 h-10 lg:w-16 lg:h-16 bg-white/10 rounded-full"
                 animate={{ opacity: [0.5, 1, 0.5], scale: [0.9, 1.1, 0.9] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
+
             <motion.button
-                className="absolute bottom-1/4 right-1/3 w-14 h-14 bg-green-500/10 rounded-full shadow-lg backdrop-blur-md border border-white/20"
+                className="absolute bottom-1/4 right-1/3 w-10 h-10 lg:w-14 lg:h-14 bg-green-500/10 rounded-full shadow-lg backdrop-blur-md border border-white/20"
                 animate={{ y: [0, -12, 0], scale: [1, 1.05, 1] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+
         </section>
     );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import BlogCard from "./BlogCard";
 import Loading from "@/components/Loading";
@@ -10,6 +10,11 @@ const fetchBlogs = async (axios) => {
 };
 
 const Blogs = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const axios = useAxios();
 
     const { data: blogs = [], error, isLoading, isError } = useQuery({

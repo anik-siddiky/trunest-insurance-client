@@ -68,7 +68,7 @@ const NewsLetter = () => {
                         type="email"
                         name="email"
                         id="email"
-                        placeholder="you@example.com"
+                        placeholder="Your Email"
                         value={formData.email}
                         onChange={handleChange}
                         disabled={loading}

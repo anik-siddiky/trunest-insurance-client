@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from './Hero';
 import TopSixInsurance from './TopSixInsurance';
 import LatestBlogs from './LatestBlogs';
@@ -11,6 +11,11 @@ import FAQSection from './FAQSection';
 import CompanyStats from './CompanyStats';
 
 const Home = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className="min-h-screen">
             <Hero />
@@ -25,7 +30,7 @@ const Home = () => {
                     <FeaturedReviews />
                     <FeaturedAgents />
                     <FAQSection />
-                    <CompanyStats/>
+                    <CompanyStats />
                     <div className="pb-10 lg:pb-16">
                         <NewsLetter />
                     </div>
