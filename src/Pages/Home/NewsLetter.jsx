@@ -39,9 +39,7 @@ const NewsLetter = () => {
 
     return (
         <section
-            className="max-w-7xl mx-auto px-8 py-16 mb-10 
-                       bg-gradient-to-r from-[#056b2c] via-[#078338] to-[#0a9d48] 
-                       rounded-3xl shadow-xl">
+            className="max-w-7xl mx-auto px-8 py-16 bg-gradient-to-r from-[#056b2c] via-[#078338] to-[#0a9d48] rounded-3xl shadow-xl">
             <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
 
                 <div className="flex-1 text-center md:text-left">
@@ -65,7 +63,7 @@ const NewsLetter = () => {
                         onChange={handleChange}
                         disabled={loading}
                         className="flex-grow rounded-lg shadow-md bg-white text-black placeholder-gray-500 focus:ring-2 focus:ring-[#078338] transition"
-                        required/>
+                        required />
                     <Input
                         type="email"
                         name="email"
@@ -75,11 +73,11 @@ const NewsLetter = () => {
                         onChange={handleChange}
                         disabled={loading}
                         className="flex-grow rounded-lg shadow-md bg-white text-black placeholder-gray-500 focus:ring-2 focus:ring-[#078338] transition"
-                        required/>
+                        required />
                     <button
                         type="submit"
                         disabled={loading}
-                        className="px-6 py-2 rounded-lg shadow-md font-semibold text-white bg-black hover:bg-white hover:text-black transition disabled:opacity-60 disabled:cursor-not-allowed">
+                        className="cursor-pointer px-6 py-2 rounded-lg shadow-md font-semibold text-white bg-black hover:bg-white hover:text-black transition disabled:opacity-60 disabled:cursor-not-allowed">
                         {loading ? 'Submitting...' : 'Subscribe'}
                     </button>
                 </form>
@@ -88,8 +86,7 @@ const NewsLetter = () => {
             {(success || error) && (
                 <p
                     className={`mt-6 text-center text-lg font-semibold transition-all ${success ? 'text-white' : 'text-red-200'
-                        }`}
-                >
+                        }`}>
                     {success || error}
                 </p>
             )}

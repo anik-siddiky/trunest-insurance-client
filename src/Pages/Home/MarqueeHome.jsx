@@ -26,7 +26,7 @@ const logos = [
 
 const MarqueeHome = () => {
     return (
-        <div className="w-full py-8 bg-gray-200 dark:bg-[#292727d3]">
+        <div className="w-full py-5 bg-gray-200 dark:bg-[#292727d3]">
             <Marquee
                 gradient={false}
                 speed={50}
@@ -37,7 +37,7 @@ const MarqueeHome = () => {
                         <img
                             src={logo}
                             alt={`Company logo ${index + 1}`}
-                            className="h-8 lg:h-14 w-auto object-contain cursor-pointer transition-all duration-300"
+                            className="h-8 lg:h-16 w-auto object-contain cursor-pointer transition-all duration-300"
                         />
                     </div>
                 ))}

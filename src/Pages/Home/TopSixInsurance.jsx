@@ -19,7 +19,7 @@ const TopSixInsurance = () => {
     if (isError) return <div className="text-center text-red-500 py-10">Failed to load top policies.</div>;
 
     return (
-        <div className="py-10">
+        <div className="">
             <div className="text-center mb-10">
                 <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                     Top Purchased Insurance Plans
