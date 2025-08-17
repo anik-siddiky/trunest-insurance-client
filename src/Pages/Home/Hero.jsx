@@ -103,7 +103,7 @@ const Hero = () => {
                 animate={{ opacity: [0.5, 1, 0.5], scale: [0.9, 1.1, 0.9] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
             <motion.button
-                className="absolute bottom-1/4 right-1/3 w-14 h-14 bg-green-500/20 rounded-full shadow-lg backdrop-blur-md border border-white/20"
+                className="absolute bottom-1/4 right-1/3 w-14 h-14 bg-green-500/10 rounded-full shadow-lg backdrop-blur-md border border-white/20"
                 animate={{ y: [0, -12, 0], scale: [1, 1.05, 1] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
         </section>

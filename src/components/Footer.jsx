@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import logo from '../assets/Tru-Logo.png'
 
 const Footer = () => {
@@ -17,30 +18,26 @@ const Footer = () => {
                     <div className="space-y-3">
                         <h3 className="tracking-wide uppercase">Services</h3>
                         <ul className="space-y-1">
-                            <li><a>Insurance Plans</a></li>
-                            <li><a>Claim a Policy</a></li>
-                            <li><a>Track Applications</a></li>
-                            <li><a>Get a Quote</a></li>
+                            <Link to="/all-policies"><li><a>Insurance Plans</a></li></Link>
+                            <Link to='/dashboard'><li><a>Claim a Policy</a></li></Link>
+                            <Link to="/dashboard"><li><a>Payment Status</a></li></Link>
                         </ul>
                     </div>
 
                     <div className="space-y-3">
                         <h3 className="tracking-wide uppercase">Company</h3>
                         <ul className="space-y-1">
-                            <li><a>About Us</a></li>
-                            <li><a>Contact</a></li>
-                            <li><a>Privacy Policy</a></li>
-                            <li><a>Terms & Conditions</a></li>
+                            <Link to='about'><li><a>About Us</a></li></Link>
+                            <Link to='#'><li><a>Privacy Policy</a></li></Link>
+                            <Link to='/all-policies'><li><a>Apply</a></li></Link>
                         </ul>
                     </div>
 
                     <div className="space-y-3">
-                        <h3 className="uppercase">Support</h3>
+                        <h3 className="uppercase">Others</h3>
                         <ul className="space-y-1">
-                            <li><a>Help Center</a></li>
-                            <li><a>How to Apply</a></li>
-                            <li><a>Agent Portal</a></li>
-                            <li><a>Guides & Resources</a></li>
+                            <Link to="/blogs"><li><a>Blogs</a></li></Link>
+                            <Link to="/update-profile"><li><a>Manage Profile</a></li></Link>
                         </ul>
                     </div>
 
