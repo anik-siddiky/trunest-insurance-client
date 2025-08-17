@@ -190,10 +190,9 @@ const ManageUsers = () => {
                             <AlertDialogFooter>
                                 <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
                                 <AlertDialogAction
-                                    className="text-white"
+                                    className="text-white cursor-pointer"
                                     disabled={isDeleting}
-                                    onClick={handleConfirmDelete}
-                                >
+                                    onClick={handleConfirmDelete}>
                                     {isDeleting ? "Deleting..." : "Delete"}
                                 </AlertDialogAction>
                             </AlertDialogFooter>

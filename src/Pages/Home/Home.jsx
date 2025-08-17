@@ -11,23 +11,26 @@ import FAQSection from './FAQSection';
 
 const Home = () => {
     return (
-        <div className='min-h-screen'>
-            <Hero></Hero>
-            <MarqueeHome></MarqueeHome>
-            <div className='max-w-7xl mx-auto px-4 lg:px-0 space-y-10 lg:space-y-16'>
-                <div className='pt-10 lg:pt-16'>
-                    <WhyChooseUs></WhyChooseUs>
-                </div>
-                <TopSixInsurance></TopSixInsurance>
-                <LatestBlogs></LatestBlogs>
-                <FeaturedReviews></FeaturedReviews>
-                <FeaturedAgents></FeaturedAgents>
-                <FAQSection></FAQSection>
-                <div className='pb-10 lg:pb-16'>
-                    <NewsLetter></NewsLetter>
+        <div className="min-h-screen">
+            <Hero />
+            <MarqueeHome />
+            <div className="px-4 md:px-6 lg:px-0">
+                <div className="max-w-7xl mx-auto space-y-10 lg:space-y-16">
+                    <div className="pt-8">
+                        <WhyChooseUs />
+                    </div>
+                    <TopSixInsurance />
+                    <LatestBlogs />
+                    <FeaturedReviews />
+                    <FeaturedAgents />
+                    <FAQSection />
+                    <div className="pb-10 lg:pb-16">
+                        <NewsLetter />
+                    </div>
                 </div>
             </div>
         </div>
+
     );
 };
 

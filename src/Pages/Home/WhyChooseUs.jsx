@@ -44,7 +44,7 @@ const WhyChooseUs = () => {
                     Insurance designed for the future. Transparent, affordable, and built to protect what matters most.
                 </p>
 
-                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                     {cards.map((item, i) => (
                         <div
                             key={i}

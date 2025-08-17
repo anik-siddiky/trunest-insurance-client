@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router';
-import { X } from 'lucide-react';
-// eslint-disable-next-line no-unused-vars
+import { X, Clock, Calendar, Mail, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeChange from './ThemeChange';
-import logo from '@/assets/Tru-Logo.png'
+import logo from '@/assets/Tru-Logo.png';
 import useAuth from '@/Hooks/useAuth';
 import { Button } from './ui/button';
 
@@ -16,41 +16,36 @@ const Navbar = () => {
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const dropDownRef = useRef(null);
 
+    const [currentTime, setCurrentTime] = useState(new Date());
+
     const handleLogOut = () => {
         logOut()
-            .then(() => {
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+            .then(() => {})
+            .catch(error => console.log(error));
+    };
 
     useEffect(() => {
-        const handleClickOutside = (e) => {
+        const interval = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = e => {
             if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
                 setIsDropDownOpen(false);
-            };
-        }
+            }
+        };
         document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        }
-    }, [])
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-
-            if (lastScrollY - currentScrollY > 5) {
-                setShowNavbar(true);
-            } else if (currentScrollY - lastScrollY > 5) {
-                setShowNavbar(false);
-            }
-
-
+            if (lastScrollY - currentScrollY > 5) setShowNavbar(true);
+            else if (currentScrollY - lastScrollY > 5) setShowNavbar(false);
             setLastScrollY(currentScrollY);
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
@@ -67,6 +62,30 @@ const Navbar = () => {
     return (
         <>
             <nav className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 backdrop-blur-md bg-white/50 dark:bg-black/50 shadow-sm ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
+                
+                <div className="hidden w-full bg-primary text-white text-sm md:text-base lg:flex justify-between items-center px-6 py-0.5 shadow-md">
+                    <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-1">
+                            <Clock className="w-4 h-4" />
+                            <span>{currentTime.toLocaleTimeString()}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                            <Calendar className="w-4 h-4" />
+                            <span>{currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-6">
+                        <div className="flex items-center space-x-1 hover:underline cursor-pointer">
+                            <Mail className="w-4 h-4" />
+                            <span>contact@trunestinsurance.com</span>
+                        </div>
+                        <div className="flex items-center space-x-1 hover:underline cursor-pointer">
+                            <Phone className="w-4 h-4" />
+                            <span>+17 729 226 9522</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="max-w-7xl mx-auto flex justify-between items-center px-4 lg:px-0 py-2">
                     <button
                         onClick={() => setDrawerOpen(true)}
@@ -91,8 +110,8 @@ const Navbar = () => {
                                 key={path}
                                 to={path}
                                 className={({ isActive }) =>
-                                    `relative transition duration-300 ${isActive ? 'text-primary font-semibold' : 'hover:text-primary'
-                                    }`}>
+                                    `relative transition duration-300 ${isActive ? 'text-primary font-semibold' : 'hover:text-primary'}`
+                                }>
                                 {label}
                                 {location.pathname === path && (
                                     <motion.div
@@ -105,65 +124,57 @@ const Navbar = () => {
                     </div>
 
                     <div className="hidden lg:flex gap-3 items-center">
-                        <ThemeChange></ThemeChange>
-                        {
-                            user ?
-
-                                <div ref={dropDownRef} className="relative">
-                                    <div
-                                        role="button"
-                                        tabIndex={0}
-                                        onClick={() => setIsDropDownOpen(prev => !prev)}
-                                        className="cursor-pointer w-14 h-14 rounded-full overflow-hidden border-2 border-primary transition-shadow hover:shadow-md focus:outline-none"
-                                    >
-                                        <img
-                                            src={user?.photoURL}
-                                            alt="User Avatar"
-                                            className="w-full h-full object-cover"
-                                            referrerPolicy="no-referrer"
-                                        />
-                                    </div>
-
-                                    {isDropDownOpen && (
-                                        <ul
-                                            className="absolute top-full mt-3 right-0 lg:left-1/2 lg:-translate-x-1/2 z-[999] w-56 shadow-xl rounded-xl p-4 space-y-3 transition-all bg-white dark:bg-zinc-900">
-                                            <li className="text-center text-sm font-medium">
-                                                Hi, {user?.displayName || "User"}
-                                            </li>
-
-                                            <li className='flex justify-center hover:bg-gray-100 rounded-sm '>
-                                                <Link to="/update-profile" onClick={() => { setIsDropDownOpen(false) }}>
-                                                    <button className='p-2 cursor-pointer'>Manage Profile</button>
-                                                </Link>
-                                            </li>
-
-                                            <div className='flex justify-center items-center'>
-                                                <Button
-                                                    onClick={() => { handleLogOut(); setIsDropDownOpen(false); }}
-                                                    className="w-2/3 text-white">
-                                                    Log Out
-                                                </Button>
-                                            </div>
-                                        </ul>
-                                    )}
+                        <ThemeChange />
+                        {user ? (
+                            <div ref={dropDownRef} className="relative">
+                                <div
+                                    role="button"
+                                    tabIndex={0}
+                                    onClick={() => setIsDropDownOpen(prev => !prev)}
+                                    className="cursor-pointer w-14 h-14 rounded-full overflow-hidden border-2 border-primary transition-shadow hover:shadow-md focus:outline-none"
+                                >
+                                    <img
+                                        src={user?.photoURL}
+                                        alt="User Avatar"
+                                        className="w-full h-full object-cover"
+                                        referrerPolicy="no-referrer"
+                                    />
                                 </div>
-                                :
-                                <>
-                                    <Link to="/signin">
-                                        <button className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
-                                            Sign In
-                                        </button>
-                                    </Link>
-                                </>
-                        }
-                        <button className="p-1 lg:hidden">
-                            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                            </svg>
-                        </button>
+
+                                {isDropDownOpen && (
+                                    <ul className="absolute top-full mt-3 right-0 lg:left-1/2 lg:-translate-x-1/2 z-[999] w-56 shadow-xl rounded-xl p-4 space-y-3 transition-all bg-white dark:bg-zinc-900">
+                                        <li className="text-center text-sm font-medium">
+                                            Hi, {user?.displayName || "User"}
+                                        </li>
+
+                                        <li className='flex justify-center hover:bg-gray-100 rounded-sm '>
+                                            <Link to="/update-profile" onClick={() => setIsDropDownOpen(false)}>
+                                                <button className='p-2 cursor-pointer'>Manage Profile</button>
+                                            </Link>
+                                        </li>
+
+                                        <div className='flex justify-center items-center'>
+                                            <Button
+                                                onClick={() => { handleLogOut(); setIsDropDownOpen(false); }}
+                                                className="w-2/3 text-white">
+                                                Log Out
+                                            </Button>
+                                        </div>
+                                    </ul>
+                                )}
+                            </div>
+                        ) : (
+                            <Link to="/signin">
+                                <button className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                    Sign In
+                                </button>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </nav>
 
+            {/* Mobile Drawer */}
             <AnimatePresence>
                 {drawerOpen && (
                     <motion.div
@@ -179,10 +190,6 @@ const Navbar = () => {
                             <X size={30} />
                         </button>
 
-                        <button className="absolute top-6 left-6 p-1">
-                            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"></svg>
-                        </button>
-
                         <ul className="flex flex-col gap-2 text-xl text-center">
                             {navItems.map(({ path, label }) => (
                                 <li key={path}>
@@ -190,7 +197,7 @@ const Navbar = () => {
                                         to={path}
                                         onClick={() => setDrawerOpen(false)}
                                         className={({ isActive }) =>
-                                            `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`}>
+                                            `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`} >
                                         {label}
                                     </NavLink>
                                 </li>
@@ -200,34 +207,26 @@ const Navbar = () => {
                                     to="/update-profile"
                                     onClick={() => setDrawerOpen(false)}
                                     className={({ isActive }) =>
-                                        `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`
-                                    }
-                                >
+                                        `transition duration-300 ${isActive ? 'text-primary font-semibold' : ''}`} >
                                     Update Profile
                                 </NavLink>
                             </li>
-                            {
-                                user ?
-                                    <>
-                                        <button onClick={handleLogOut} className="bg-primary text-white px-4 py-1.5 text-[18px] rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
-                                            Sign Out
-                                        </button>
-                                    </>
-                                    :
-                                    <>
-                                        <Link to="/signin">
-                                            <button className="bg-primary text-white px-4 py-1.5 text-[18px] rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
-                                                Sign In
-                                            </button>
-                                        </Link>
-                                    </>
-                            }
-                            <li className='flex justify-center'><ThemeChange></ThemeChange></li>
+                            {user ? (
+                                <button onClick={handleLogOut} className="bg-primary text-white px-4 py-1.5 text-[18px] rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                    Sign Out
+                                </button>
+                            ) : (
+                                <Link to="/signin">
+                                    <button className="bg-primary text-white px-4 py-1.5 text-[18px] rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                        Sign In
+                                    </button>
+                                </Link>
+                            )}
+                            <li className='flex justify-center'><ThemeChange /></li>
                         </ul>
                     </motion.div>
                 )}
             </AnimatePresence>
-
         </>
     );
 };
