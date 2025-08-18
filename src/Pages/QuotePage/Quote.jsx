@@ -164,11 +164,11 @@ const Quote = () => {
                 </Select>
 
                 <div className="flex justify-center">
-                    <Button
+                    <button
                         onClick={handleQuote}
-                        className="text-white px-6 py-2 rounded-sm shadow-md transition cursor-pointer">
+                        className="rounded-xl font-semibold px-6 lg:px-8 py-2 lg:py-2.5 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
                         Get Estimated Premium
-                    </Button>
+                    </button>
                 </div>
             </div>
 
@@ -197,7 +197,7 @@ const Quote = () => {
                         </div>
 
                         <div className="mt-6 flex justify-center">
-                            <Button
+                            <button
                                 onClick={() =>
                                     navigate(`/apply/${id}`, {
                                         state: {
@@ -207,10 +207,9 @@ const Quote = () => {
                                         },
                                     })
                                 }
-                                className="w-full sm:w-auto bg-primary text-white hover:bg-primary/90 transition-colors cursor-pointer rounded-sm"
-                            >
+                                className="rounded-xl font-semibold px-6 lg:px-8 py-2 lg:py-2.5 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
                                 Apply for Policy
-                            </Button>
+                            </button>
                         </div>
                     </div>
                 </div>

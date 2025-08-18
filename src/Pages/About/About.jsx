@@ -90,7 +90,7 @@ const About = () => {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-8 py-3 text-lg font-medium rounded-xl bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg cursor-pointer">
+                        className="px-10 py-3 rounded-xl font-semibold bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
                         Choose Policy
                     </motion.button>
                 </Link>

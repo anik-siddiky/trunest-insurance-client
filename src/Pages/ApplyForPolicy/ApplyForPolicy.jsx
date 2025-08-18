@@ -149,12 +149,11 @@ const ApplyForPolicy = () => {
             </div>
 
             <div className="flex justify-center">
-                <Button
+                <button
                     onClick={handleSubmit(onSubmit)}
-                    className="cursor-pointer active:scale-105 text-white px-6 py-2 rounded-full shadow transition"
-                >
+                    className="rounded-xl font-semibold px-6 lg:px-8 py-2 lg:py-2.5 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
                     Submit Application
-                </Button>
+                </button>
             </div>
         </div>
     );

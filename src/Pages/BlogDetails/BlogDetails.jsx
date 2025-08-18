@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from '@/Hooks/useAxios';
 import Loading from '@/components/Loading';
@@ -18,6 +18,10 @@ const BlogDetails = () => {
         queryFn: fetchBlog,
         enabled: !!id,
     });
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         if (!id) return;
@@ -53,7 +57,7 @@ const BlogDetails = () => {
                     alt={blog.title}
                     className="w-full h-80 object-cover rounded-md mb-8"
                 />
-                <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+                <h1 className="text-3xl font-bold mb-4 dark:text-gray-100 text-primary">
                     {blog.title}
                 </h1>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
@@ -63,7 +67,14 @@ const BlogDetails = () => {
                 <div className="prose prose-lg max-w-none text-gray-800 dark:text-gray-300 whitespace-pre-line">
                     {blog.content}
                 </div>
+
+                <Link className='flex justify-center my-6' to="/all-policies">
+                    <button className="rounded-xl font-semibold px-6 py-2 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
+                        Choose Policy
+                    </button>
+                </Link>
             </div>
+
         </div>
     );
 };

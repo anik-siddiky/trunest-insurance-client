@@ -77,9 +77,12 @@ const NewsLetter = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="cursor-pointer px-6 py-2 rounded-lg shadow-md font-semibold text-white bg-[#171717] hover:bg-white hover:text-black transition disabled:opacity-60 disabled:cursor-not-allowed">
+                        className="rounded-xl font-semibold px-6 py-2 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] cursor-pointer shadow-md text-white shadow-[#078338]/30 transition duration-500 disabled:opacity-60 disabled:cursor-not-allowed">
                         {loading ? 'Submitting...' : 'Subscribe'}
                     </button>
+
+
+                     
                 </form>
             </div>
 

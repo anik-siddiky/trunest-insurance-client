@@ -122,8 +122,8 @@ const UpdateProfile = () => {
                                 onChange={(e) => setPhotoFile(e.target.files[0])}
                             />
                         </div>
-
-                        <Button type="submit" className="w-full text-white cursor-pointer" disabled={loading}>
+                        
+                        <button type="submit" className="rounded-xl font-semibold w-full py-2 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer" disabled={loading}>
                             {loading ? (
                                 <span className="flex items-center gap-2">
                                     <Loader2 className="animate-spin w-4 h-4" /> Updating...
@@ -131,7 +131,7 @@ const UpdateProfile = () => {
                             ) : (
                                 "Update Profile"
                             )}
-                        </Button>
+                        </button>
                     </form>
                 </CardContent>
             </Card>

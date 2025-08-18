@@ -154,18 +154,20 @@ const Navbar = () => {
                                         </li>
 
                                         <div className='flex justify-center items-center'>
-                                            <Button
+                                            <button
                                                 onClick={() => { handleLogOut(); setIsDropDownOpen(false); }}
-                                                className="w-2/3 text-white">
-                                                Log Out
-                                            </Button>
+                                                className="rounded-xl font-semibold px-6 py-2 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
+                                                Sign Out
+                                            </button>
+
+                                            
                                         </div>
                                     </ul>
                                 )}
                             </div>
                         ) : (
                             <Link to="/signin">
-                                <button className="bg-primary text-white px-4 py-2 rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                <button className="rounded-xl font-semibold px-6 py-2 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
                                     Sign In
                                 </button>
                             </Link>
@@ -212,7 +214,7 @@ const Navbar = () => {
                                 </NavLink>
                             </li>
                             {user ? (
-                                <button onClick={handleLogOut} className="bg-primary text-white px-4 py-1.5 text-[18px] rounded-sm transition transform active:scale-95 shadow-sm cursor-pointer">
+                                <button onClick={handleLogOut} className="rounded-xl font-semibold px-4 py-1.5 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
                                     Sign Out
                                 </button>
                             ) : (
