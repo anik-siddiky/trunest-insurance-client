@@ -3,6 +3,10 @@ import { FaExclamationTriangle, FaHome, FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router';
 
 const ErrorPage = () => {
+
+
+// 
+
     return (
         <div className='min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-50 to-purple-50 p-4'>
             <div className='bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center'>
@@ -24,7 +28,7 @@ const ErrorPage = () => {
                     <div className='flex flex-col sm:flex-row justify-center gap-3'>
                         <Link
                             to="/"
-                            className='flex items-center justify-center px-4 py-2 bg-primary text-white rounded-sm'>
+                            className='flex items-center justify-center rounded-xl font-semibold px-4 py-2 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer'>
                             <FaHome className='mr-2' />
                             Go Home
                         </Link>

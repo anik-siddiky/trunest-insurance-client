@@ -23,7 +23,7 @@ const StatCard = ({ title, value, icon: Icon, index }) => (
                     {value}
                 </h3>
             </div>
-            <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+            <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-primary group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
                 <Icon size={20} />
             </div>
         </div>
@@ -84,7 +84,7 @@ const AdminDashboardHome = () => {
                                 ].map((item) => (
                                     <div key={item.title} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-0">
                                         <div className="flex items-center">
-                                            <div className="p-2 mr-3 rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-500 dark:text-blue-300">
+                                            <div className="p-2 mr-3 rounded-md bg-blue-50 dark:bg-blue-900/20 text-primary">
                                                 <item.icon size={16} />
                                             </div>
                                             <span className="text-sm font-medium text-gray-600 dark:text-gray-300">{item.title}</span>

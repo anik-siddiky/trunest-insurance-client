@@ -117,8 +117,7 @@ const PaymentForm = () => {
                 <Button
                     type="submit"
                     disabled={!stripe || loading}
-                    className="w-full bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2 cursor-pointer"
-                >
+                    className="flex items-center justify-center gap-2 w-full rounded-xl cursor-pointer py-3 bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointe ">
                     {loading ? (
                         <>
                             <svg

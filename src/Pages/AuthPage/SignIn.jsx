@@ -61,9 +61,9 @@ const SignIn = () => {
                                     {errors.password?.type === 'required' && <span className="text-red-500 text-xs">Please your password.</span>}
                                 </div>
 
-                                <Button type="submit" className="w-full text-white cursor-pointer">
+                                <button type="submit" className="w-full rounded-xl py-2 text-sm bg-gradient-to-r from-[#078338] to-black hover:from-black hover:to-[#078338] text-white shadow-lg shadow-[#078338]/30 transition duration-500 cursor-pointer">
                                     Sign In
-                                </Button>
+                                </button>
 
                                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                                     <span className="bg-card text-muted-foreground relative z-10 px-2">
